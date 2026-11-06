@@ -416,7 +416,7 @@ function labelSprite(text: string, tileSize: number): THREE.Sprite {
   const scale = 4;
   const c = document.createElement("canvas");
   const ctx = c.getContext("2d")!;
-  const font = `400 ${17 * scale}px "IBM Plex Sans", Arial, sans-serif`;
+  const font = `400 ${17 * scale}px "Inter Variable", Inter, Arial, sans-serif`;
   ctx.font = font;
   const w = Math.ceil(ctx.measureText(text).width) + 8 * scale;
   c.width = w;

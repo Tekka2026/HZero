@@ -8,12 +8,21 @@
   <meta name="description" content="Privacy information for visitors to hzero.tech and people contacting hzero GmbH.">
   <link rel="stylesheet" href="assets/site.css">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <script type="module" src="./src/main.ts"></script>
 </head>
 <body class="legal-page" id="top">
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="legal-header">
-    <a href="/" aria-label="hzero home"><img src="assets/hzero-logo.svg" alt="hzero"></a>
-    <a href="/">← Back to hzero</a>
+  <header class="nav" aria-label="Website header">
+    <a href="index.html#overview" class="brand-link" aria-label="hzero home"><img class="brand" src="assets/hzero-logo.svg" alt="" width="104" height="24"></a>
+    <nav class="site-menu" id="site-menu" aria-label="Main navigation" hidden>
+      <a href="index.html#why-it-matters">Why it matters</a>
+      <a href="index.html#how-it-works">How it works</a>
+      <a href="index.html#whom-we-enable">Who we enable</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact" class="site-menu-contact">Contact</a>
+    </nav>
+    <a href="index.html#contact" class="nav-cta">Contact</a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span class="menu-icon" aria-hidden="true"><i></i><i></i></span><span class="visually-hidden">Menu</span></button>
   </header>
   <main class="legal-main" id="main">
     <p class="legal-eyebrow">Datenschutzerklärung</p>
@@ -74,7 +83,18 @@
     </section>
   </main>
   <div class="legal-footer-shell"><div class="section-six-inner">
-    <footer class="site-footer"><a href="/" aria-label="hzero home" class="footer-brand"><img src="assets/hzero-logo.svg" alt=""></a><nav class="footer-legal" aria-label="Legal information"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Privacy / Datenschutz</a></nav><a href="#top" class="back-to-top">Back to top ↑</a></footer>
+    <footer class="site-footer">
+        <div class="footer-primary">
+          <ul class="footer-list"><li>hzero</li><li><a href="index.html#why-it-matters">Why it matters</a></li><li><a href="index.html#how-it-works">How it works</a></li><li><a href="index.html#whom-we-enable">Who we enable</a></li><li><a href="index.html#about">About hzero</a></li></ul>
+          <ul class="footer-list"><li>Contact</li><li><a href="mailto:contact@hzero.tech">contact@hzero.tech</a></li></ul>
+          <a href="index.html#overview" class="footer-brand" aria-label="hzero home"><img src="assets/hzero-logo.svg" alt="" width="104" height="24"></a>
+        </div>
+        <div class="footer-legal">
+          <p class="footer-copyright">© 2026 hzero GmbH</p>
+          <nav class="footer-legal-links" aria-label="Legal information"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Privacy / Datenschutz</a></nav>
+          <a href="#top" class="back-to-top">Back to top ↑</a>
+        </div>
+      </footer>
   </div></div>
 </body>
 </html>
