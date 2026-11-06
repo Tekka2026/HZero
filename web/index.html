@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HZero</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <aside id="sidebar">
+      <header>
+        <h1>HZero</h1>
+        <p class="muted" id="meta">Loading data…</p>
+      </header>
+      <div class="controls">
+        <button id="view-all" class="active">All models</button>
+      </div>
+      <ul id="model-list"></ul>
+      <section id="info" hidden></section>
+    </aside>
+    <main id="viewport">
+      <div id="tooltip" hidden></div>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

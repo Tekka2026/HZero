@@ -1,0 +1,77 @@
+:root {
+  --bg: #0b1118;
+  --panel: #111a24;
+  --border: #1f2c3a;
+  --text: #e2e8f0;
+  --muted: #8a9bb0;
+  --accent: #f6ad55;
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
+body { display: grid; grid-template-columns: 300px 1fr; }
+
+#sidebar {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 20px 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+h1 { margin: 0 0 4px; font-size: 22px; letter-spacing: 0.02em; }
+h2 { margin: 0 0 8px; font-size: 15px; }
+.muted { color: var(--muted); font-size: 13px; margin: 0; }
+.error { color: #fc8181; }
+
+button {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+button.active { border-color: var(--accent); color: var(--accent); }
+
+#model-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+#model-list li {
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid transparent;
+}
+#model-list li:hover { background: #172230; }
+#model-list li.active { border-color: var(--accent); }
+#model-list small { color: var(--muted); }
+
+#info { border-top: 1px solid var(--border); padding-top: 12px; font-size: 13px; }
+#info dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; }
+#info dt { color: var(--muted); }
+#info dd { margin: 0; }
+
+#viewport { position: relative; overflow: hidden; min-height: 0; }
+#viewport canvas { display: block; }
+#tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(15, 23, 32, 0.92);
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  #sidebar { max-height: 40vh; border-right: 0; border-bottom: 1px solid var(--border); }
+}
