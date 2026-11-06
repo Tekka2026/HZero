@@ -1,21 +1,33 @@
-# HZero
+# hzero website
 
-A website with interactive WebGL 3D models, generated from data produced in Jupyter notebooks.
+Source of [hzero.tech](https://hzero.tech/): the company website, with interactive WebGL diagrams
+whose data comes from Jupyter notebooks.
 
 ```
-notebooks/  Jupyter notebooks that generate model data (Python)
-data/       Notebook output (JSON), served by the website
-web/        The website: Vite + TypeScript + Three.js
-.github/    GitHub Action that runs the notebooks, builds the site and deploys it to GitHub Pages
+notebooks/            Jupyter notebooks that model the hybrid system and export data (Python)
+web/                  The website (Vite + TypeScript + Three.js)
+  index.html            Homepage
+  impressum.html        Legal pages
+  datenschutz.html
+  assets/               Styles, fonts, images, video (copied from the live site)
+  src/                  TypeScript: menu, 3D diagram
+  public/data/          Notebook output (JSON), served as-is
+.github/workflows/    Runs the notebooks, builds the site and deploys it to GitHub Pages
 ```
 
-## How it fits together
+## How the 3D diagram works
 
-1. A notebook in `notebooks/` generates 3D model data and writes it to `data/` (e.g. `data/models.json`).
-2. The website in `web/` loads that JSON and renders it with Three.js (WebGL).
-3. On every push to `main`, GitHub Actions reruns all notebooks, builds the site and publishes it.
+The "HPC / Workloads / QC" diagram on the homepage is rendered with Three.js (`web/src/hybrid-scene.ts`).
 
-The data format is documented at the bottom of `notebooks/example_models.ipynb`.
+1. `notebooks/hybrid_system.ipynb` defines the system layout (tiles, nodes, connections), simulates
+   workloads being routed through hzero, and writes `web/public/data/hybrid-system.json`.
+2. The website loads that JSON and draws the diagram. Connections appear step by step when the section
+   scrolls into view, moving pulses show traffic (more traffic → more pulses), and hovering (or tapping)
+   a tile or node shows the metrics from the simulation.
+3. If WebGL is not available, the original SVG illustration is shown instead. Users who prefer reduced
+   motion get a static diagram.
+
+To change what the diagram shows, edit the notebook and re-run it. The JSON format is defined in `web/src/types.ts`.
 
 ## Getting started
 
@@ -28,8 +40,6 @@ pip install -r notebooks/requirements.txt
 jupyter lab notebooks/
 ```
 
-Run `example_models.ipynb` to regenerate `data/models.json`.
-
 ### Website (Node 20+)
 
 ```bash
@@ -41,5 +51,8 @@ npm run build      # production build into web/dist
 
 ## Deployment
 
-The site is published to GitHub Pages by `.github/workflows/deploy.yml`.
+On every push to `main`, `.github/workflows/deploy.yml` re-runs all notebooks, builds the site and
+publishes it to GitHub Pages.
+
 One-time setup: in the repository on GitHub, go to **Settings → Pages** and set **Source** to **GitHub Actions**.
+To serve it on hzero.tech, add the custom domain there and point the domain's DNS at GitHub Pages.

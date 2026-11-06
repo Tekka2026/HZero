@@ -1,10 +1,19 @@
+import { resolve } from "node:path";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  // Relative base so the built site works on GitHub Pages (/<repo>/) and any other host.
+  // Relative base so the built site works on GitHub Pages (/<repo>/), a custom domain, or any static host.
   base: "./",
-  // Serve the notebook output folder (../data) as static files, e.g. /models.json
-  publicDir: "../data",
-  // Three.js alone is ~550 kB minified; that is expected.
-  build: { outDir: "dist", chunkSizeWarningLimit: 1000 },
+  build: {
+    outDir: "dist",
+    // Three.js is loaded lazily in its own chunk (~550 kB minified); that is expected.
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      input: {
+        main: resolve(import.meta.dirname, "index.html"),
+        impressum: resolve(import.meta.dirname, "impressum.html"),
+        datenschutz: resolve(import.meta.dirname, "datenschutz.html"),
+      },
+    },
+  },
 });

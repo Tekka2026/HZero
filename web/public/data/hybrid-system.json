@@ -1,0 +1,357 @@
+{
+ "generated_at": "2026-11-06T18:26:26+00:00",
+ "source": "notebooks/hybrid_system.ipynb",
+ "summary": {
+  "simulated steps": 2000,
+  "workloads started": 1320,
+  "mean wait (steps)": 1.12,
+  "throughput / step": 0.66
+ },
+ "plate": {
+  "width": 10.0,
+  "depth": 6.96,
+  "thickness": 0.24,
+  "radius": 0.22
+ },
+ "groups": [
+  {
+   "id": "hpc",
+   "label": "HPC",
+   "x": -2.98,
+   "z": 1.73,
+   "size": 2.0,
+   "height": 0.86,
+   "metrics": {
+    "active nodes": "1 / 2",
+    "utilisation %": 62.5,
+    "workloads run": 789
+   }
+  },
+  {
+   "id": "workloads",
+   "label": "Workloads",
+   "x": 0.06,
+   "z": -0.44,
+   "size": 2.0,
+   "height": 0.86,
+   "metrics": {
+    "active nodes": "2 / 3",
+    "workloads submitted": 1083
+   }
+  },
+  {
+   "id": "qc",
+   "label": "QC",
+   "x": 3.1,
+   "z": -2.61,
+   "size": 2.0,
+   "height": 0.86,
+   "metrics": {
+    "active nodes": "2 / 3",
+    "utilisation %": 46.8,
+    "workloads run": 531
+   }
+  }
+ ],
+ "nodes": [
+  {
+   "id": "n00",
+   "layer": "resource",
+   "group": "hpc",
+   "x": -3.264,
+   "z": 2.176,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "utilisation %": 62.5,
+    "avg queue": 0.49,
+    "workloads run": 789
+   }
+  },
+  {
+   "id": "n01",
+   "layer": "resource",
+   "group": "hpc",
+   "x": -2.393,
+   "z": 1.741,
+   "active": false,
+   "metrics": {
+    "status": "standby"
+   }
+  },
+  {
+   "id": "n02",
+   "layer": "resource",
+   "group": "workloads",
+   "x": -0.653,
+   "z": -0.435,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "workloads submitted": 552
+   }
+  },
+  {
+   "id": "n03",
+   "layer": "resource",
+   "group": "workloads",
+   "x": -0.218,
+   "z": 0.0,
+   "active": false,
+   "metrics": {
+    "status": "standby"
+   }
+  },
+  {
+   "id": "n04",
+   "layer": "resource",
+   "group": "workloads",
+   "x": 0.653,
+   "z": -0.435,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "workloads submitted": 531
+   }
+  },
+  {
+   "id": "n05",
+   "layer": "resource",
+   "group": "qc",
+   "x": 2.829,
+   "z": -2.611,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "utilisation %": 55.6,
+    "avg queue": 0.19,
+    "workloads run": 317
+   }
+  },
+  {
+   "id": "n06",
+   "layer": "resource",
+   "group": "qc",
+   "x": 3.699,
+   "z": -3.046,
+   "active": false,
+   "metrics": {
+    "status": "standby"
+   }
+  },
+  {
+   "id": "n07",
+   "layer": "resource",
+   "group": "qc",
+   "x": 3.264,
+   "z": -2.176,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "utilisation %": 38.0,
+    "avg queue": 0.07,
+    "workloads run": 214
+   }
+  },
+  {
+   "id": "n08",
+   "layer": "hzero",
+   "group": null,
+   "x": -3.916,
+   "z": -2.175,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "workloads routed": 320
+   }
+  },
+  {
+   "id": "n09",
+   "layer": "hzero",
+   "group": null,
+   "x": -3.046,
+   "z": -1.74,
+   "active": false,
+   "metrics": {
+    "status": "standby"
+   }
+  },
+  {
+   "id": "n10",
+   "layer": "hzero",
+   "group": null,
+   "x": -0.871,
+   "z": 2.176,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "workloads routed": 1109
+   }
+  },
+  {
+   "id": "n11",
+   "layer": "hzero",
+   "group": null,
+   "x": 0.435,
+   "z": 1.74,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "workloads routed": 1225
+   }
+  },
+  {
+   "id": "n12",
+   "layer": "hzero",
+   "group": null,
+   "x": 2.611,
+   "z": 0.435,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "workloads routed": 768
+   }
+  },
+  {
+   "id": "n13",
+   "layer": "hzero",
+   "group": null,
+   "x": 3.481,
+   "z": 0.0,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "workloads routed": 215
+   }
+  },
+  {
+   "id": "n14",
+   "layer": "hzero",
+   "group": null,
+   "x": 3.046,
+   "z": 1.74,
+   "active": false,
+   "metrics": {
+    "status": "standby"
+   }
+  },
+  {
+   "id": "n15",
+   "layer": "hzero",
+   "group": null,
+   "x": 3.916,
+   "z": 2.175,
+   "active": true,
+   "metrics": {
+    "status": "active",
+    "workloads routed": 0
+   }
+  }
+ ],
+ "links": [
+  {
+   "from": "n00",
+   "to": "n10",
+   "step": 3,
+   "active": true,
+   "flow": 0.711,
+   "jobs": 789
+  },
+  {
+   "from": "n02",
+   "to": "n11",
+   "step": 3,
+   "active": true,
+   "flow": 0.606,
+   "jobs": 672
+  },
+  {
+   "from": "n04",
+   "to": "n12",
+   "step": 3,
+   "active": true,
+   "flow": 0.588,
+   "jobs": 652
+  },
+  {
+   "from": "n05",
+   "to": "n08",
+   "step": 3,
+   "active": true,
+   "flow": 0.289,
+   "jobs": 320
+  },
+  {
+   "from": "n07",
+   "to": "n13",
+   "step": 3,
+   "active": true,
+   "flow": 0.194,
+   "jobs": 215
+  },
+  {
+   "from": "n08",
+   "to": "n10",
+   "step": 4,
+   "active": true,
+   "flow": 0.289,
+   "jobs": 320
+  },
+  {
+   "from": "n10",
+   "to": "n11",
+   "step": 4,
+   "active": true,
+   "flow": 1.0,
+   "jobs": 1109
+  },
+  {
+   "from": "n11",
+   "to": "n12",
+   "step": 4,
+   "active": true,
+   "flow": 0.603,
+   "jobs": 669
+  },
+  {
+   "from": "n12",
+   "to": "n13",
+   "step": 4,
+   "active": true,
+   "flow": 0.194,
+   "jobs": 215
+  },
+  {
+   "from": "n12",
+   "to": "n15",
+   "step": 4,
+   "active": true,
+   "flow": 0.0,
+   "jobs": 0
+  },
+  {
+   "from": "n01",
+   "to": "n10",
+   "step": 5,
+   "active": false,
+   "flow": 0.0,
+   "jobs": 0
+  },
+  {
+   "from": "n03",
+   "to": "n14",
+   "step": 5,
+   "active": false,
+   "flow": 0.0,
+   "jobs": 0
+  },
+  {
+   "from": "n06",
+   "to": "n13",
+   "step": 5,
+   "active": false,
+   "flow": 0.0,
+   "jobs": 0
+  }
+ ]
+}

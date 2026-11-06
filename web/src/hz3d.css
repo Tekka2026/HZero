@@ -1,0 +1,55 @@
+/* WebGL version of the "HPC / Workloads / QC" diagram. Sizing comes from .hzero-first-visual__scene in site.css. */
+.hz3d {
+  position: relative;
+  aspect-ratio: 720 / 465;
+}
+
+/* site.css sets display:block on .hzero-first-visual__scene, which would override [hidden]. */
+.hz3d[hidden] {
+  display: none;
+}
+
+.hz3d canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.hz3d-tooltip {
+  position: absolute;
+  z-index: 2;
+  min-width: 170px;
+  padding: 10px 12px;
+  border: 1px solid var(--site-line, #484848);
+  border-radius: 4px;
+  background: rgb(26 26 26 / 0.94);
+  color: var(--site-ink, #f7f7f7);
+  font: 13px/1.45 var(--font-body);
+  pointer-events: none;
+  transform: translate(14px, 14px);
+}
+
+.hz3d-tooltip strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--site-accent, #6ceafb);
+  font-weight: 500;
+}
+
+.hz3d-tooltip dl {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 2px 14px;
+  margin: 0;
+}
+
+.hz3d-tooltip dt {
+  color: var(--site-muted, #c4c4c4);
+}
+
+.hz3d-tooltip dd {
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

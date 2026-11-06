@@ -1,26 +1,192 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HZero</title>
-    <link rel="stylesheet" href="./src/style.css" />
-  </head>
-  <body>
-    <aside id="sidebar">
-      <header>
-        <h1>HZero</h1>
-        <p class="muted" id="meta">Loading data…</p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1A1A1A">
+  <title>hzero — Hybrid computing, operated as one system</title>
+  <meta name="description" content="hzero connects quantum and classical computing infrastructure so hybrid workloads can run as one coordinated system.">
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+<header class="nav" aria-label="Website header">
+        <a href="#overview" class="back-to-home" aria-label="hzero home"><img class="brand" src="assets/hzero-logo.svg" alt=""></a>
+        <div class="nav-actions">
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span><span>Menu</span></button>
+          <nav class="site-menu" id="site-menu" aria-label="Page sections" hidden>
+            <a href="#overview">Overview</a>
+            <a href="#why-it-matters">Why it matters</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#whom-we-enable">Who we enable</a>
+            <a href="#about">About hzero</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </div>
       </header>
-      <div class="controls">
-        <button id="view-all" class="active">All models</button>
+<main>
+  <section class="overview" id="overview" aria-label="hzero operational integration">
+
+
+      <div class="hero-layout">
+        <div class="hero-copy">
+          <h1>Operational<br><em>integration.</em></h1>
+          <p class="hero-description">Operational integration goes beyond connecting quantum and classical systems. hzero’s middleware and shared runtime coordinate their workloads and resources so the hybrid system operates as one.</p>
+        </div>
+        <a class="intro-scroll" href="#why-it-matters" aria-label="Scroll to why operational integration matters"><span class="scroll-line" aria-hidden="true"></span><span>Scroll to explore</span><span class="scroll-arrow" aria-hidden="true">↓</span></a>
       </div>
-      <ul id="model-list"></ul>
-      <section id="info" hidden></section>
-    </aside>
-    <main id="viewport">
-      <div id="tooltip" hidden></div>
-    </main>
-    <script type="module" src="./src/main.ts"></script>
-  </body>
+  </section>
+<div id="why-it-matters">
+  <section class="section-two" aria-label="Why operational integration matters">
+  <div class="section-two-inner">
+  <section class="section-opening" aria-labelledby="hzero-gap-heading">
+    <h2 id="hzero-gap-heading"><span>From connected resources</span><span>to <em>system-wide value.</em></span></h2>
+    <div class="section-two-copy">
+      <p>Connecting quantum and classical resources is only the beginning. Even when individual resources perform at their best, the complete hybrid system can fall short of its potential.</p>
+      <p>Unlocking the full value of hybrid computing requires optimizing the system as a whole, with success measured by the performance it delivers to users and the economic value it creates.</p>
+    </div>
+  </section>
+  <section class="hzero-first-visual" aria-labelledby="hzero-first-visual-heading">
+    <div class="hzero-first-visual__inner">
+      <svg class="hzero-first-visual__scene" viewBox="0 73.25 720 464.75" role="img" aria-label="Connected HPC and QC resources, workloads and the shared hzero operational-integration plane form one coordinated hybrid system." xmlns="http://www.w3.org/2000/svg" width="720" height="464.75" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="hz-outcome-sequence-base-fill" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#272727" /><stop offset="1" stop-color="#1a1a1a" /></linearGradient><linearGradient id="hz-outcome-sequence-tile-fill" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#41494c" /><stop offset=".5" stop-color="#272727" /><stop offset="1" stop-color="#272727" /></linearGradient><filter id="hz-outcome-sequence-shadow" x="-30%" y="-70%" width="160%" height="240%"><feGaussianBlur stdDeviation="7" /></filter><filter id="outcome-engraving-sequence" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="1" stdDeviation="0.2" flood-color="#778386" flood-opacity="0.36" /></filter></defs><g id="hzero-layer-hybrid"><path class="s-side" d="M309.77 170.8L687.36 345.2Q697.75 350 687.36 354.8L431.01 473.2Q420.62 478 410.23 473.2L32.64 298.8Q22.25 294 32.64 289.2L288.99 170.8Q299.38 166 309.77 170.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 169.8L687.36 344.2Q697.75 349 687.36 353.8L431.01 472.2Q420.62 477 410.23 472.2L32.64 297.8Q22.25 293 32.64 288.2L288.99 169.8Q299.38 165 309.77 169.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 168.8L687.36 343.2Q697.75 348 687.36 352.8L431.01 471.2Q420.62 476 410.23 471.2L32.64 296.8Q22.25 292 32.64 287.2L288.99 168.8Q299.38 164 309.77 168.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 167.8L687.36 342.2Q697.75 347 687.36 351.8L431.01 470.2Q420.62 475 410.23 470.2L32.64 295.8Q22.25 291 32.64 286.2L288.99 167.8Q299.38 163 309.77 167.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 166.8L687.36 341.2Q697.75 346 687.36 350.8L431.01 469.2Q420.62 474 410.23 469.2L32.64 294.8Q22.25 290 32.64 285.2L288.99 166.8Q299.38 162 309.77 166.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 165.8L687.36 340.2Q697.75 345 687.36 349.8L431.01 468.2Q420.62 473 410.23 468.2L32.64 293.8Q22.25 289 32.64 284.2L288.99 165.8Q299.38 161 309.77 165.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 164.8L687.36 339.2Q697.75 344 687.36 348.8L431.01 467.2Q420.62 472 410.23 467.2L32.64 292.8Q22.25 288 32.64 283.2L288.99 164.8Q299.38 160 309.77 164.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 163.8L687.36 338.2Q697.75 343 687.36 347.8L431.01 466.2Q420.62 471 410.23 466.2L32.64 291.8Q22.25 287 32.64 282.2L288.99 163.8Q299.38 159 309.77 163.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 162.8L687.36 337.2Q697.75 342 687.36 346.8L431.01 465.2Q420.62 470 410.23 465.2L32.64 290.8Q22.25 286 32.64 281.2L288.99 162.8Q299.38 158 309.77 162.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 161.8L687.36 336.2Q697.75 341 687.36 345.8L431.01 464.2Q420.62 469 410.23 464.2L32.64 289.8Q22.25 285 32.64 280.2L288.99 161.8Q299.38 157 309.77 161.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 160.8L687.36 335.2Q697.75 340 687.36 344.8L431.01 463.2Q420.62 468 410.23 463.2L32.64 288.8Q22.25 284 32.64 279.2L288.99 160.8Q299.38 156 309.77 160.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-side" d="M309.77 159.8L687.36 334.2Q697.75 339 687.36 343.8L431.01 462.2Q420.62 467 410.23 462.2L32.64 287.8Q22.25 283 32.64 278.2L288.99 159.8Q299.38 155 309.77 159.8Z" fill="#36757E" stroke="#36757E" stroke-width=".5" fill-opacity="1" stroke-opacity="1" /><path class="s-base-top" d="M309.77 158.8L687.36 333.2Q697.75 338 687.36 342.8L431.01 461.2Q420.62 466 410.23 461.2L32.64 286.8Q22.25 282 32.64 277.2L288.99 158.8Q299.38 154 309.77 158.8Z" fill="url(#hz-outcome-sequence-base-fill)" stroke="#6CEAFB" stroke-width="1.2" fill-opacity="1" stroke-opacity="1" /><path d="M168.61 253.6L239.62 286.4Q250.01 291.2 239.62 296L191.13 318.4Q180.73 323.2 170.34 318.4L99.33 285.6Q88.93 280.8 99.33 276L147.82 253.6Q158.22 248.8 168.61 253.6Z" fill="#1a1a1a" opacity=".6" filter="url(#hz-outcome-sequence-shadow)" /><path d="M376.45 269.6L447.47 302.4Q457.86 307.2 447.47 312L398.97 334.4Q388.58 339.2 378.19 334.4L307.17 301.6Q296.78 296.8 307.17 292L355.67 269.6Q366.06 264.8 376.45 269.6Z" fill="#1a1a1a" opacity=".6" filter="url(#hz-outcome-sequence-shadow)" /><path d="M584.3 285.6L655.31 318.4Q665.71 323.2 655.31 328L606.82 350.4Q596.42 355.2 586.03 350.4L515.02 317.6Q504.63 312.8 515.02 308L563.52 285.6Q573.91 280.8 584.3 285.6Z" fill="#1a1a1a" opacity=".6" filter="url(#hz-outcome-sequence-shadow)" /><g filter="url(#outcome-engraving-sequence)" opacity="1"><path class="s-footprint" d="M168.61 253.6L239.62 286.4Q250.01 291.2 239.62 296L191.13 318.4Q180.73 323.2 170.34 318.4L99.33 285.6Q88.93 280.8 99.33 276L147.82 253.6Q158.22 248.8 168.61 253.6Z" fill="none" stroke="#1a2021" stroke-opacity="1" stroke-width="0.8400000000000001" /><path class="s-footprint" d="M376.45 269.6L447.47 302.4Q457.86 307.2 447.47 312L398.97 334.4Q388.58 339.2 378.19 334.4L307.17 301.6Q296.78 296.8 307.17 292L355.67 269.6Q366.06 264.8 376.45 269.6Z" fill="none" stroke="#1a2021" stroke-opacity="1" stroke-width="0.8400000000000001" /><path class="s-footprint" d="M584.3 285.6L655.31 318.4Q665.71 323.2 655.31 328L606.82 350.4Q596.42 355.2 586.03 350.4L515.02 317.6Q504.63 312.8 515.02 308L563.52 285.6Q573.91 280.8 584.3 285.6Z" fill="none" stroke="#1a2021" stroke-opacity="1" stroke-width="0.8400000000000001" /><g data-network-step="5"><path class="s-inactive-connection" data-from="1" data-to="10" d="M198.58 300.592L235.64 331.408" fill="none" stroke="#1a2021" stroke-opacity="1" stroke-width="1.05" vector-effect="non-scaling-stroke" id="hzero-connection-1-10" /><path class="s-inactive-connection" data-from="3" data-to="14" d="M353.44 309.184L409.86 394.816" fill="none" stroke="#1a2021" stroke-opacity="1" stroke-width="1.05" vector-effect="non-scaling-stroke" id="hzero-connection-3-14" /><path class="s-inactive-connection" data-from="6" data-to="13" d="M624.44 323.608L502.59 372.392" fill="none" stroke="#1a2021" stroke-opacity="1" stroke-width="1.05" vector-effect="non-scaling-stroke" id="hzero-connection-6-13" /></g><g data-network-step="4"><path class="s-step3-connection" data-from="8" data-to="10" d="M289.4 201.44L240.07 330.56" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-8-10" /><path class="s-step3-connection" data-from="10" data-to="11" d="M243.08 335L303.72 349" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-10-11" /><path class="s-step3-connection" data-from="11" data-to="12" d="M312.49 350.512L442.15 365.488" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-11-12" /><path class="s-step3-connection" data-from="12" data-to="13" d="M451.02 366.68L494.15 373.32" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-12-13" /><path class="s-step3-connection" data-from="12" data-to="15" d="M445.52 369.496L430.36 418.504" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-12-15" /></g><g data-network-step="3"><path class="s-step3-connection" data-from="0" data-to="10" d="M147.39 291.8L234.86 332.2" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-0-10" /><path class="s-step3-connection" data-from="2" data-to="11" d="M349.09 293.12L310.29 346.88" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-2-11" /><path class="s-step3-connection" data-from="4" data-to="12" d="M405.8 317L444.11 363" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-4-12" /><path class="s-step3-connection" data-from="5" data-to="8" d="M572.49 312.368L294.73 199.632" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-5-8" /><path class="s-step3-connection" data-from="7" data-to="13" d="M572.83 332.072L502.24 371.928" fill="none" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-connection-7-13" /></g><circle class="s-new-node s-new-active" data-resource="HPC" data-active="true" cx="143.49364905389035" cy="290.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-00" /><circle class="s-new-node" data-resource="HPC" data-active="false" cx="195.45517328095667" cy="298.0" r="4.5" fill="none" stroke="#1a2021" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-01" /><circle class="s-new-node s-new-active" data-resource="Workloads" data-active="true" cx="351.33974596215563" cy="290.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-02" /><circle class="s-new-node" data-resource="Workloads" data-active="false" cx="351.33974596215563" cy="306.0" r="4.5" fill="none" stroke="#1a2021" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-03" /><circle class="s-new-node s-new-active" data-resource="Workloads" data-active="true" cx="403.30127018922195" cy="314.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-04" /><circle class="s-new-node s-new-active" data-resource="QC" data-active="true" cx="576.5063509461097" cy="314.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-05" /><circle class="s-new-node" data-resource="QC" data-active="false" cx="628.467875173176" cy="322.0" r="4.5" fill="none" stroke="#1a2021" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-06" /><circle class="s-new-node s-new-active" data-resource="QC" data-active="true" cx="576.5063509461097" cy="330.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-07" /><g data-node-step="2"><circle class="s-new-node s-new-active" data-new-node="true" data-active="true" cx="290.71796769724494" cy="198.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-08" /><circle class="s-new-node" data-new-node="true" data-active="false" cx="308.0384757729337" cy="222.0" r="4.5" fill="none" stroke="#1a2021" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-09" /><circle class="s-new-node s-new-active" data-new-node="true" data-active="true" cx="238.7564434701786" cy="334.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-10" /><circle class="s-new-node s-new-active" data-new-node="true" data-active="true" cx="308.0384757729337" cy="350.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-11" /><circle class="s-new-node s-new-active" data-new-node="true" data-active="true" cx="446.60254037844385" cy="366.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-12" /><circle class="s-new-node s-new-active" data-new-node="true" data-active="true" cx="498.56406460551017" cy="374.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-13" /><circle class="s-new-node" data-new-node="true" data-active="false" cx="411.9615242270663" cy="398.0" r="4.5" fill="none" stroke="#1a2021" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-14" /><circle class="s-new-node s-new-active" data-new-node="true" data-active="true" cx="429.28203230275506" cy="422.0" r="4.5" fill="#0e1516" stroke="#0e1516" stroke-width="1.05" vector-effect="non-scaling-stroke" stroke-opacity="1" id="hzero-node-15" /></g></g><path class="s-tile-side" d="M376.45 226.85L447.47 259.65Q457.86 264.45 447.47 269.25L398.97 291.65Q388.58 296.45 378.19 291.65L307.17 258.85Q296.78 254.05 307.17 249.25L355.67 226.85Q366.06 222.05 376.45 226.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M376.45 225.85L447.47 258.65Q457.86 263.45 447.47 268.25L398.97 290.65Q388.58 295.45 378.19 290.65L307.17 257.85Q296.78 253.05 307.17 248.25L355.67 225.85Q366.06 221.05 376.45 225.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M376.45 224.85L447.47 257.65Q457.86 262.45 447.47 267.25L398.97 289.65Q388.58 294.45 378.19 289.65L307.17 256.85Q296.78 252.05 307.17 247.25L355.67 224.85Q366.06 220.05 376.45 224.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M376.45 223.85L447.47 256.65Q457.86 261.45 447.47 266.25L398.97 288.65Q388.58 293.45 378.19 288.65L307.17 255.85Q296.78 251.05 307.17 246.25L355.67 223.85Q366.06 219.05 376.45 223.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M376.45 222.85L447.47 255.65Q457.86 260.45 447.47 265.25L398.97 287.65Q388.58 292.45 378.19 287.65L307.17 254.85Q296.78 250.05 307.17 245.25L355.67 222.85Q366.06 218.05 376.45 222.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M376.45 221.85L447.47 254.65Q457.86 259.45 447.47 264.25L398.97 286.65Q388.58 291.45 378.19 286.65L307.17 253.85Q296.78 249.05 307.17 244.25L355.67 221.85Q366.06 217.05 376.45 221.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-top" d="M376.45 220.85L447.47 253.65Q457.86 258.45 447.47 263.25L398.97 285.65Q388.58 290.45 378.19 285.65L307.17 252.85Q296.78 248.05 307.17 243.25L355.67 220.85Q366.06 216.05 376.45 220.85Z" fill="url(#hz-outcome-sequence-tile-fill)" stroke="#aab5b7" stroke-opacity=".65" stroke-width="1" /><text class="s-label" x="377.3205080756888" y="258.25" font-size="17" fill="#eaeaea" font-family="Arial,sans-serif" text-anchor="middle">Workloads</text></g><g id="hzero-layer-participants"><path class="s-tile-side" d="M168.61 210.85L239.62 243.65Q250.01 248.45 239.62 253.25L191.13 275.65Q180.73 280.45 170.34 275.65L99.33 242.85Q88.93 238.05 99.33 233.25L147.82 210.85Q158.22 206.05 168.61 210.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M168.61 209.85L239.62 242.65Q250.01 247.45 239.62 252.25L191.13 274.65Q180.73 279.45 170.34 274.65L99.33 241.85Q88.93 237.05 99.33 232.25L147.82 209.85Q158.22 205.05 168.61 209.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M168.61 208.85L239.62 241.65Q250.01 246.45 239.62 251.25L191.13 273.65Q180.73 278.45 170.34 273.65L99.33 240.85Q88.93 236.05 99.33 231.25L147.82 208.85Q158.22 204.05 168.61 208.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M168.61 207.85L239.62 240.65Q250.01 245.45 239.62 250.25L191.13 272.65Q180.73 277.45 170.34 272.65L99.33 239.85Q88.93 235.05 99.33 230.25L147.82 207.85Q158.22 203.05 168.61 207.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M168.61 206.85L239.62 239.65Q250.01 244.45 239.62 249.25L191.13 271.65Q180.73 276.45 170.34 271.65L99.33 238.85Q88.93 234.05 99.33 229.25L147.82 206.85Q158.22 202.05 168.61 206.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M168.61 205.85L239.62 238.65Q250.01 243.45 239.62 248.25L191.13 270.65Q180.73 275.45 170.34 270.65L99.33 237.85Q88.93 233.05 99.33 228.25L147.82 205.85Q158.22 201.05 168.61 205.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-top" d="M168.61 204.85L239.62 237.65Q250.01 242.45 239.62 247.25L191.13 269.65Q180.73 274.45 170.34 269.65L99.33 236.85Q88.93 232.05 99.33 227.25L147.82 204.85Q158.22 200.05 168.61 204.85Z" fill="url(#hz-outcome-sequence-tile-fill)" stroke="#aab5b7" stroke-opacity=".65" stroke-width="1" /><text class="s-label" x="169.4744111674235" y="242.25" font-size="17" fill="#eaeaea" font-family="Arial,sans-serif" text-anchor="middle">HPC</text><path class="s-tile-side" d="M584.3 242.85L655.31 275.65Q665.71 280.45 655.31 285.25L606.82 307.65Q596.42 312.45 586.03 307.65L515.02 274.85Q504.63 270.05 515.02 265.25L563.52 242.85Q573.91 238.05 584.3 242.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M584.3 241.85L655.31 274.65Q665.71 279.45 655.31 284.25L606.82 306.65Q596.42 311.45 586.03 306.65L515.02 273.85Q504.63 269.05 515.02 264.25L563.52 241.85Q573.91 237.05 584.3 241.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M584.3 240.85L655.31 273.65Q665.71 278.45 655.31 283.25L606.82 305.65Q596.42 310.45 586.03 305.65L515.02 272.85Q504.63 268.05 515.02 263.25L563.52 240.85Q573.91 236.05 584.3 240.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M584.3 239.85L655.31 272.65Q665.71 277.45 655.31 282.25L606.82 304.65Q596.42 309.45 586.03 304.65L515.02 271.85Q504.63 267.05 515.02 262.25L563.52 239.85Q573.91 235.05 584.3 239.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M584.3 238.85L655.31 271.65Q665.71 276.45 655.31 281.25L606.82 303.65Q596.42 308.45 586.03 303.65L515.02 270.85Q504.63 266.05 515.02 261.25L563.52 238.85Q573.91 234.05 584.3 238.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-side" d="M584.3 237.85L655.31 270.65Q665.71 275.45 655.31 280.25L606.82 302.65Q596.42 307.45 586.03 302.65L515.02 269.85Q504.63 265.05 515.02 260.25L563.52 237.85Q573.91 233.05 584.3 237.85Z" fill="#41494c" stroke="#41494c" stroke-width=".5" /><path class="s-tile-top" d="M584.3 236.85L655.31 269.65Q665.71 274.45 655.31 279.25L606.82 301.65Q596.42 306.45 586.03 301.65L515.02 268.85Q504.63 264.05 515.02 259.25L563.52 236.85Q573.91 232.05 584.3 236.85Z" fill="url(#hz-outcome-sequence-tile-fill)" stroke="#aab5b7" stroke-opacity=".65" stroke-width="1" /><text class="s-label" x="585.166604983954" y="274.25" font-size="17" fill="#eaeaea" font-family="Arial,sans-serif" text-anchor="middle">QC</text></g></svg>
+      <div class="hzero-first-visual__scene hz3d" data-hz3d="data/hybrid-system.json" hidden></div>
+      <div class="hzero-outcomes">
+        <span>System-wide performance</span>
+        <span data-hzero-arrow aria-hidden="true">→</span>
+        <div data-hzero-value><span>Financial returns</span><span>User value</span></div>
+      </div>
+    </div>
+  </section>
+  </div>
+  </section>
+</div>
+
+  <section class="how-it-works" id="how-it-works" aria-labelledby="hzero-control-title">
+    <div class="section-three-inner">
+      <header class="section-three-heading">
+        <div>
+          <h2 id="hzero-control-title">One operational layer<br><em>across the system.</em></h2>
+        </div>
+        <div class="section-three-copy">
+          <p class="section-three-intro">hzero provides operational integration across heterogeneous QC–HPC infrastructure, integrating with existing schedulers, application runtimes, and quantum software stacks. It combines application requirements, real-time resource states, and operator-defined objectives to enable coordinated operational decisions across the entire hybrid system.</p>
+          <p class="section-three-feedback">Applications run on quantum and classical resources while infrastructure telemetry reports operating conditions. hzero evaluates these signals against application requirements and operator-defined objectives, dynamically adapting the hybrid system usage as conditions change.</p>
+        </div>
+      </header>
+
+      <figure class="section-three-video" aria-label="Animated illustration of hzero coordinating quantum and classical resources">
+        <video autoplay muted loop playsinline preload="none" loading="lazy" aria-label="Looping illustration of hzero coordinating a hybrid computing system">
+          <source src="assets/section-three.mp4" type="video/mp4">
+          Your browser does not support embedded video.
+        </video>
+      </figure>
+    </div>
+  </section>
+
+  <section class="site-section section-four s4-variation-b" id="whom-we-enable" aria-labelledby="section-four-title">
+    <div class="section-four-inner">
+      <div class="section-four-heading">
+        <h2 id="section-four-title">Shape the next generation<br><em>of hybrid computing.</em></h2>
+        <p>Quantum systems rarely work alone. hzero brings operational integration into existing environments, opening new possibilities for how hybrid systems are delivered, operated, and utilized.</p>
+      </div>
+
+      <div class="s4-audience-row s4-oem">
+        <header class="s4-audience-intro">
+          <h3>Quantum computer manufacturers</h3>
+          <p class="s4-collaboration"><span>Work with hzero.</span>Explore integration, joint development, and technology partnerships.</p>
+        </header>
+        <div class="s4-topic-list">
+          <article class="s4-topic"><span class="s4-topic-number">01</span><div><h4>Make hybrid performance part of your offering</h4><p>Extend your system's capabilities beyond quantum processor performance. With hzero, customers can optimize hybrid operations around workload requirements, resource conditions, and objectives such as throughput and execution quality. Make operational performance an additional dimension of the value your systems deliver.</p></div></article>
+          <article class="s4-topic"><span class="s4-topic-number">02</span><div><h4>Make your systems integral to hybrid computing</h4><p>Bring your quantum systems closer to the operational needs of HPC infrastructure. By integrating with existing quantum software stacks, hzero creates opportunities to deliver solutions that fit naturally into customers' computing environments.</p></div></article>
+        </div>
+      </div>
+
+      <div class="s4-audience-row s4-hpc">
+        <header class="s4-audience-intro">
+          <h3>HPC centers and infrastructure operators</h3>
+          <p class="s4-collaboration"><span>Work with hzero</span>Explore infrastructure integration, technical evaluations, and pilot deployments.</p>
+        </header>
+        <div class="s4-topic-list">
+          <article class="s4-topic"><span class="s4-topic-number">03</span><div><h4>Define what your infrastructure optimizes for</h4><p>Different workloads and users demand different outcomes, from throughput and execution quality to resource efficiency. hzero enables infrastructure operators to determine which objectives their hybrid systems prioritize, aligning operational performance with their users' needs and service commitments.</p></div></article>
+          <article class="s4-topic"><span class="s4-topic-number">04</span><div><h4>Scale your infrastructure without multiplying complexity</h4><p>As hybrid environments incorporate additional quantum processors, hardware technologies, and computing resources, operational complexity increases. hzero provides a common operational integration layer across heterogeneous infrastructure, helping operators accommodate evolving system configurations while building on their existing software investments.</p></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="site-section section-five" id="about" aria-labelledby="section-five-title">
+    <div class="site-section-inner s5-team-inner">
+      <header class="s5-team-heading">
+        <h2 id="section-five-title"><span>The people</span><span>behind <img class="s5-heading-logo" src="assets/hzero-logo.svg" alt="hzero">.</span></h2>
+        <p class="s5-intro">Our team brings together experience in quantum hardware and control, HPC infrastructure, and systems software—connecting how resources work with what operators and users need from them.</p>
+      </header>
+      <div class="s5-experience" aria-label="Experience across the team">
+        <div class="s5-expertise-grid">
+          <article><span aria-hidden="true">01</span><h3>Quantum computing</h3><p>Experience across quantum hardware, control systems, and hybrid workflows.</p></article>
+          <article><span aria-hidden="true">02</span><h3>HPC</h3><p>Experience with research computing and large-scale supercomputing environments.</p></article>
+          <article><span aria-hidden="true">03</span><h3>Systems software</h3><p>Building software that connects and coordinates different computing resources.</p></article>
+        </div>
+      </div>
+      <section class="s5-achievements s5-achievements-editorial" id="team-achievements" aria-labelledby="achievements-title">
+        <div class="s5-achievement-body">
+          <header class="s5-achievement-heading"><p>Team track record</p><h3 id="achievements-title">Experience<br>in practice.</h3></header>
+          <ol class="s5-achievement-list">
+            <li><span class="s5-achievement-number" aria-hidden="true">01</span><div><h4>Taking integration from concept to deployment</h4><p>Led integration initiatives from identifying system gaps and defining offerings to developing and deploying software stacks connecting diverse quantum processors with HPC infrastructure.</p></div></li>
+            <li><span class="s5-achievement-number" aria-hidden="true">02</span><div><h4>Making quantum integration reusable</h4><p>Contributed to a vendor-neutral interface for quantum devices, reducing bespoke integration across heterogeneous systems.</p></div></li>
+            <li><span class="s5-achievement-number" aria-hidden="true">03</span><div><h4>Giving advanced users greater control</h4><p>Built a framework exposing hardware capabilities beyond standard abstractions, guided by users’ goals and system constraints.</p></div></li>
+            <li><span class="s5-achievement-number" aria-hidden="true">04</span><div><h4>Turning customer needs into joint solutions</h4><p>Shaped multi-vendor offerings around customer requirements, aligning technical capabilities, delivery responsibilities, and commercial interests.</p></div></li>
+          </ol>
+        </div>
+      </section>
+      <section class="team-roster" aria-labelledby="team-roster-title">
+        <h3 id="team-roster-title">Our team</h3>
+        <div class="team-grid">
+          <article class="team-member">
+            <div class="team-portrait team-portrait-photo"><img src="assets/team-bruno.jpg" alt="Bruno G. Taketani" width="1122" height="1402" loading="lazy" decoding="async"></div>
+            <p class="team-name">Bruno G. Taketani</p>
+            <p class="team-role">Co-founder / CEO</p>
+          </article>
+          <article class="team-member">
+            <div class="team-portrait team-portrait-photo"><img src="assets/team-martin.jpg" alt="Martin Rüfenacht" width="1122" height="1402" loading="lazy" decoding="async"></div>
+            <p class="team-name">Martin Rüfenacht</p>
+            <p class="team-role">Co-founder / CTO</p>
+          </article>
+          <article class="team-member">
+            <div class="team-portrait team-portrait-photo team-portrait-rakhim"><img src="assets/team-rakhim.png" alt="Rakhim Davletkaliyev" width="414" height="560" loading="lazy" decoding="async"></div>
+            <p class="team-name">Rakhim Davletkaliyev</p>
+            <p class="team-role">Founding Eng.</p>
+          </article>
+          <article class="team-member">
+            <div class="team-portrait team-portrait-photo team-portrait-nufail"><img src="assets/team-nufail-v2.png" alt="Muhammad Nufail Farooqi" width="1098" height="1433" loading="lazy" decoding="async"></div>
+            <p class="team-name">Muhammad Nufail Farooqi</p>
+            <p class="team-role">Principal Software Eng.</p>
+          </article>
+          <article class="team-member">
+            <div class="team-portrait team-portrait-photo team-portrait-juan"><img src="assets/team-juan.png" alt="Juan Venegas" width="852" height="1092" loading="lazy" decoding="async"></div>
+            <p class="team-name">Juan Venegas</p>
+            <p class="team-role">Sr. Data Scientist</p>
+          </article>
+        </div>
+      </section>
+      <section class="s5-investors" aria-labelledby="investor-strip-title">
+        <h3 id="investor-strip-title">Backed by</h3>
+        <div class="s5-investor-links">
+          <a href="https://www.forward.one/" class="s5-investor-forward" aria-label="FORWARD.one website"><img src="assets/investor-forward-one.svg" alt="FORWARD.one" width="255" height="30" loading="lazy" decoding="async"></a>
+          <a href="https://www.leo.capital/" class="s5-investor-leo" aria-label="Leo Capital website"><img src="assets/investor-leo-capital.webp" alt="Leo Capital" width="300" height="70" loading="lazy" decoding="async"></a>
+          <a href="https://www.leaventures.de/" class="s5-investor-lea" aria-label="LEA Ventures website"><img src="assets/investor-lea-ventures.png" alt="LEA Ventures" width="1498" height="301" loading="lazy" decoding="async"></a>
+        </div>
+        <p class="s5-eu-acknowledgement">with support from the European Union.</p>
+      </section>
+    </div>
+  </section>
+
+  <section class="site-section section-six" id="contact" aria-labelledby="section-six-title">
+    <div class="section-six-inner">
+      <div class="contact-layout"><div><h2 id="section-six-title">Get in <em>touch.</em></h2><a class="contact-email" href="mailto:contact@hzero.tech">contact@hzero.tech <span aria-hidden="true">↗</span></a></div></div>
+      <footer class="site-footer"><a href="#overview" aria-label="hzero home" class="footer-brand"><img src="assets/hzero-logo.svg" alt=""></a><nav class="footer-legal" aria-label="Legal information"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Privacy / Datenschutz</a></nav><a href="#overview" class="back-to-top">Back to top ↑</a></footer>
+    </div>
+  </section>
+
+</main>
+<script type="module" src="./src/main.ts"></script>
+</body>
 </html>
