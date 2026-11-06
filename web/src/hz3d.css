@@ -21,10 +21,13 @@
   z-index: 2;
   min-width: 170px;
   padding: 10px 12px;
-  border: 1px solid var(--site-line, #484848);
-  border-radius: 4px;
-  background: rgb(26 26 26 / 0.94);
-  color: var(--site-ink, #f7f7f7);
+  border: 0;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.86);
+  box-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.12), 0 8px 28px rgb(40 32 20 / 0.12);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  color: var(--ink, #0a0a0a);
   font: 13px/1.45 var(--font-body);
   pointer-events: none;
   transform: translate(14px, 14px);
@@ -33,7 +36,7 @@
 .hz3d-tooltip strong {
   display: block;
   margin-bottom: 4px;
-  color: var(--site-accent, #6ceafb);
+  color: var(--ink, #0a0a0a);
   font-weight: 500;
 }
 
@@ -45,7 +48,7 @@
 }
 
 .hz3d-tooltip dt {
-  color: var(--site-muted, #c4c4c4);
+  color: var(--ink-60, rgb(10 10 10 / 0.62));
 }
 
 .hz3d-tooltip dd {
