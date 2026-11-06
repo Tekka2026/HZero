@@ -41,6 +41,9 @@ const PROXIMITY_NEAR = 0.45;
 const PROXIMITY_FAR = 2.1;
 const LIFT = 0.85;
 
+/** Corner radius of the plate and tiles (0 = sharp corners). */
+const CORNER = 0;
+
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export async function mountHybridScene(container: HTMLElement) {
@@ -93,8 +96,8 @@ export async function mountHybridScene(container: HTMLElement) {
   const plateShadow = softShadow(plate.width * 1.25, plate.depth * 1.35, 0.13, 26);
   plateShadow.position.y = 0.0005;
   world.add(plateShadow);
-  world.add(slab(plate.width, plate.depth, PLATE_THICKNESS, 0.32, C.plateSide, [C.plateTopA, C.plateTopB]));
-  world.add(outline(plate.width, plate.depth, 0.32, plateTop + 0.002, C.plateEdge, 1, lineMaterials, 0.16));
+  world.add(slab(plate.width, plate.depth, PLATE_THICKNESS, CORNER, C.plateSide, [C.plateTopA, C.plateTopB]));
+  world.add(outline(plate.width, plate.depth, CORNER, plateTop + 0.002, C.plateEdge, 1, lineMaterials, 0.16));
 
   // --- Nodes and links ---------------------------------------------------------------------------
   const nodeById = new Map(data.nodes.map((n) => [n.id, n]));
@@ -161,11 +164,11 @@ export async function mountHybridScene(container: HTMLElement) {
     const baseY = plateTop + g.height;
     root.position.set(g.x, baseY, g.z);
 
-    const body = slab(g.size, g.size, TILE_THICKNESS, 0.16, C.tileSide, [C.tileTopA, C.tileTopB]);
+    const body = slab(g.size, g.size, TILE_THICKNESS, CORNER, C.tileSide, [C.tileTopA, C.tileTopB]);
     body.userData = { kind: "group", group: g };
     root.add(body);
     const edgeMats: LineMaterial[] = [];
-    root.add(outline(g.size, g.size, 0.16, TILE_THICKNESS + 0.002, C.tileEdge, 1, edgeMats, 0.22));
+    root.add(outline(g.size, g.size, CORNER, TILE_THICKNESS + 0.002, C.tileEdge, 1, edgeMats, 0.22));
     lineMaterials.push(...edgeMats);
     root.add(labelSprite(g.label, g.size, TILE_THICKNESS));
     world.add(root);
@@ -175,7 +178,7 @@ export async function mountHybridScene(container: HTMLElement) {
     world.add(shadow);
 
     // Footprint where the tile docks into the plate.
-    const foot = outline(g.size, g.size, 0.16, plateTop + 0.002, C.ink, 1, lineMaterials, 0.08);
+    const foot = outline(g.size, g.size, CORNER, plateTop + 0.002, C.ink, 1, lineMaterials, 0.08);
     foot.position.set(g.x, 0, g.z);
     world.add(foot);
 
@@ -478,6 +481,14 @@ function roundedRect(w: number, d: number, r: number): THREE.Shape {
   const s = new THREE.Shape();
   const x = -w / 2;
   const y = -d / 2;
+  if (r <= 0) {
+    s.moveTo(x, y);
+    s.lineTo(x + w, y);
+    s.lineTo(x + w, y + d);
+    s.lineTo(x, y + d);
+    s.lineTo(x, y);
+    return s;
+  }
   s.moveTo(x + r, y);
   s.lineTo(x + w - r, y);
   s.quadraticCurveTo(x + w, y, x + w, y + r);
@@ -569,7 +580,7 @@ function softShadow(w: number, d: number, opacity: number, blurPx: number): THRE
   ctx.filter = `blur(${blurPx}px)`;
   ctx.fillStyle = C.shadow;
   ctx.beginPath();
-  ctx.roundRect(56, 56, 144, 144, 24);
+  ctx.rect(56, 56, 144, 144);
   ctx.fill();
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
