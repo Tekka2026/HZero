@@ -39,6 +39,7 @@
   <section class="section-two" aria-label="Why operational integration matters">
   <div class="section-two-inner">
   <section class="section-opening" aria-labelledby="hzero-gap-heading">
+    <p class="eyebrow">Why it matters</p>
     <h2 id="hzero-gap-heading"><span>From connected resources</span><span>to <em>system-wide value.</em></span></h2>
     <div class="section-two-copy">
       <p>Connecting quantum and classical resources is only the beginning. Even when individual resources perform at their best, the complete hybrid system can fall short of its potential.</p>
@@ -63,51 +64,118 @@
   <section class="how-it-works" id="how-it-works" aria-labelledby="hzero-control-title">
     <div class="section-three-inner">
       <header class="section-three-heading">
-        <div>
-          <h2 id="hzero-control-title">One operational layer<br><em>across the system.</em></h2>
-        </div>
-        <div class="section-three-copy">
-          <p class="section-three-intro">hzero provides operational integration across heterogeneous QC–HPC infrastructure, integrating with existing schedulers, application runtimes, and quantum software stacks. It combines application requirements, real-time resource states, and operator-defined objectives to enable coordinated operational decisions across the entire hybrid system.</p>
-          <p class="section-three-feedback">Applications run on quantum and classical resources while infrastructure telemetry reports operating conditions. hzero evaluates these signals against application requirements and operator-defined objectives, dynamically adapting the hybrid system usage as conditions change.</p>
-        </div>
+        <p class="eyebrow">How it works</p>
+        <h2 id="hzero-control-title">One operational layer<br><em>across the system.</em></h2>
+        <p class="section-three-intro">hzero provides operational integration across heterogeneous QC–HPC infrastructure, integrating with existing schedulers, application runtimes, and quantum software stacks.</p>
       </header>
-
-      <figure class="section-three-video" aria-label="Animated illustration of hzero coordinating quantum and classical resources">
-        <video autoplay muted loop playsinline preload="none" loading="lazy" aria-label="Looping illustration of hzero coordinating a hybrid computing system">
-          <source src="assets/section-three.mp4" type="video/mp4">
-          Your browser does not support embedded video.
-        </video>
-      </figure>
+      <div class="flow s1" data-flow data-step="1">
+        <div class="flow-stage">
+          <svg class="flow-diagram" viewBox="0 0 640 572" role="img" aria-label="hzero takes operator objectives and workloads, assigns workloads across HPC and QC systems, and adapts when telemetry reports a change in conditions." xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="flow-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 z" fill="context-stroke"/></marker>
+            </defs>
+            <g class="f-paths">
+              <path class="f-path f-p-obj" d="M180 60 V222 H197" marker-end="url(#flow-arrow)"/>
+              <path class="f-path f-p-wl" d="M320 148 V177" marker-end="url(#flow-arrow)"/>
+              <path class="f-path f-p-assign" d="M440 212 H545 V287" marker-end="url(#flow-arrow)"/>
+              <path class="f-path f-p-assign2" d="M545 342 V377" marker-end="url(#flow-arrow)"/>
+              <path class="f-path f-p-tel" d="M95 380 V345" marker-end="url(#flow-arrow)"/>
+              <path class="f-path f-p-fb" d="M95 290 V236 H197" marker-end="url(#flow-arrow)"/>
+            </g>
+            <g class="f-node f-obj"><rect x="160" y="16" width="320" height="44"/><text x="320" y="43">Operator objectives</text></g>
+            <g class="f-node f-wl">
+              <rect class="f-stack" x="242" y="92" width="180" height="44"/><rect class="f-stack" x="236" y="98" width="180" height="44"/>
+              <rect x="230" y="104" width="180" height="44"/><text x="320" y="131">Workloads</text>
+            </g>
+            <g class="f-hz">
+              <rect class="f-hz-ring" x="194" y="174" width="252" height="76"/>
+              <rect class="f-hz-box" x="200" y="180" width="240" height="64"/>
+              <text x="320" y="207" class="f-hz-title">hzero</text><text x="320" y="226" class="f-hz-sub">operational integration</text>
+            </g>
+            <g class="f-node f-assign"><rect x="470" y="290" width="150" height="52"/><text x="545" y="312">Workload</text><text x="545" y="329">assignments</text></g>
+            <g class="f-node f-status"><rect x="20" y="290" width="150" height="52"/><text x="95" y="321">QC status change</text></g>
+            <g class="f-hybrid">
+              <rect class="f-hybrid-box" x="20" y="380" width="600" height="176"/>
+              <text class="f-caption" x="320" y="404">Hybrid system</text>
+              <g class="f-node f-hpc">
+                <rect x="36" y="418" width="276" height="122"/>
+                <text class="f-sys-title" x="174" y="444">HPC system</text>
+                <text class="f-key" x="56" y="478">Status</text><circle class="f-dot f-dot-ok" cx="112" cy="474" r="4"/><text class="f-val" x="122" y="478">Normal</text>
+                <text class="f-key" x="56" y="516">Queue</text>
+                <g class="f-slot"><rect x="104" y="500" width="24" height="24"/></g>
+                <g class="f-slot"><rect x="132" y="500" width="24" height="24"/></g>
+                <g class="f-slot"><rect x="160" y="500" width="24" height="24"/></g>
+                <g class="f-slot"><rect x="188" y="500" width="24" height="24"/></g>
+              </g>
+              <g class="f-node f-qc">
+                <rect x="328" y="418" width="276" height="122"/>
+                <text class="f-sys-title" x="466" y="444">QC system</text>
+                <text class="f-key" x="348" y="478">Status</text><circle class="f-dot f-dot-qc" cx="404" cy="474" r="4"/>
+                <text class="f-val f-val-normal" x="414" y="478">Normal</text><text class="f-val f-val-reduced" x="414" y="478">Reduced</text>
+                <text class="f-key" x="348" y="516">Queue</text>
+                <g class="f-slot"><rect x="396" y="500" width="24" height="24"/></g>
+                <g class="f-slot"><rect x="424" y="500" width="24" height="24"/></g>
+                <g class="f-slot f-slot-off"><rect x="452" y="500" width="24" height="24"/><path d="M452 524 L476 500"/></g>
+              </g>
+              <g class="f-chip" style="--d:0"><rect x="104" y="500" width="24" height="24"/><text x="116" y="517">A</text></g>
+              <g class="f-chip" style="--d:1"><rect x="132" y="500" width="24" height="24"/><text x="144" y="517">B</text></g>
+              <g class="f-chip" style="--d:2"><rect x="160" y="500" width="24" height="24"/><text x="172" y="517">C</text></g>
+              <g class="f-chip" style="--d:3"><rect x="396" y="500" width="24" height="24"/><text x="408" y="517">D</text></g>
+              <g class="f-chip f-chip-move" style="--d:4"><rect x="424" y="500" width="24" height="24"/><text x="436" y="517">E</text></g>
+            </g>
+          </svg>
+        </div>
+        <ol class="flow-steps">
+          <li class="flow-step" data-flow-step="1"><span class="flow-step-n">01</span><h3>Objectives and workloads</h3><p>Operators set what the hybrid system should optimise for. Applications submit workloads with their requirements.</p></li>
+          <li class="flow-step" data-flow-step="2"><span class="flow-step-n">02</span><h3>One view of the system</h3><p>hzero combines application requirements, real-time resource states and operator-defined objectives into coordinated decisions.</p></li>
+          <li class="flow-step" data-flow-step="3"><span class="flow-step-n">03</span><h3>Coordinated assignments</h3><p>Workloads are assigned across quantum and classical resources, through the schedulers, runtimes and quantum software stacks already in place.</p></li>
+          <li class="flow-step" data-flow-step="4"><span class="flow-step-n">04</span><h3>Conditions change</h3><p>Infrastructure telemetry reports operating conditions. Here, a quantum system drops to reduced capacity.</p></li>
+          <li class="flow-step" data-flow-step="5"><span class="flow-step-n">05</span><h3>The system adapts</h3><p>hzero evaluates the change against requirements and objectives, and adapts how the hybrid system is used.</p></li>
+        </ol>
+      </div>
     </div>
   </section>
 
   <section class="site-section section-four s4-variation-b" id="whom-we-enable" aria-labelledby="section-four-title">
     <div class="section-four-inner">
       <div class="section-four-heading">
+        <p class="eyebrow">Who we enable</p>
         <h2 id="section-four-title">Shape the next generation<br><em>of hybrid computing.</em></h2>
         <p>Quantum systems rarely work alone. hzero brings operational integration into existing environments, opening new possibilities for how hybrid systems are delivered, operated, and utilized.</p>
       </div>
 
-      <div class="s4-audience-row s4-oem">
-        <header class="s4-audience-intro">
-          <h3>Quantum computer manufacturers</h3>
-          <p class="s4-collaboration"><span>Work with hzero.</span>Explore integration, joint development, and technology partnerships.</p>
-        </header>
-        <div class="s4-topic-list">
-          <article class="s4-topic"><span class="s4-topic-number">01</span><div><h4>Make hybrid performance part of your offering</h4><p>Extend your system's capabilities beyond quantum processor performance. With hzero, customers can optimize hybrid operations around workload requirements, resource conditions, and objectives such as throughput and execution quality. Make operational performance an additional dimension of the value your systems deliver.</p></div></article>
-          <article class="s4-topic"><span class="s4-topic-number">02</span><div><h4>Make your systems integral to hybrid computing</h4><p>Bring your quantum systems closer to the operational needs of HPC infrastructure. By integrating with existing quantum software stacks, hzero creates opportunities to deliver solutions that fit naturally into customers' computing environments.</p></div></article>
-        </div>
+            <div class="bento s4-bento s4-oem">
+          <article class="bento-card bento-intro" data-spotlight>
+            <p class="bento-label">For</p>
+            <h3>Quantum computer manufacturers</h3>
+            <p>Explore integration, joint development, and technology partnerships.</p>
+            <a class="arrow-link" href="#contact">Work with hzero <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="bento-card bento-wide" data-spotlight>
+            <div class="bento-text"><span class="bento-n">01</span><h4>Make hybrid performance part of your offering</h4><p>Extend your system's capabilities beyond quantum processor performance. With hzero, customers can optimize hybrid operations around workload requirements, resource conditions, and objectives such as throughput and execution quality. Make operational performance an additional dimension of the value your systems deliver.</p></div>
+            <div class="bento-visual" aria-hidden="true"><svg class="viz viz-performance" viewBox="0 0 240 140"><line class="viz-base" x1="16" y1="122" x2="224" y2="122"/><rect class="viz-bar" style="--i:0" x="24" y="88" width="16" height="34"/><rect class="viz-bar" style="--i:1" x="52" y="74" width="16" height="48"/><rect class="viz-bar" style="--i:2" x="80" y="80" width="16" height="42"/><rect class="viz-bar" style="--i:3" x="108" y="62" width="16" height="60"/><rect class="viz-bar" style="--i:4" x="136" y="66" width="16" height="56"/><rect class="viz-bar" style="--i:5" x="164" y="48" width="16" height="74"/><rect class="viz-bar is-accent" style="--i:6" x="192" y="26" width="16" height="96"/><path class="viz-trend" d="M32 92 L60 78 L88 84 L116 66 L144 70 L172 52 L200 30"/></svg></div>
+          </article>
+          <article class="bento-card bento-wide" data-spotlight>
+            <div class="bento-text"><span class="bento-n">02</span><h4>Make your systems integral to hybrid computing</h4><p>Bring your quantum systems closer to the operational needs of HPC infrastructure. By integrating with existing quantum software stacks, hzero creates opportunities to deliver solutions that fit naturally into customers' computing environments.</p></div>
+            <div class="bento-visual" aria-hidden="true"><svg class="viz viz-dock" viewBox="0 0 240 140"><rect class="viz-cell" x="20" y="54" width="28" height="28"/><rect class="viz-cell" x="54" y="54" width="28" height="28"/><rect class="viz-cell" x="88" y="54" width="28" height="28"/><rect class="viz-cell" x="122" y="54" width="28" height="28"/><text class="viz-tag" x="20" y="44">HPC</text><line class="viz-link" x1="154" y1="68" x2="178" y2="68"/><g class="viz-dock-qc"><rect class="viz-cell is-accent" x="182" y="54" width="28" height="28"/><text class="viz-tag" x="182" y="100">QC</text></g></svg></div>
+          </article>
       </div>
 
-      <div class="s4-audience-row s4-hpc">
-        <header class="s4-audience-intro">
-          <h3>HPC centers and infrastructure operators</h3>
-          <p class="s4-collaboration"><span>Work with hzero</span>Explore infrastructure integration, technical evaluations, and pilot deployments.</p>
-        </header>
-        <div class="s4-topic-list">
-          <article class="s4-topic"><span class="s4-topic-number">03</span><div><h4>Define what your infrastructure optimizes for</h4><p>Different workloads and users demand different outcomes, from throughput and execution quality to resource efficiency. hzero enables infrastructure operators to determine which objectives their hybrid systems prioritize, aligning operational performance with their users' needs and service commitments.</p></div></article>
-          <article class="s4-topic"><span class="s4-topic-number">04</span><div><h4>Scale your infrastructure without multiplying complexity</h4><p>As hybrid environments incorporate additional quantum processors, hardware technologies, and computing resources, operational complexity increases. hzero provides a common operational integration layer across heterogeneous infrastructure, helping operators accommodate evolving system configurations while building on their existing software investments.</p></div></article>
-        </div>
+      <div class="bento s4-bento s4-hpc is-flipped">
+          <article class="bento-card bento-intro" data-spotlight>
+            <p class="bento-label">For</p>
+            <h3>HPC centers and infrastructure operators</h3>
+            <p>Explore infrastructure integration, technical evaluations, and pilot deployments.</p>
+            <a class="arrow-link" href="#contact">Work with hzero <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="bento-card bento-wide" data-spotlight>
+            <div class="bento-text"><span class="bento-n">03</span><h4>Define what your infrastructure optimizes for</h4><p>Different workloads and users demand different outcomes, from throughput and execution quality to resource efficiency. hzero enables infrastructure operators to determine which objectives their hybrid systems prioritize, aligning operational performance with their users' needs and service commitments.</p></div>
+            <div class="bento-visual" aria-hidden="true"><svg class="viz viz-objectives" viewBox="0 0 240 140"><text class="viz-tag" x="16" y="36">Throughput</text><line class="viz-track" x1="96" y1="32" x2="224" y2="32"/><line class="viz-fill" style="--i:0" x1="96" y1="32" x2="224" y2="32"/><circle class="viz-knob" style="--i:0" cx="96" cy="32" r="5"/><text class="viz-tag" x="16" y="74">Quality</text><line class="viz-track" x1="96" y1="70" x2="224" y2="70"/><line class="viz-fill" style="--i:1" x1="96" y1="70" x2="224" y2="70"/><circle class="viz-knob" style="--i:1" cx="96" cy="70" r="5"/><text class="viz-tag" x="16" y="112">Efficiency</text><line class="viz-track" x1="96" y1="108" x2="224" y2="108"/><line class="viz-fill" style="--i:2" x1="96" y1="108" x2="224" y2="108"/><circle class="viz-knob" style="--i:2" cx="96" cy="108" r="5"/></svg></div>
+          </article>
+          <article class="bento-card bento-wide" data-spotlight>
+            <div class="bento-text"><span class="bento-n">04</span><h4>Scale your infrastructure without multiplying complexity</h4><p>As hybrid environments incorporate additional quantum processors, hardware technologies, and computing resources, operational complexity increases. hzero provides a common operational integration layer across heterogeneous infrastructure, helping operators accommodate evolving system configurations while building on their existing software investments.</p></div>
+            <div class="bento-visual" aria-hidden="true"><svg class="viz viz-scale" viewBox="0 0 240 140"><rect class="viz-cell viz-grow" style="--i:0" x="30" y="14" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:1" x="61" y="14" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:2" x="92" y="14" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:3" x="123" y="14" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:4" x="154" y="14" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:5" x="185" y="14" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:6" x="30" y="40" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:7" x="61" y="40" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:8" x="92" y="40" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:9" x="123" y="40" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:10" x="154" y="40" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:11" x="185" y="40" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:12" x="30" y="66" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:13" x="61" y="66" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:14" x="92" y="66" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:15" x="123" y="66" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:16" x="154" y="66" width="24" height="20"/><rect class="viz-cell viz-grow" style="--i:17" x="185" y="66" width="24" height="20"/><rect class="viz-layer" x="30" y="100" width="179" height="22"/><text class="viz-layer-tag" x="119.5" y="115">hzero</text></svg></div>
+          </article>
       </div>
     </div>
   </section>
@@ -115,24 +183,34 @@
   <section class="site-section section-five" id="about" aria-labelledby="section-five-title">
     <div class="site-section-inner s5-team-inner">
       <header class="s5-team-heading">
+        <p class="eyebrow">About hzero</p>
         <h2 id="section-five-title"><span>The people</span><span>behind <img class="s5-heading-logo" src="assets/hzero-logo.svg" alt="hzero">.</span></h2>
         <p class="s5-intro">Our team brings together experience in quantum hardware and control, HPC infrastructure, and systems software—connecting how resources work with what operators and users need from them.</p>
       </header>
       <div class="s5-experience" aria-label="Experience across the team">
-        <div class="s5-expertise-grid">
-          <article><span aria-hidden="true">01</span><h3>Quantum computing</h3><p>Experience across quantum hardware, control systems, and hybrid workflows.</p></article>
-          <article><span aria-hidden="true">02</span><h3>HPC</h3><p>Experience with research computing and large-scale supercomputing environments.</p></article>
-          <article><span aria-hidden="true">03</span><h3>Systems software</h3><p>Building software that connects and coordinates different computing resources.</p></article>
+        <div class="bento bento-3 s5-expertise-grid">
+          <article class="bento-card" data-spotlight>
+            <div class="bento-visual" aria-hidden="true"><svg class="viz viz-qubit" viewBox="0 0 240 140"><circle class="viz-ring" cx="120" cy="70" r="52"/><ellipse class="viz-ring is-faint" cx="120" cy="70" rx="52" ry="16"/><line class="viz-ring is-faint" x1="120" y1="18" x2="120" y2="122"/><g class="viz-spin"><line class="viz-vector" x1="120" y1="70" x2="152" y2="34"/><circle class="viz-tip" cx="152" cy="34" r="4.5"/></g><circle class="viz-center" cx="120" cy="70" r="2.5"/></svg></div>
+            <div class="bento-text"><span class="bento-n">01</span><h3>Quantum computing</h3><p>Experience across quantum hardware, control systems, and hybrid workflows.</p></div>
+          </article>
+          <article class="bento-card" data-spotlight>
+            <div class="bento-visual" aria-hidden="true"><svg class="viz viz-rack" viewBox="0 0 240 140"><rect class="viz-unit" x="70" y="14" width="100" height="17"/><circle class="viz-led" style="--i:0" cx="80" cy="22.5" r="2.2"/><line class="viz-slot" x1="92" y1="22.5" x2="158" y2="22.5"/><rect class="viz-unit" x="70" y="37" width="100" height="17"/><circle class="viz-led" style="--i:1" cx="80" cy="45.5" r="2.2"/><line class="viz-slot" x1="92" y1="45.5" x2="158" y2="45.5"/><rect class="viz-unit" x="70" y="60" width="100" height="17"/><circle class="viz-led" style="--i:2" cx="80" cy="68.5" r="2.2"/><line class="viz-slot" x1="92" y1="68.5" x2="158" y2="68.5"/><rect class="viz-unit" x="70" y="83" width="100" height="17"/><circle class="viz-led" style="--i:3" cx="80" cy="91.5" r="2.2"/><line class="viz-slot" x1="92" y1="91.5" x2="158" y2="91.5"/><rect class="viz-unit" x="70" y="106" width="100" height="17"/><circle class="viz-led" style="--i:4" cx="80" cy="114.5" r="2.2"/><line class="viz-slot" x1="92" y1="114.5" x2="158" y2="114.5"/></svg></div>
+            <div class="bento-text"><span class="bento-n">02</span><h3>HPC</h3><p>Experience with research computing and large-scale supercomputing environments.</p></div>
+          </article>
+          <article class="bento-card" data-spotlight>
+            <div class="bento-visual" aria-hidden="true"><svg class="viz viz-network" viewBox="0 0 240 140"><line class="viz-edge" x1="40" y1="40" x2="120" y2="70"/><line class="viz-edge-flow" style="--i:0" x1="40" y1="40" x2="120" y2="70"/><line class="viz-edge" x1="40" y1="104" x2="120" y2="70"/><line class="viz-edge-flow" style="--i:1" x1="40" y1="104" x2="120" y2="70"/><line class="viz-edge" x1="120" y1="70" x2="200" y2="32"/><line class="viz-edge-flow" style="--i:2" x1="120" y1="70" x2="200" y2="32"/><line class="viz-edge" x1="120" y1="70" x2="200" y2="108"/><line class="viz-edge-flow" style="--i:3" x1="120" y1="70" x2="200" y2="108"/><rect class="viz-node" x="34" y="34" width="12" height="12"/><rect class="viz-node" x="34" y="98" width="12" height="12"/><rect class="viz-node is-accent" x="111" y="61" width="18" height="18"/><rect class="viz-node" x="194" y="26" width="12" height="12"/><rect class="viz-node" x="194" y="102" width="12" height="12"/></svg></div>
+            <div class="bento-text"><span class="bento-n">03</span><h3>Systems software</h3><p>Building software that connects and coordinates different computing resources.</p></div>
+          </article>
         </div>
       </div>
       <section class="s5-achievements s5-achievements-editorial" id="team-achievements" aria-labelledby="achievements-title">
         <div class="s5-achievement-body">
           <header class="s5-achievement-heading"><p>Team track record</p><h3 id="achievements-title">Experience<br>in practice.</h3></header>
-          <ol class="s5-achievement-list">
-            <li><span class="s5-achievement-number" aria-hidden="true">01</span><div><h4>Taking integration from concept to deployment</h4><p>Led integration initiatives from identifying system gaps and defining offerings to developing and deploying software stacks connecting diverse quantum processors with HPC infrastructure.</p></div></li>
-            <li><span class="s5-achievement-number" aria-hidden="true">02</span><div><h4>Making quantum integration reusable</h4><p>Contributed to a vendor-neutral interface for quantum devices, reducing bespoke integration across heterogeneous systems.</p></div></li>
-            <li><span class="s5-achievement-number" aria-hidden="true">03</span><div><h4>Giving advanced users greater control</h4><p>Built a framework exposing hardware capabilities beyond standard abstractions, guided by users’ goals and system constraints.</p></div></li>
-            <li><span class="s5-achievement-number" aria-hidden="true">04</span><div><h4>Turning customer needs into joint solutions</h4><p>Shaped multi-vendor offerings around customer requirements, aligning technical capabilities, delivery responsibilities, and commercial interests.</p></div></li>
+          <ol class="bento bento-2 s5-achievement-list">
+            <li class="bento-card" data-spotlight><span class="bento-n">01</span><h4>Taking integration from concept to deployment</h4><p>Led integration initiatives from identifying system gaps and defining offerings to developing and deploying software stacks connecting diverse quantum processors with HPC infrastructure.</p></li>
+            <li class="bento-card" data-spotlight><span class="bento-n">02</span><h4>Making quantum integration reusable</h4><p>Contributed to a vendor-neutral interface for quantum devices, reducing bespoke integration across heterogeneous systems.</p></li>
+            <li class="bento-card" data-spotlight><span class="bento-n">03</span><h4>Giving advanced users greater control</h4><p>Built a framework exposing hardware capabilities beyond standard abstractions, guided by users’ goals and system constraints.</p></li>
+            <li class="bento-card" data-spotlight><span class="bento-n">04</span><h4>Turning customer needs into joint solutions</h4><p>Shaped multi-vendor offerings around customer requirements, aligning technical capabilities, delivery responsibilities, and commercial interests.</p></li>
           </ol>
         </div>
       </section>
@@ -180,7 +258,7 @@
 
   <section class="site-section section-six" id="contact" aria-labelledby="section-six-title">
     <div class="section-six-inner">
-      <div class="contact-layout"><div><h2 id="section-six-title">Get in <em>touch.</em></h2><a class="contact-email" href="mailto:contact@hzero.tech">contact@hzero.tech <span aria-hidden="true">↗</span></a></div></div>
+      <div class="contact-layout"><div><p class="eyebrow">Contact</p><h2 id="section-six-title">Get in <em>touch.</em></h2><a class="contact-email" href="mailto:contact@hzero.tech">contact@hzero.tech <span aria-hidden="true">↗</span></a></div></div>
       <footer class="site-footer">
         <div class="footer-primary">
           <ul class="footer-list"><li>hzero</li><li><a href="#why-it-matters">Why it matters</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#whom-we-enable">Who we enable</a></li><li><a href="#about">About hzero</a></li></ul>
