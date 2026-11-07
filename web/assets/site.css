@@ -9,6 +9,7 @@
 @import "@fontsource-variable/inter";
 
 :root {
+  --type-18: 18px;
   --font-title: "Selecta", "Inter Variable", Inter, Arial, sans-serif;
   --font-body: "Inter Variable", Inter, Arial, sans-serif;
 
@@ -84,7 +85,7 @@ button { font: inherit; color: inherit; }
 .skip-link {
   position: absolute; left: var(--margin); top: -60px; z-index: 10000;
   padding: 10px 16px; border-radius: 22px; background: var(--ink); color: #fff;
-  font-size: 15px; text-decoration: none;
+  font-size: 15px; line-height: 1.2; text-decoration: none;
 }
 .skip-link:focus { top: 18px; }
 
@@ -103,7 +104,7 @@ button { font: inherit; color: inherit; }
 .s5-team-heading h2,
 .legal-main h1 {                  /* type-60 / m-type-36 */
   font-size: clamp(54px, 4.16vw, 60px);
-  line-height: 1.06;
+  line-height: 1.1;
   letter-spacing: -0.028em;
 }
 
@@ -180,7 +181,7 @@ button { font: inherit; color: inherit; }
   .section-four-heading p,
   .s5-intro,
   .legal-intro,
-  .contact-email { font-size: clamp(18px, 5.6vw, 21px); }
+  .contact-email { font-size: clamp(18px, 5.6vw, 21px); letter-spacing: -0.01em; }
 
   .s4-topic h4,
   .s5-achievement-list h4,
@@ -188,9 +189,10 @@ button { font: inherit; color: inherit; }
   .team-name { font-size: clamp(18px, 5.6vw, 21px); }
 
   body { font-size: clamp(16px, 4.8vw, 18px); }
+  :root { --type-18: clamp(16px, 4.8vw, 18px); }
 }
 
-/* Body copy: type-18 desktop, type-15/16 in dense lists. */
+/* Body copy: type-18 (m-type-18 on phones). */
 .s4-topic p,
 .s5-expertise-grid p,
 .s5-achievement-list p,
@@ -199,9 +201,8 @@ button { font: inherit; color: inherit; }
 .legal-section p,
 .legal-section address,
 .legal-section dd,
-.legal-section li { font-size: 16px; line-height: 1.45; color: var(--ink-60); }
+.legal-section li { font-size: var(--type-18); line-height: 1.33; color: var(--ink-60); }
 
-.section-three-feedback { font-size: 18px; line-height: 1.4; }
 
 /* ---------- Grid ---------- */
 
@@ -415,6 +416,7 @@ main > div > section { padding-block: 150px 0; }
   justify-self: end;
   color: var(--ink-60);
   font-size: 15px;
+  line-height: 1.2;
   text-decoration: none;
 }
 .intro-scroll .scroll-line { width: 36px; height: 1px; background: currentColor; }
@@ -504,9 +506,9 @@ svg.hzero-first-visual__scene { height: auto; }
 .flow-step:first-child { min-height: 52svh; }
 .flow-step:last-child { min-height: 64svh; }
 .flow-step.is-active { opacity: 1; }
-.flow-step-n { color: var(--sand-ink); font-size: 14px; font-variant-numeric: tabular-nums; }
-.flow-step h3 { font-size: clamp(26px, 2vw, 30px); line-height: 1.2; letter-spacing: -0.02em; }
-.flow-step p { max-width: 420px; font-size: 18px; line-height: 1.45; color: var(--ink-60); }
+.flow-step-n { color: var(--sand-ink); font-size: 14px; line-height: 1.28; font-variant-numeric: tabular-nums; }
+.flow-step h3 { font-size: clamp(26px, 2vw, 30px); line-height: 1.2; letter-spacing: -0.014em; }
+.flow-step p { max-width: 420px; font-size: var(--type-18); line-height: 1.33; color: var(--ink-60); }
 
 /* Diagram base */
 .flow-diagram text {
@@ -646,12 +648,12 @@ svg.hzero-first-visual__scene { height: auto; }
 .bento-card:hover::before,
 .bento-card:hover::after { opacity: 1; }
 
-.bento-n { color: var(--sand-ink); font-size: 14px; font-variant-numeric: tabular-nums; }
+.bento-n { color: var(--sand-ink); font-size: 14px; line-height: 1.28; font-variant-numeric: tabular-nums; }
 .bento-card h3,
-.bento-card h4 { font-size: 21px; line-height: 1.25; letter-spacing: -0.015em; }
-.bento-card p { font-size: 16px; line-height: 1.5; color: var(--ink-60); }
+.bento-card h4 { font-size: clamp(18px, 5.6vw, 21px); line-height: 1.25; letter-spacing: -0.01em; }
+.bento-card p { font-size: var(--type-18); line-height: 1.33; color: var(--ink-60); }
 .bento-text { display: flex; flex-direction: column; gap: 12px; }
-.bento-label { color: var(--ink-60); font-size: 14px !important; }
+.bento-card .bento-label { color: var(--ink-60); font-size: 14px; line-height: 1.28; }
 
 .bento-visual { display: flex; align-items: center; justify-content: center; min-height: 150px; }
 .bento-visual .viz { width: 100%; max-width: 280px; height: auto; overflow: visible; }
@@ -664,6 +666,7 @@ svg.hzero-first-visual__scene { height: auto; }
   padding-top: 12px;
   color: var(--ink);
   font-size: 15px;
+  line-height: 1.2;
   text-decoration: none;
 }
 .arrow-link span { transition: transform 0.25s ease; }
@@ -684,7 +687,7 @@ svg.hzero-first-visual__scene { height: auto; }
 }
 .s4-bento.is-flipped { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); grid-template-areas: "a intro" "b intro"; }
 .s4-bento .bento-intro { grid-area: intro; justify-content: flex-start; padding: 40px; }
-.s4-bento .bento-intro h3 { font-size: clamp(26px, 2vw, 30px); line-height: 1.2; letter-spacing: -0.02em; }
+.s4-bento .bento-intro h3 { font-size: clamp(26px, 2vw, 30px); line-height: 1.2; letter-spacing: -0.014em; }
 .s4-bento .bento-wide:nth-of-type(2) { grid-area: a; }
 .s4-bento .bento-wide:nth-of-type(3) { grid-area: b; }
 .bento-wide { flex-direction: row; align-items: center; gap: 40px; }
@@ -949,7 +952,7 @@ svg.hzero-first-visual__scene { height: auto; }
 .legal-section address { font-style: normal; }
 .legal-section address strong { color: var(--ink); font-weight: 500; }
 .legal-details { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 12px var(--gutter); }
-.legal-details dt { font-size: 16px; line-height: 1.45; color: var(--ink); }
+.legal-details dt { font-size: var(--type-18); line-height: 1.33; color: var(--ink); }
 .legal-details dd { margin: 0; }
 .legal-section ul { display: flex; flex-direction: column; gap: 8px; padding-left: 1.1em; list-style: disc; }
 
