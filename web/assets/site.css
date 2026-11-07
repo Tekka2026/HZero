@@ -122,6 +122,7 @@ button { font: inherit; color: inherit; }
 }
 
 .hero-description,
+.section-two-copy p,
 .section-three-intro,
 .section-four-heading p,
 .s5-intro,
@@ -174,6 +175,7 @@ button { font: inherit; color: inherit; }
   .s5-expertise-grid h3 { font-size: clamp(21px, 6.4vw, 24px); line-height: 1.25; }
 
   .hero-description,
+  .section-two-copy p,
   .section-three-intro,
   .section-four-heading p,
   .s5-intro,
@@ -192,7 +194,6 @@ button { font: inherit; color: inherit; }
 .s4-topic p,
 .s5-expertise-grid p,
 .s5-achievement-list p,
-.section-two-copy p,
 .section-three-feedback,
 .s4-collaboration,
 .legal-section p,
@@ -200,7 +201,6 @@ button { font: inherit; color: inherit; }
 .legal-section dd,
 .legal-section li { font-size: 16px; line-height: 1.45; color: var(--ink-60); }
 
-.section-two-copy p,
 .section-three-feedback { font-size: 18px; line-height: 1.4; }
 
 /* ---------- Grid ---------- */
@@ -436,7 +436,8 @@ main > div > section { padding-block: 150px 0; }
 .section-two-inner { row-gap: 64px; align-items: center; }
 .section-opening { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: 36px; }
 .section-opening h2 span { display: block; }
-.section-two-copy { display: flex; flex-direction: column; gap: 18px; }
+.section-two-copy { display: flex; flex-direction: column; gap: 24px; }
+.section-two-copy p { color: var(--ink-60); }
 .hzero-first-visual { grid-column: 7 / -1; min-width: 0; }
 .hzero-first-visual__scene { width: 100%; height: auto; }
 svg.hzero-first-visual__scene { height: auto; }
