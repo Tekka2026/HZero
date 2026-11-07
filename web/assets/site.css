@@ -272,7 +272,7 @@ main > div > section { padding-block: 150px 0; }
   align-items: center;
   min-height: 43px;
 }
-.brand { width: auto; height: 24px; }
+.brand { width: auto; height: 36px; }
 
 /* Desktop: centred pill with section links (samara main-navigation-menu). */
 .site-menu,
@@ -338,7 +338,7 @@ main > div > section { padding-block: 150px 0; }
 @media (max-width: 768px) {
   .nav { padding: 18px 12px 0 var(--margin); }
   .brand-link { min-height: 44px; }
-  .brand { height: 22px; }
+  .brand { height: 34px; }
   .nav-cta { display: none; }
 
   .menu-toggle {
