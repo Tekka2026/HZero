@@ -94,7 +94,7 @@ button { font: inherit; color: inherit; }
 .section-six h2 {                 /* type-96 / m-type-48 */
   font-size: clamp(72px, 6.67vw, 120px);
   line-height: 1;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.035em;
 }
 
 .section-opening h2,
@@ -104,13 +104,13 @@ button { font: inherit; color: inherit; }
 .legal-main h1 {                  /* type-60 / m-type-36 */
   font-size: clamp(54px, 4.16vw, 60px);
   line-height: 1.06;
-  letter-spacing: -0.042em;
+  letter-spacing: -0.028em;
 }
 
 .s5-achievement-heading h3 {      /* type-48 */
   font-size: clamp(42px, 3.3vw, 48px);
   line-height: 1.12;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.024em;
 }
 
 .s4-audience-intro h3,
@@ -123,7 +123,7 @@ button { font: inherit; color: inherit; }
 
 .hero-description,
 .section-three-intro,
-.section-four-heading p,
+.section-four-heading p:not(.eyebrow),
 .s5-intro,
 .legal-intro,
 .contact-email {                  /* type-24-light */
@@ -159,13 +159,13 @@ button { font: inherit; color: inherit; }
 
 @media (max-width: 768px) {
   .hero-copy h1,
-  .section-six h2 { font-size: clamp(42px, 12.8vw, 48px); line-height: 1.1; letter-spacing: -0.04em; }
+  .section-six h2 { font-size: clamp(42px, 12.8vw, 48px); line-height: 1.1; letter-spacing: -0.028em; }
 
   .section-opening h2,
   .section-three-heading h2,
   .section-four-heading h2,
   .s5-team-heading h2,
-  .legal-main h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.04em; }
+  .legal-main h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.024em; }
 
   .s5-achievement-heading h3 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; }
 
@@ -175,7 +175,7 @@ button { font: inherit; color: inherit; }
 
   .hero-description,
   .section-three-intro,
-  .section-four-heading p,
+  .section-four-heading p:not(.eyebrow),
   .s5-intro,
   .legal-intro,
   .contact-email { font-size: clamp(18px, 5.6vw, 21px); }

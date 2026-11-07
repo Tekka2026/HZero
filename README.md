@@ -34,7 +34,7 @@ To change what the diagram shows, edit the notebook and re-run it. The JSON form
 - **Grid and spacing** follow samara.com: 12 columns / 24px gutter / 54px side margin above 1024px,
   12 / 15 / 30 from 769–1024px, and 6 / 15 / 21 at 768px and below (max width 1600px).
   Type sizes, navigation, footer and logo size (24px high) use the same scale. All of it lives in `web/assets/site.css`.
-- **Titles**: Selecta by Maxitype. Put the font files in `web/assets/fonts/selecta/`; they are picked up automatically.
+- **Titles**: Selecta by Maxitype (trial files for now, see `web/assets/fonts/selecta/README.md`). Font files in `web/assets/fonts/selecta/` are picked up automatically.
   Without them, titles fall back to Inter. Trial files may not be used on the live site (Maxitype EULA §6).
 - **Body**: Inter (variable), installed from npm (`@fontsource-variable/inter`).
 - No monospace type anywhere.
