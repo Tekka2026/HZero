@@ -272,7 +272,7 @@ main > div > section { padding-block: 150px 0; }
   align-items: center;
   min-height: 43px;
 }
-.brand { width: auto; height: 24px; filter: brightness(0); }
+.brand { width: auto; height: 24px; }
 
 /* Desktop: centred pill with section links (samara main-navigation-menu). */
 .site-menu,
@@ -804,7 +804,7 @@ svg.hzero-first-visual__scene { height: auto; }
 .s5-team-inner { row-gap: 0; }
 .s5-team-heading { grid-column: 1 / span 8; display: flex; flex-direction: column; gap: 36px; padding-bottom: 100px; }
 .s5-team-heading h2 span { display: block; }
-.s5-heading-logo { display: inline-block; height: 0.68em; width: auto; vertical-align: -0.02em; filter: brightness(0); }
+.s5-heading-logo { display: inline-block; height: 0.68em; width: auto; vertical-align: -0.02em; }
 .s5-intro { max-width: 760px; color: var(--ink-60); }
 
 .s5-experience { grid-column: 1 / -1; padding-bottom: 100px; }
@@ -883,7 +883,7 @@ svg.hzero-first-visual__scene { height: auto; }
 .footer-list a { color: var(--ink); text-decoration: none; white-space: nowrap; }
 .footer-list a:hover { opacity: 0.75; }
 .footer-brand { grid-column: -3 / -1; justify-self: end; }
-.footer-brand img { height: 24px; width: auto; filter: brightness(0); }
+.footer-brand img { height: 24px; width: auto; }
 
 .footer-legal {
   display: grid;
