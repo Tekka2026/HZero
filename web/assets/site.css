@@ -24,6 +24,7 @@
   --ink-60: rgb(10 10 10 / 0.62);
   --ink-40: rgb(10 10 10 / 0.42);
   --ink-45: #8d8d8d;          /* grey second line in headlines (3.3:1, large text only) */
+  --nav-text: #4a4a4a;          /* menu links before hover */
   --line: rgb(10 10 10 / 0.1);
   --bg: #ffffff;
   --bg-alt: #f6f5f2;          /* light warm grey */
@@ -296,16 +297,39 @@ main > div > section { padding-block: 150px 0; }
   height: 41px;
   padding: 0 21px;
   border-radius: 18px;
-  color: var(--ink-60);
+  position: relative;
+  z-index: 1;
+  color: var(--nav-text);
   font-size: 15px;
   line-height: 18px;
   letter-spacing: -0.2px;
   text-decoration: none;
   white-space: nowrap;
-  transition: color 0.16s, background-color 0.16s;
+  transition: color 0.2s;
 }
 .site-menu a + a { margin-left: -11px; }
-.site-menu a:hover { color: var(--ink); background: rgb(0 0 0 / 0.05); }
+.site-menu a:hover,
+.site-menu a:focus-visible,
+.site-menu a.is-current { color: var(--ink); }
+.site-menu.is-pointing a.is-current:not(:hover):not(:focus-visible) { color: var(--nav-text); }
+
+/* One highlight that sits behind the current section's link and slides to the link under the pointer. */
+.menu-pill {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: 41px;
+  width: var(--pill-w, 0px);
+  border-radius: 18px;
+  background: rgb(0 0 0 / 0.06);
+  transform: translateX(var(--pill-x, 0px));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.38s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.38s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.2s;
+}
+.menu-pill.is-shown { opacity: 1; }
+.menu-pill.no-slide { transition: opacity 0.2s; }
+@media (prefers-reduced-motion: reduce) { .menu-pill { transition: opacity 0.2s; } }
 .site-menu .site-menu-contact { display: none; }
 
 .nav-cta {
@@ -390,6 +414,7 @@ main > div > section { padding-block: 150px 0; }
   }
   .site-menu a + a { margin-left: 0; }
   .site-menu .site-menu-contact { display: flex; color: var(--sand-ink); }
+  .menu-pill { display: none; }
 }
 
 /* ---------- Hero ---------- */

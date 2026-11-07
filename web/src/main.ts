@@ -1,10 +1,11 @@
 import "./site-menu.js";
 import "./hz3d.css";
 import { loadSelecta } from "./fonts";
-import { initFlow, initInView, initNav, initSpotlight } from "./interactions";
+import { initFlow, initInView, initMenuPill, initNav, initSpotlight } from "./interactions";
 
 loadSelecta();
 initNav();
+initMenuPill();
 initFlow();
 initSpotlight();
 initInView();

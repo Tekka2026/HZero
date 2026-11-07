@@ -75,3 +75,54 @@ export function initNav() {
   window.addEventListener("scroll", update, { passive: true });
   update();
 }
+
+/** Desktop menu: a highlight behind the current section's link that slides to whichever link is hovered or focused. */
+export function initMenuPill() {
+  const menu = document.querySelector<HTMLElement>("#site-menu");
+  if (!menu) return;
+  const links = [...menu.querySelectorAll<HTMLAnchorElement>("a:not(.site-menu-contact)")];
+  const pill = document.createElement("span");
+  pill.className = "menu-pill";
+  pill.setAttribute("aria-hidden", "true");
+  menu.prepend(pill);
+
+  let current: HTMLAnchorElement | null = null;
+  let target: HTMLAnchorElement | null = null;
+
+  const moveTo = (link: HTMLAnchorElement | null) => {
+    menu.classList.toggle("is-pointing", !!link && link !== current);
+    if (!link) { pill.classList.remove("is-shown"); target = null; return; }
+    const appearing = !pill.classList.contains("is-shown");
+    pill.classList.toggle("no-slide", appearing);   // appear in place, then slide from there
+    pill.style.setProperty("--pill-x", `${link.offsetLeft}px`);
+    pill.style.setProperty("--pill-w", `${link.offsetWidth}px`);
+    pill.classList.add("is-shown");
+    if (appearing) requestAnimationFrame(() => pill.classList.remove("no-slide"));
+    target = link;
+  };
+
+  links.forEach((link) => {
+    link.addEventListener("pointerenter", () => moveTo(link));
+    link.addEventListener("focus", () => moveTo(link));
+  });
+  menu.addEventListener("pointerleave", () => moveTo(current));
+  menu.addEventListener("focusout", (e) => { if (!menu.contains(e.relatedTarget as Node)) moveTo(current); });
+
+  // the section in the middle of the screen is the current one
+  const byId = new Map(links.map((a) => [a.hash.slice(1), a]));
+  const visible = new Set<string>();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? visible.add(e.target.id) : visible.delete(e.target.id)));
+    const id = links.map((a) => a.hash.slice(1)).filter((x) => visible.has(x)).pop();
+    const next = (id && byId.get(id)) || null;
+    if (next === current) return;
+    current?.classList.remove("is-current");
+    next?.classList.add("is-current");
+    current = next;
+    if (!menu.matches(":hover") && !menu.contains(document.activeElement)) moveTo(current);
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  byId.forEach((_, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+
+  window.addEventListener("resize", () => moveTo(target));
+  document.fonts?.ready.then(() => moveTo(target));
+}
