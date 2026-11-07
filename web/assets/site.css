@@ -123,7 +123,7 @@ button { font: inherit; color: inherit; }
 
 .hero-description,
 .section-three-intro,
-.section-four-heading p:not(.eyebrow),
+.section-four-heading p,
 .s5-intro,
 .legal-intro,
 .contact-email {                  /* type-24-light */
@@ -175,7 +175,7 @@ button { font: inherit; color: inherit; }
 
   .hero-description,
   .section-three-intro,
-  .section-four-heading p:not(.eyebrow),
+  .section-four-heading p,
   .s5-intro,
   .legal-intro,
   .contact-email { font-size: clamp(18px, 5.6vw, 21px); }
@@ -466,22 +466,6 @@ svg.hzero-first-visual__scene { height: auto; }
 
 /* ---------- Section labels ---------- */
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
-  color: var(--ink-60);
-  font-size: 14px;
-  line-height: 1.2;
-  letter-spacing: 0;
-}
-.eyebrow::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  background: var(--sand);
-}
 
 /* ---------- How it works: sticky diagram driven by scroll ---------- */
 
@@ -1001,3 +985,6 @@ svg.hzero-first-visual__scene .s-inactive-connection { stroke: rgb(0 0 0 / 0.12)
 svg.hzero-first-visual__scene .s-new-active { fill: #111; stroke: #111; }
 svg.hzero-first-visual__scene .s-new-node:not(.s-new-active) { stroke: rgb(0 0 0 / 0.3); }
 svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #3a3226; opacity: 0.12; }
+
+/* Section name as a semibold run-in at the start of the first paragraph */
+.lead-in { font-weight: 600; color: var(--ink); }
