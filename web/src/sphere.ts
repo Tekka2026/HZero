@@ -4,8 +4,8 @@
  * 4 x 4 px squares sit all over the surface of a sphere (20% of an even spread of positions).
  * Squares without a line are light grey (#D2D2D2), squares where lines start are black, squares
  * that receive a line are #82816D. Each line is made of straight stretches with sharp corners: it
- * runs from a square into a smaller sphere inside the big one (24 light grey squares, drifting in
- * the inner 40%) and on to a square on the other half, or to a hidden point that only shows a
+ * runs from a square through the opening of the hzero shape floating inside the globe (the logo's
+ * slanted, chamfered outline in #CCCCCC, drifting in the inner 40% and spinning against the globe) and on to a square on the other half, or to a hidden point that only shows a
  * square when a stroke arrives. On the way it may kink 1-3 times, each kink a hook of at most 15% of
  * that stretch. A stroke keeps travelling along every line from A to B. Everything is 3D and turns
  * together, very slowly, around a diagonal axis; the globe can be dragged. Far squares are fainter.
@@ -23,10 +23,10 @@ const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
 // a stroke is drawn in 7 equal parts, tail to head, at these opacities
 const PARTS = [0.1, 0.2, 0.6, 1, 0.5, 0.4, 0.1];
-// the smaller sphere inside: every line passes through it; drawn with 24 light grey squares
-const CORE = 0.4;              // the smaller sphere's centre stays within the inner 40% of the globe
+// the hzero shape inside: every line passes through its opening
+const CORE = 0.4;              // the shape's centre stays within the inner 40% of the globe
 
-/** Where the smaller sphere's centre is at a given time: a slow, smooth loop inside the core. */
+/** Where the shape's centre is at a given time: a slow, smooth loop inside the core. */
 function hubAt(seconds: number): V3 {
   const t = seconds * 0.11;                                   // gentle: one loop takes about a minute
   const p: V3 = [Math.sin(t * 1.0 + 0.4) * 0.9, Math.sin(t * 1.3 + 2.1) * 0.6, Math.sin(t * 0.7 + 4.0) * 0.8];
@@ -34,11 +34,19 @@ function hubAt(seconds: number): V3 {
   const k = (CORE * 0.95) / Math.max(1, len);                 // never leave the core
   return [p[0] * k, p[1] * k, p[2] * k];
 }
-const INNER_R = 0.22;
-const INNER: V3[] = Array.from({ length: 24 }, (_, i) => {
-  const y = 1 - (2 * (i + 0.5)) / 24, k = Math.sqrt(1 - y * y), phi = i * Math.PI * (3 - Math.sqrt(5));
-  return [k * Math.cos(phi) * INNER_R, y * INNER_R, k * Math.sin(phi) * INNER_R];
-});
+// the shape from the hzero logo (icon.svg), outer and inner outline, scaled to 0.46 sphere radii high
+const SHAPE_H = 0.46;
+const SHAPE_SPIN_SECONDS = 60;  // its own turn, against the globe's
+const SHAPE_COLOR = "204, 204, 204";   // #CCCCCC, as in the logo
+const toShape = (pts: number[]): V3[] => {
+  const out: V3[] = [];
+  for (let i = 0; i < pts.length; i += 2) out.push([((pts[i] - 959.67) / 540) * SHAPE_H, ((pts[i + 1] - 540) / 540) * SHAPE_H, 0]);
+  return out;
+};
+const SHAPE_OUTER = toShape([751.397, 810, 713.704, 765.079, 795.502, 314.921, 849.037, 270, 1168.34, 270, 1205.63, 314.921, 1123.83, 765.079, 1070.7, 810]);
+const SHAPE_INNER = toShape([778.666, 773.354, 1055.95, 773.354, 1084.6, 749.317, 1160.84, 330.683, 1140.67, 306.646, 863.382, 306.646, 834.736, 330.683, 758.497, 749.317]);
+// corners of the opening, for picking where a line passes through
+const [OPEN_TL, OPEN_TR, OPEN_BL] = toShape([863.382, 306.646, 1140.67, 306.646, 778.666, 773.354]);
 const INK = "10, 10, 10";
 const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
 const IDLE = "210, 210, 210";       // #D2D2D2: squares without a line
@@ -54,7 +62,7 @@ function rng(seed: number) {
 
 /** b: points square the line ends at; surf: or a point on the sphere's surface, only shown when a stroke arrives */
 interface Bend { f: number; dir: V3; amount: number }
-interface Curve { a: number; b: number; surf?: V3; rank: number; j1: V3; bendsIn: Bend[]; bendsOut: Bend[]; highlight: boolean; delay: number; speed: number }
+interface Curve { a: number; b: number; surf?: V3; rank: number; through: V3; bendsIn: Bend[]; bendsOut: Bend[]; highlight: boolean; delay: number; speed: number }
 
 const SLOTS = 420;              // possible positions on the sphere
 const FILL = 0.2;              // 20% of the positions hold a square (within 10-30%)
@@ -89,7 +97,9 @@ function build(): { points: V3[]; curves: Curve[] } {
   const add = (a: number, b: number, surf?: V3) => {
     const total = 1 + Math.floor(rand() * 3);
     const into = Math.floor(rand() * (total + 1));
-    curves.push({ a, b, surf, rank: rand(), j1: jitter(0.32), bendsIn: bends(into), bendsOut: bends(total - into), highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
+    const u = 0.2 + rand() * 0.6, v = 0.15 + rand() * 0.7;     // a point inside the shape's opening
+    const through = add3(add3(OPEN_TL, sub3(OPEN_TR, OPEN_TL), u), sub3(OPEN_BL, OPEN_TL), v);
+    curves.push({ a, b, surf, rank: rand(), through, bendsIn: bends(into), bendsOut: bends(total - into), highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
   };
   // every connected square gets one or two lines, never more
   const degree = new Map<number, number>(ids.map((i) => [i, 0]));
@@ -201,7 +211,11 @@ export function mountSphere(host: HTMLElement) {
 
     const rot = (v: V3) => apply(orient, v);
     const hubLocal = hubAt(time / 1000);
-    const hub = rot(hubLocal);                       // centre of the smaller sphere, drifting inside the core
+    const hub = rot(hubLocal);                       // centre of the shape, drifting inside the core
+    // the shape turns against the globe: the globe's turn undone, plus its own counter-spin
+    const back: M3 = [orient[0], orient[3], orient[6], orient[1], orient[4], orient[7], orient[2], orient[5], orient[8]];
+    const shapeOrient = mul(axisAngle(AXIS, -(time / 1000 / SHAPE_SPIN_SECONDS) * Math.PI * 2), back);
+    const shapeWorld = (v: V3) => add3(hub, apply(shapeOrient, v));
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     // which lines are active right now; their squares show black (start) or #82816D (arrival)
@@ -218,7 +232,7 @@ export function mountSphere(host: HTMLElement) {
       // corner points in the globe's own space, so the kinks turn with it
       const A = points[c.a];
       const B: V3 = c.surf ?? points[c.b];
-      const M = add3(hubLocal, c.j1, 0.35);                     // a point inside the smaller sphere
+      const M = apply(back, shapeWorld(c.through));              // the point in the shape's opening, in the globe's own space
       const corners: V3[] = [A, ...kinked(A, M, c.bendsIn), M, ...kinked(M, B, c.bendsOut), B];
       const at: number[] = [0];                                 // distance along the line to each corner
       for (let i = 1; i < corners.length; i++) at.push(at[i - 1] + len3(sub3(corners[i], corners[i - 1])));
@@ -258,6 +272,15 @@ export function mountSphere(host: HTMLElement) {
     });
     paths.sort((a, b) => a.depth - b.depth);            // far curves first
 
+    // the hzero shape: its outline filled, the opening left empty; the lines pass through the opening
+    ctx.fillStyle = `rgb(${SHAPE_COLOR})`;
+    ctx.beginPath();
+    for (const ring of [SHAPE_OUTER, SHAPE_INNER]) {
+      ring.forEach((v, i) => { const [x, y] = project(shapeWorld(v)); if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
+      ctx.closePath();
+    }
+    ctx.fill("evenodd");
+
     ctx.lineWidth = 0.75;
     ctx.lineJoin = "miter";
     for (const { c, pts, part, v, depth } of paths) {
@@ -276,14 +299,6 @@ export function mountSphere(host: HTMLElement) {
       }
     }
 
-    // the smaller sphere: 24 light grey squares, fainter on its far side
-    for (const q of INNER) {
-      const [x, y] = project(rot([hubLocal[0] + q[0], hubLocal[1] + q[1], hubLocal[2] + q[2]]));
-      const side = (rot(q)[2] / INNER_R + 1) / 2;                  // 0 back ... 1 front of the small sphere
-      ctx.fillStyle = `rgba(${IDLE}, ${(0.45 + side * 0.55).toFixed(3)})`;
-      ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
-    }
-
     // surface points: a #82816D square where a stroke arrives, fading out
     for (const { p, alpha } of hits) {
       ctx.fillStyle = `rgba(${RECEIVER}, ${Math.max(0, alpha).toFixed(3)})`;
@@ -291,12 +306,8 @@ export function mountSphere(host: HTMLElement) {
     }
 
     // the squares: light grey without a line, black where lines start, #82816D where they arrive
-    // keep the smaller sphere readable: plain grey squares of the big sphere that fall inside its outline are left out
-    const [hx, hy, hz] = project(hub);
-    const innerPx = INNER_R * R * (D / (D - hz)) + 6;
     points.forEach((p, i) => {
       const [x, y, z] = project(rot(p));
-      if (!shown.has(i) && Math.hypot(x - hx, y - hy) < innerPx) return;
       const alpha = z >= 0 ? 1 : 0.35 + (z + 1) * 0.4;           // fainter on the far side
       ctx.fillStyle = `rgba(${!shown.has(i) ? IDLE : receives.has(i) ? RECEIVER : INK}, ${alpha.toFixed(3)})`;
       ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
