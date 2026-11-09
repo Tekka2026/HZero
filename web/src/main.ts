@@ -23,6 +23,10 @@ if (container) {
     .catch((err) => console.warn("3D diagram unavailable, keeping SVG fallback.", err));
 }
 
+// "Why it matters": the sphere of connections.
+const sphere = document.querySelector<HTMLElement>("[data-sphere]");
+if (sphere) import("./sphere").then(({ mountSphere }) => mountSphere(sphere)).catch((err) => console.error("Sphere unavailable", err));
+
 // Charts page: inline the Jupyter-made SVGs and animate them in.
 if (document.querySelector("[data-chart]")) {
   import("./charts").then(({ initCharts }) => initCharts()).catch((err) => console.error("Charts unavailable", err));
