@@ -1,21 +1,24 @@
 /**
  * "Why it matters" visual: a sphere of connections.
  *
- * The outer ring is a circle of 2 x 2 px squares (the sphere's outline, always facing the viewer).
- * Every square is joined to another square by a curve that runs through the inside of the sphere
- * in 3D. The curves bundle around a shared point that slowly orbits inside the sphere, so the
- * interior turns while the ring stays a perfect circle. Drawn with Canvas 2D and its own 3D
- * projection, so lines and squares stay pixel-sharp.
+ * The outer ring is the sphere's outline, marked with 2 x 2 px squares. Only squares with a line are
+ * shown. Each line runs from a ring square through a shared point inside the sphere to another ring
+ * square or to a point on the sphere's surface; a stroke keeps travelling along it from A to B.
+ * Squares that receive a line are #82816D; surface points only show a square when a stroke arrives.
+ * The globe turns on its own and can be dragged. A sphere's outline looks the same from every
+ * angle, so the ring stays a circle while everything inside and on the surface rotates.
+ * Canvas 2D with its own 3D projection, so lines and squares stay pixel-sharp.
  */
 
 type V3 = [number, number, number];
 
 const SAMPLES = 64;            // points per curve
 const SQUARE = 2;              // px
-const ORBIT_SECONDS = 48;      // one turn of the interior
+const ORBIT_SECONDS = 48;      // one turn of the globe when left alone
 const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
 const INK = "10, 10, 10";
+const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
 
 function rng(seed: number) {
   return () => {
@@ -83,9 +86,10 @@ function build(): { ring: V3[]; curves: Curve[] } {
   return { ring, curves };
 }
 
-function rotY([x, y, z]: V3, a: number): V3 {
-  const c = Math.cos(a), s = Math.sin(a);
-  return [x * c + z * s, y, -x * s + z * c];
+function rotate([x, y, z]: V3, yaw: number, pitch: number): V3 {
+  const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+  const x1 = x * cy + z * sy, z1 = -x * sy + z * cy;          // turn around the vertical axis
+  return [x1, y * cp - z1 * sp, y * sp + z1 * cp];            // then tilt towards the viewer
 }
 
 function bezier(p0: V3, c1: V3, c2: V3, p1: V3, t: number): V3 {
@@ -101,6 +105,13 @@ export function mountSphere(host: HTMLElement) {
   const { ring, curves } = build();
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // which ring squares are shown, and which of them receive a line
+  const shown = new Set<number>(), receives = new Set<number>();
+  for (const c of curves) {
+    shown.add(c.a);
+    if (!c.surf) { shown.add(c.b); receives.add(c.b); }
+  }
+
   let w = 0, h = 0, dpr = 1;
   const resize = () => {
     const r = host.getBoundingClientRect();
@@ -110,33 +121,46 @@ export function mountSphere(host: HTMLElement) {
     canvas.style.width = `${w}px`; canvas.style.height = `${h}px`;
   };
 
-  // pointer nudges the shared point a little
-  let tx = 0, ty = 0, px = 0, py = 0;
-  host.addEventListener("pointermove", (e) => {
-    const r = host.getBoundingClientRect();
-    tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
-    ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+  // orientation: turns on its own, can be dragged, keeps a little momentum after a drag
+  const AUTO = reduce ? 0 : (Math.PI * 2) / ORBIT_SECONDS;     // rad per second
+  let yaw = 0.6, pitch = -0.25, vYaw = AUTO, vPitch = 0;
+  let dragging = false, lastX = 0, lastY = 0, lastT = 0;
+  host.addEventListener("pointerdown", (e) => {
+    dragging = true; lastX = e.clientX; lastY = e.clientY; lastT = performance.now();
+    host.setPointerCapture(e.pointerId);
+    host.classList.add("is-dragging");
   });
-  host.addEventListener("pointerleave", () => { tx = 0; ty = 0; });
+  host.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const now = performance.now(), dt = Math.max(1, now - lastT) / 1000;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    const k = 3 / Math.max(200, host.clientWidth);              // a drag across the globe is about half a turn
+    yaw += dx * k; pitch = Math.max(-1.2, Math.min(1.2, pitch + dy * k));
+    vYaw = (dx * k) / dt; vPitch = (dy * k) / dt;
+    lastX = e.clientX; lastY = e.clientY; lastT = now;
+    if (!running) draw(clock, !reduce);
+  });
+  const release = () => { dragging = false; host.classList.remove("is-dragging"); };
+  host.addEventListener("pointerup", release);
+  host.addEventListener("pointercancel", release);
 
   const D = 3.4;                                   // camera distance, in sphere radii
   const draw = (time: number, flowing: boolean) => {
     const R = Math.min(w, h) / 2 - 6, cx = w / 2, cy = h / 2;
     const project = ([x, y, z]: V3) => { const k = D / (D - z); return [cx + x * R * k, cy + y * R * k, z] as const; };
+    const snap = (v: number) => Math.round(v * dpr) / dpr - SQUARE / 2;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    px += (tx - px) * 0.05; py += (ty - py) * 0.05;
-    const turn = (time / 1000 / ORBIT_SECONDS) * Math.PI * 2;
-    // the shared point orbits through the depth of the sphere
-    const hub = rotY([-0.42 + px * 0.12, -0.08 + py * 0.12 + Math.sin(turn * 2) * 0.06, 0.25], turn);
+    const rot = (v: V3) => rotate(v, yaw, pitch);
+    const hub = rot([-0.42, -0.08, 0.25]);          // the shared point, fixed inside the globe
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     const paths = curves.map((c) => {
       const p0 = ring[c.a];
-      const p1: V3 = c.surf ? rotY(c.surf, turn) : ring[c.b];
+      const p1: V3 = c.surf ? rot(c.surf) : ring[c.b];
       // each curve runs square -> shared point -> square, passing through the point smoothly
-      const j1 = rotY(c.j1, turn * 1.6), j2 = rotY(c.j2, turn * 1.6);
+      const j1 = rot(c.j1), j2 = rot(c.j2);
       const m: V3 = [hub[0] + j1[0] * 0.12, hub[1] + j1[1] * 0.12, hub[2] + j1[2] * 0.12];   // tight pinch
       let d: V3 = [p1[0] - p0[0], p1[1] - p0[1], 0];
       const len = Math.hypot(d[0], d[1]) || 1;
@@ -178,36 +202,43 @@ export function mountSphere(host: HTMLElement) {
       ctx.stroke();
     }
 
-    // squares on the surface appear where a stroke arrives, then fade
+    // surface points: a #82816D square where a stroke arrives, fading out
     for (const { p, alpha } of hits) {
-      ctx.fillStyle = `rgba(${INK}, ${Math.max(0, alpha).toFixed(3)})`;
-      ctx.fillRect(Math.round(p[0] * dpr) / dpr - SQUARE / 2, Math.round(p[1] * dpr) / dpr - SQUARE / 2, SQUARE, SQUARE);
+      ctx.fillStyle = `rgba(${RECEIVER}, ${Math.max(0, alpha).toFixed(3)})`;
+      ctx.fillRect(snap(p[0]), snap(p[1]), SQUARE, SQUARE);
     }
 
-    // the ring: 2 x 2 px squares, snapped to the device pixel grid
-    ctx.fillStyle = `rgb(${INK})`;
-    for (const p of ring) {
-      const x = Math.round((cx + p[0] * R) * dpr) / dpr - SQUARE / 2, y = Math.round((cy + p[1] * R) * dpr) / dpr - SQUARE / 2;
-      ctx.fillRect(x, y, SQUARE, SQUARE);
-    }
+    // the ring: only squares with a line; black where lines start, #82816D where they arrive
+    ring.forEach((p, i) => {
+      if (!shown.has(i)) return;
+      ctx.fillStyle = `rgb(${receives.has(i) ? RECEIVER : INK})`;
+      ctx.fillRect(snap(cx + p[0] * R), snap(cy + p[1] * R), SQUARE, SQUARE);
+    });
   };
 
   resize();
-  new ResizeObserver(() => { resize(); if (reduce || !running) draw(frozen, !reduce); }).observe(host);
+  let running = false, raf = 0, last = 0, clock = 9000;
+  new ResizeObserver(() => { resize(); if (!running) draw(clock, !reduce); }).observe(host);
 
-  let running = false, raf = 0, start = 0, frozen = 9000;
   const loop = (now: number) => {
-    if (!start) start = now;
-    const t = now - start;
-    draw(t + 9000, true);
-    frozen = t + 9000;
+    const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+    last = now;
+    clock += dt * 1000;
+    if (!dragging) {
+      // after a drag, ease back to the steady turn
+      vYaw += (AUTO - vYaw) * Math.min(1, dt * 1.5);
+      vPitch += (0 - vPitch) * Math.min(1, dt * 1.5);
+      yaw += vYaw * dt;
+      pitch = Math.max(-1.2, Math.min(1.2, pitch + vPitch * dt));
+    }
+    draw(clock, true);
     raf = requestAnimationFrame(loop);
   };
-  draw(frozen, !reduce);
+  draw(clock, !reduce);
   if (reduce) return;
   new IntersectionObserver((entries) => {
     const visible = entries.some((e) => e.isIntersecting);
-    if (visible && !running) { running = true; raf = requestAnimationFrame(loop); }
+    if (visible && !running) { running = true; last = 0; raf = requestAnimationFrame(loop); }
     if (!visible && running) { running = false; cancelAnimationFrame(raf); }
   }, { threshold: 0.15 }).observe(host);
 }

@@ -478,7 +478,8 @@ main > div > section { padding-block: 150px 0; }
 .section-two-copy p { color: var(--ink-60); }
 .hzero-first-visual { grid-column: 6 / -1; min-width: 0; }
 .hzero-first-visual__scene { width: 100%; height: auto; }
-.sphere { position: relative; width: 100%; aspect-ratio: 1 / 1; max-width: 100%; }
+.sphere { position: relative; width: 100%; aspect-ratio: 1 / 1; max-width: 100%; cursor: grab; touch-action: pan-y; user-select: none; }
+.sphere.is-dragging { cursor: grabbing; }
 .sphere canvas { position: absolute; inset: 0; display: block; }
 svg.hzero-first-visual__scene { height: auto; }
 
