@@ -18,6 +18,8 @@ const SQUARE = 2;              // px
 const ORBIT_SECONDS = 48;      // one turn of the globe when left alone
 const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
+// a stroke is drawn in 7 equal parts, tail to head, at these opacities
+const PARTS = [0.1, 0.2, 0.6, 1, 0.5, 0.4, 0.1];
 const INK = "10, 10, 10";
 const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
 const IDLE = "210, 210, 210";       // #D2D2D2: squares without a line
@@ -168,35 +170,43 @@ export function mountSphere(host: HTMLElement) {
       const b1: V3 = [m[0] + d[0] * reach, m[1] + d[1] * reach, m[2] + d[2] * reach];
       const b2: V3 = [p1[0] + (m[0] - p1[0]) * 0.45 + j2[0] * 0.6, p1[1] + (m[1] - p1[1]) * 0.45 + j2[1] * 0.6, p1[2] + (m[2] - p1[2]) * 0.45 + j2[2] * 0.6];
       // a stroke travels from square A to square B, then starts again at A
-      let from = 0, to = 1;
+      let from = 0, to = 1, tail = 0, span = 1;      // tail/span: where the 7 parts sit along the route
       if (flowing) {
         const head = ((time / 1000 / FLOW_SECONDS) * c.speed + c.delay) % (1 + STROKE);
         from = Math.max(0, head - STROKE); to = Math.min(1, head);
+        tail = head - STROKE; span = STROKE;
         if (c.surf && head >= 1) hits.push({ p: project(p1), alpha: 1 - (head - 1) / STROKE });   // the stroke has arrived
       } else if (c.surf) hits.push({ p: project(p1), alpha: 1 });
       const pts = [];
+      const part: number[] = [];
       let depth = 0;
       const half = SAMPLES / 2;
       for (let i = Math.floor(SAMPLES * from); i <= SAMPLES * to; i++) {
         const q = i <= half ? bezier(p0, a1, a2, m, i / half) : bezier(m, b1, b2, p1, (i - half) / half);
         depth += q[2];
         pts.push(project(q));
+        part.push(Math.min(PARTS.length - 1, Math.max(0, Math.floor(((i / SAMPLES - tail) / span) * PARTS.length))));
       }
-      return { c, pts, depth: pts.length ? depth / pts.length : 0 };
+      return { c, pts, part, depth: pts.length ? depth / pts.length : 0 };
     });
     paths.sort((a, b) => a.depth - b.depth);            // far curves first
 
     ctx.lineWidth = 0.75;
     ctx.lineJoin = "round";
-    for (const { c, pts, depth } of paths) {
+    for (const { c, pts, part, depth } of paths) {
       if (pts.length < 2) continue;
-      const near = (depth + 0.6) / 1.2;                 // 0 far ... 1 near
-      const alpha = c.highlight ? 0.85 : 0.07 + Math.max(0, Math.min(1, near)) * 0.23;
-      ctx.strokeStyle = `rgba(${INK}, ${alpha.toFixed(3)})`;
-      ctx.beginPath();
-      ctx.moveTo(pts[0][0], pts[0][1]);
-      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
-      ctx.stroke();
+      const near = Math.max(0, Math.min(1, (depth + 0.6) / 1.2));   // 0 far ... 1 near
+      const depthFactor = c.highlight ? 1 : 0.5 + near * 0.5;       // far lines a little lighter
+      // draw the stroke part by part, each at its own opacity
+      let i = 0;
+      while (i < pts.length - 1) {
+        const k = part[i + 1];
+        ctx.strokeStyle = `rgba(${INK}, ${(PARTS[k] * depthFactor).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.moveTo(pts[i][0], pts[i][1]);
+        while (i < pts.length - 1 && part[i + 1] === k) { i++; ctx.lineTo(pts[i][0], pts[i][1]); }
+        ctx.stroke();
+      }
     }
 
     // surface points: a #82816D square where a stroke arrives, fading out
