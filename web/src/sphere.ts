@@ -3,8 +3,8 @@
  *
  * 4 x 4 px squares sit all over the surface of a sphere (60% of an even spread of positions).
  * Squares without a line are light grey (#D2D2D2), squares where lines start are black, squares
- * that receive a line are #82816D. Each line runs from a square through a shared point inside the
- * sphere to a square on the other half, or to a hidden point that only shows a square when a stroke
+ * that receive a line are #82816D. Each line runs from a square through a smaller sphere inside the
+ * big one (24 light grey squares) to a square on the other half, or to a hidden point that only shows a square when a stroke
  * arrives. A stroke keeps travelling along every line from A to B. Everything is 3D and turns
  * together; the globe turns on its own and can be dragged. Squares on the far side are fainter.
  * Canvas 2D with its own 3D projection, so lines and squares stay pixel-sharp.
@@ -20,6 +20,13 @@ const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
 // a stroke is drawn in 7 equal parts, tail to head, at these opacities
 const PARTS = [0.1, 0.2, 0.6, 1, 0.5, 0.4, 0.1];
+// the smaller sphere inside: every line passes through it; drawn with 24 light grey squares
+const HUB: V3 = [-0.42, -0.08, 0.25];
+const INNER_R = 0.22;
+const INNER: V3[] = Array.from({ length: 24 }, (_, i) => {
+  const y = 1 - (2 * (i + 0.5)) / 24, k = Math.sqrt(1 - y * y), phi = i * Math.PI * (3 - Math.sqrt(5));
+  return [k * Math.cos(phi) * INNER_R, y * INNER_R, k * Math.sin(phi) * INNER_R];
+});
 const INK = "10, 10, 10";
 const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
 const IDLE = "210, 210, 210";       // #D2D2D2: squares without a line
@@ -152,7 +159,7 @@ export function mountSphere(host: HTMLElement) {
     ctx.clearRect(0, 0, w, h);
 
     const rot = (v: V3) => rotate(v, yaw, pitch);
-    const hub = rot([-0.42, -0.08, 0.25]);          // the shared point, fixed inside the globe
+    const hub = rot(HUB);                            // centre of the smaller sphere, fixed inside the globe
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     const paths = curves.map((c) => {
@@ -160,7 +167,7 @@ export function mountSphere(host: HTMLElement) {
       const p1: V3 = c.surf ? rot(c.surf) : rot(points[c.b]);
       // each curve runs square -> shared point -> square, passing through the point smoothly
       const j1 = rot(c.j1), j2 = rot(c.j2);
-      const m: V3 = [hub[0] + j1[0] * 0.12, hub[1] + j1[1] * 0.12, hub[2] + j1[2] * 0.12];   // tight pinch
+      const m: V3 = [hub[0] + j1[0] * 0.35, hub[1] + j1[1] * 0.35, hub[2] + j1[2] * 0.35];   // a point inside the smaller sphere
       let d: V3 = [p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]];
       const len = Math.hypot(d[0], d[1], d[2]) || 1;
       d = [d[0] / len, d[1] / len, d[2] / len];
@@ -209,6 +216,14 @@ export function mountSphere(host: HTMLElement) {
       }
     }
 
+    // the smaller sphere: 24 light grey squares, fainter on its far side
+    for (const q of INNER) {
+      const [x, y] = project(rot([HUB[0] + q[0], HUB[1] + q[1], HUB[2] + q[2]]));
+      const side = (rot(q)[2] / INNER_R + 1) / 2;                  // 0 back ... 1 front of the small sphere
+      ctx.fillStyle = `rgba(${IDLE}, ${(0.45 + side * 0.55).toFixed(3)})`;
+      ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
+    }
+
     // surface points: a #82816D square where a stroke arrives, fading out
     for (const { p, alpha } of hits) {
       ctx.fillStyle = `rgba(${RECEIVER}, ${Math.max(0, alpha).toFixed(3)})`;
@@ -216,8 +231,12 @@ export function mountSphere(host: HTMLElement) {
     }
 
     // the squares: light grey without a line, black where lines start, #82816D where they arrive
+    // keep the smaller sphere readable: plain grey squares of the big sphere that fall inside its outline are left out
+    const [hx, hy, hz] = project(hub);
+    const innerPx = INNER_R * R * (D / (D - hz)) + 6;
     points.forEach((p, i) => {
       const [x, y, z] = project(rot(p));
+      if (!shown.has(i) && Math.hypot(x - hx, y - hy) < innerPx) return;
       const alpha = z >= 0 ? 1 : 0.35 + (z + 1) * 0.4;           // fainter on the far side
       ctx.fillStyle = `rgba(${!shown.has(i) ? IDLE : receives.has(i) ? RECEIVER : INK}, ${alpha.toFixed(3)})`;
       ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
