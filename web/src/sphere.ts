@@ -25,8 +25,10 @@ const STROKE = 0.4;           // stroke length, share of the route
 const PARTS = [0.1, 0.2, 0.6, 1, 0.5, 0.4, 0.1];
 // the hzero shape sits at the centre of the globe; every line passes through its opening
 const SCROLL_TURN_PX = 2400;    // page scroll that turns the globe once, against the scroll
-// the shape from the hzero logo (icon.svg), outer and inner outline, scaled to 0.46 sphere radii high
-const SHAPE_H = 0.46;
+// the shape from the hzero logo (icon.svg), outer and inner outline
+const SHAPE_H = 1;              // unit height here; scaled to pixels when drawn
+const SHAPE_MAX_PX = 40;       // the shape is never larger than this on screen, in any position
+const SHAPE_SPAN = 1.24;       // its longest straight-line extent (corner to corner), in shape heights
 const SHAPE_SPIN_SECONDS = 60;  // its own turn, against the globe's
 const SHAPE_COLOR = "204, 204, 204";   // #CCCCCC, as in the logo
 const toShape = (pts: number[]): V3[] => {
@@ -213,7 +215,9 @@ export function mountSphere(host: HTMLElement) {
     // the shape turns against the globe: the globe's turn undone, plus its own counter-spin
     const back: M3 = [orient[0], orient[3], orient[6], orient[1], orient[4], orient[7], orient[2], orient[5], orient[8]];
     const shapeOrient = mul(axisAngle(AXIS, -(time / 1000 / SHAPE_SPIN_SECONDS) * Math.PI * 2), back);
-    const shapeWorld = (v: V3) => add3(hub, apply(shapeOrient, v));
+    // size so the longest corner-to-corner extent stays under 40 px, allowing for perspective
+    const shapeSize = SHAPE_MAX_PX / (SHAPE_SPAN * R * 1.04);
+    const shapeWorld = (v: V3) => add3(hub, apply(shapeOrient, [v[0] * shapeSize, v[1] * shapeSize, v[2] * shapeSize]));
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     // which lines are active right now; their squares show black (start) or #82816D (arrival)
