@@ -1042,7 +1042,7 @@ svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #3a3226; opacity: 0.1
 .chart-text { display: flex; flex-direction: column; gap: 10px; max-width: 640px; }
 .chart-text h2 { font-size: clamp(26px, 2vw, 30px); line-height: 1.2; letter-spacing: -0.014em; }
 .chart-text p { font-size: var(--type-18); line-height: 1.33; color: var(--ink-60); }
-.chart-frame { background: #e5e5e5; }
+.chart-frame { background: #fff; }
 .chart-frame img, .chart-frame svg { display: block; width: 100%; height: auto; }
 .chart-meta { display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 14px; line-height: 1.28; color: var(--ink-60); }
 .chart-replay { border: 0; padding: 8px 14px; border-radius: 18px; background: rgb(0 0 0 / 0.05); color: var(--ink); font-size: 14px; cursor: pointer; transition: background-color 0.2s; }

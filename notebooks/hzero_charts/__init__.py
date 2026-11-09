@@ -42,7 +42,8 @@ PLOT = {"x": 560, "y": 411, "w": 800, "h": 324}   # plot box, px from the top-le
 HEADROOM = 3                       # top gridline (axis maximum) sits 3 px below the plot top
 
 COLORS = {
-    "canvas": "#E5E5E5",
+    "canvas": "#FFFFFF",
+    "backdrop": "#E5E5E5",         # plot backdrop gradient colour
     "grid": "#D2D2D2",
     "text": "#000000",
     "green": "#446455",            # bar, primary / top of a stack
@@ -58,7 +59,7 @@ TITLE_SIZE = 18                    # axis titles, px
 CAP_HEIGHT = 0.727                 # Inter cap height / digit height, em
 BAR_GAP = 3                        # gap between bars, px
 TICK_PAD = 13                      # plot edge to tick label, px
-CAT_PAD = 6                        # plot bottom to the cap top of a category label, px
+CAT_PAD = 12                       # plot bottom to the cap top of a category label, px
 CAT_PITCH = 15.4                   # line pitch of two-line category labels, px
 TITLE_GAP = 22                     # widest tick label to axis title (ink to ink), px
 _TITLE_GAP_BOX = 20                # the same gap measured between matplotlib text boxes
@@ -86,9 +87,9 @@ def _frame():
     for s in ax.spines.values():
         s.set_visible(False)
     ax.tick_params(length=0, colors=COLORS["text"], labelsize=TICK_SIZE * PT, labelfontfamily=FONT)
-    # backdrop: white, transparent at the top, 50% at the bottom
+    # backdrop: #E5E5E5, transparent at the top, 50% at the bottom
     grad = np.zeros((256, 1, 4))
-    grad[..., :3] = 1
+    grad[..., :3] = matplotlib.colors.to_rgb(COLORS["backdrop"])
     grad[:, 0, 3] = np.linspace(0, 0.5, 256)
     ax.imshow(grad, extent=(0, 1, 0, 1), transform=ax.transAxes, aspect="auto",
               origin="upper", zorder=Z["backdrop"], interpolation="bilinear")

@@ -3,7 +3,7 @@
 This file is the single reference for how hzero looks. Read it before making a chart, a page or a slide.
 Claude reads it through `CLAUDE.md`.
 
-Part 1 covers the brand basics shared with the website. Part 2 is the chart specification: it was measured from the two reference charts (`graph_1.svg`, and a PNG of the systems-by-segment chart), so every value below is a measurement, not a guess. Part 3 explains how Jupyter produces charts in this style.
+Part 1 covers the brand basics shared with the website. Part 2 is the chart specification: it was measured from the reference charts (`graph_1.svg`, updated by `graph_3.svg` with a white background, a `#E5E5E5` backdrop and more space under the category labels, plus a PNG of the systems-by-segment chart), so every value below is a measurement, not a guess. Part 3 explains how Jupyter produces charts in this style.
 
 Units: px. Chart values refer to the 1920 × 1080 slide frame at 1×.
 
@@ -54,9 +54,9 @@ Layout: a 12-column grid with 54 px margins and 24 px gutters on desktop (30/15 
 
 | Output | Size | Background | Text | File |
 |---|---|---|---|---|
-| Slide | 1920 × 1080 frame | `#E5E5E5`, full frame | outlined (paths) | `exports/slides/<name>.svg` |
-| Slide, image | 3840 × 2160 (2×) | `#E5E5E5`, full frame | rendered | `exports/slides/<name>.png` |
-| Website | chart + 48 px on every side | `#E5E5E5`, square corners | outlined (paths) | `web/public/charts/<name>.svg` |
+| Slide | 1920 × 1080 frame | white, full frame | outlined (paths) | `exports/slides/<name>.svg` |
+| Slide, image | 3840 × 2160 (2×) | white, full frame | rendered | `exports/slides/<name>.png` |
+| Website | chart + 48 px on every side | white | outlined (paths) | `web/public/charts/<name>.svg` |
 
 Text is outlined in every SVG, so files render identically without Inter installed. On the website, the `alt` text carries what the chart says.
 
@@ -75,8 +75,8 @@ All charts share one fixed plot box. Slides then line up when you step from one 
 | Bar centre | `560 + i × (bar width + 3) + bar width / 2` |
 | Tick label to plot edge | 13 (left axis: right-aligned; right axis: left-aligned) |
 | Tick label, vertical | Centred on its gridline (centre of the digits' ink) |
-| Category label | Centred on the bar. Cap top 6 below the plot, so the first baseline is 17 below the plot (y 752). |
-| Two-line category label | Line pitch 15.4 (second baseline at y 767.4) |
+| Category label | Centred on the bar. Cap top 12 below the plot, so the first baseline is 23 below the plot (y 758). |
+| Two-line category label | Line pitch 15.4 (second baseline at y 773.4) |
 | Axis title to tick labels | 22, measured between the ink |
 | Axis title, vertical | Centred on the plot box |
 | Gridline | 1 px high, full plot width |
@@ -85,8 +85,8 @@ All charts share one fixed plot box. Slides then line up when you step from one 
 
 ### 2.3 Layer order (bottom to top)
 
-1. Canvas, `#E5E5E5`, full frame.
-2. Plot backdrop: a rectangle the size of the plot box, filled with a vertical gradient from white at 0% opacity at the top to white at 50% opacity at the bottom.
+1. Canvas, white `#FFFFFF`, full frame.
+2. Plot backdrop: a rectangle the size of the plot box, filled with a vertical gradient of `#E5E5E5` from 0% opacity at the top to 50% opacity at the bottom.
 3. Gridlines.
 4. Bars.
 5. Lines.
@@ -99,7 +99,8 @@ Gridlines sit under the bars, so a bar hides the gridlines it crosses. That's wh
 
 | Token | Value | Role |
 |---|---|---|
-| canvas | `#E5E5E5` | Frame and web background |
+| canvas | `#FFFFFF` | Frame and web background |
+| backdrop | `#E5E5E5` | Plot backdrop gradient, 0% at the top to 50% at the bottom |
 | grid | `#D2D2D2` | Gridlines |
 | text | `#000000` | All chart text |
 | green | `#446455` | Bar: primary series, top of a stack |
@@ -212,4 +213,4 @@ jupyter lab charts.ipynb
 - Always build charts through `hzero_charts`. Never style matplotlib, Plotly or any other library by hand.
 - If a chart type is missing (a horizontal bar, an area chart), add a function to `hzero_charts` that follows sections 2.2–2.8. Then update this file in the same change.
 - Never invent colours, sizes or fonts. Take them from this file; if something isn't covered, ask.
-- Check every new chart against the reference geometry: the plot box, the 3 px headroom, and the 6, 13 and 22 px offsets.
+- Check every new chart against the reference geometry: the plot box, the 3 px headroom, and the 12, 13 and 22 px offsets.
