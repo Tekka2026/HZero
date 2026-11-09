@@ -273,8 +273,8 @@ main > div > section { padding-block: 150px 0; }
   padding: 3px;
   border-radius: 22px;
   background: rgb(255 255 255 / 0.4);
-  backdrop-filter: blur(18px) saturate(1.2);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(18px) saturate(1.2);
   transition: background-color 0.2s;
 }
 
@@ -362,8 +362,8 @@ main > div > section { padding-block: 150px 0; }
     border-radius: 12px;
     background: rgb(255 255 255 / 0.4);
     box-shadow: 0 2px 3px rgb(0 0 0 / 0.1);
-    backdrop-filter: blur(18px) saturate(1.2);
     -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    backdrop-filter: blur(18px) saturate(1.2);
     cursor: pointer;
   }
   .menu-icon { position: relative; width: 15px; height: 10px; }
