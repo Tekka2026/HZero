@@ -34,6 +34,7 @@ const SHAPE_COLOR = "204, 204, 204";   // #CCCCCC, as in the logo
 const SHAPE_DEPTH_PX = 6;      // thickness of the shape
 const SHAPE_FACE_ALPHA = 0.45, SHAPE_SIDE_ALPHA = 0.3;   // see-through, so the lines show
 const LIT = [226, 242, 142];   // #E2F28E: the shape lights up whenever a stroke crosses it
+const START_FADE_SECONDS = 2;  // a starting square fades out this long after its stroke has left it
 const LIT_SHARE = 0.2;         // only some strokes light the shape
 const LIT_FADE = 0.12;         // how long the light lasts, as a share of a stroke's trip (about half a second)
 const toShape = (pts: number[]): V3[] => {
@@ -227,6 +228,7 @@ export function mountSphere(host: HTMLElement) {
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     let lit = 0;                                     // 0 grey ... 1 fully lit
+    const startAlpha = new Map<number, number>();    // starting squares: shown while their stroke departs
     // which lines are active right now; their squares show black (start) or #82816D (arrival)
     const level = flowing ? ACTIVE_MIN + (1 - ACTIVE_MIN) * (0.5 + 0.5 * Math.sin((time / 1000 / ACTIVE_SECONDS) * Math.PI * 2)) : 1;
     const vis = curves.map((c) => Math.max(0, Math.min(1, (level - c.rank) / ACTIVE_FADE)));
@@ -264,7 +266,14 @@ export function mountSphere(host: HTMLElement) {
         const atShape = at[1 + c.bendsIn.length] / total;
         if (c.lights && vis[n] > 0 && head >= atShape && head - atShape < LIT_FADE) lit = Math.max(lit, (1 - (head - atShape) / LIT_FADE) * vis[n]);
         if (c.surf && head >= 1) hits.push({ p: project(p1), alpha: (1 - (head - 1) / STROKE) * vis[n] });   // the stroke has arrived
-      } else if (c.surf) hits.push({ p: project(p1), alpha: 1 });
+        // the starting square shows as the stroke sets off, then fades once the stroke's tail has left it
+        const fade = (START_FADE_SECONDS * c.speed) / FLOW_SECONDS;             // the fade, in route lengths
+        const a = (head <= STROKE ? 1 : Math.max(0, 1 - (head - STROKE) / fade)) * vis[n];
+        startAlpha.set(c.a, Math.max(startAlpha.get(c.a) ?? 0, a));
+      } else {
+        if (c.surf) hits.push({ p: project(p1), alpha: 1 });
+        startAlpha.set(c.a, 1);
+      }
       // break the visible piece at its ends, at every corner and at every opacity step
       const marks = [from, to, ...at.map((d) => d / total), ...PARTS.map((_, k) => tail + (k * span) / PARTS.length)]
         .filter((f) => f >= from && f <= to).sort((x, y) => x - y);
@@ -338,10 +347,13 @@ export function mountSphere(host: HTMLElement) {
       ctx.fillRect(snap(p[0]), snap(p[1]), SQUARE, SQUARE);
     }
 
-    // the squares: light grey without a line, black where lines start, #82816D where they arrive
+    // the squares: light grey without a line, #82816D where lines arrive, black where a stroke has just set off
     points.forEach((p, i) => {
       const [x, y, z] = project(rot(p));
-      const alpha = z >= 0 ? 1 : 0.35 + (z + 1) * 0.4;           // fainter on the far side
+      let alpha = z >= 0 ? 1 : 0.35 + (z + 1) * 0.4;             // fainter on the far side
+      const startOnly = shown.has(i) && !receives.has(i);
+      if (startOnly) alpha *= startAlpha.get(i) ?? 0;            // starting squares come and go with their stroke
+      if (alpha <= 0.01) return;
       ctx.fillStyle = `rgba(${!shown.has(i) ? IDLE : receives.has(i) ? RECEIVER : INK}, ${alpha.toFixed(3)})`;
       ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
     });
