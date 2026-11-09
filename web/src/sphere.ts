@@ -2,7 +2,7 @@
  * "Why it matters" visual: a sphere of connections.
  *
  * The outer ring is the sphere's outline, marked with 2 x 2 px squares; squares without a line
- * are light grey. Each line runs from a ring square through a shared point inside the sphere to another ring
+ * are light grey, and light grey dots cover the sphere's surface. Each line runs from a ring square through a shared point inside the sphere to another ring
  * square or to a point on the sphere's surface; a stroke keeps travelling along it from A to B.
  * Squares that receive a line are #82816D; surface points only show a square when a stroke arrives.
  * The globe turns on its own and can be dragged. A sphere's outline looks the same from every
@@ -13,13 +13,17 @@
 type V3 = [number, number, number];
 
 const SAMPLES = 64;            // points per curve
+const D = 3.4;                 // camera distance, in sphere radii
+// the sphere's outline seen from the camera: a circle at depth 1/D, radius sqrt(1 - 1/D^2)
+const OUTLINE_Z = 1 / D, OUTLINE_R = Math.sqrt(1 - 1 / (D * D));
 const SQUARE = 2;              // px
 const ORBIT_SECONDS = 48;      // one turn of the globe when left alone
 const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
 const INK = "10, 10, 10";
 const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
-const IDLE = "210, 210, 210";       // #D2D2D2: ring squares without a line
+const IDLE = "210, 210, 210";       // #D2D2D2: ring squares without a line, dots on the surface
+const SURFACE_DOTS = 420;      // evenly spread points on the sphere; 60% of them are shown, like the ring
 
 function rng(seed: number) {
   return () => {
@@ -51,7 +55,7 @@ function build(): { ring: V3[]; curves: Curve[] } {
   for (let i = 0; i < SLOTS; i++) {
     if (!keep.has(i)) continue;
     const t = (i / SLOTS) * Math.PI * 2 - Math.PI / 2;
-    ring.push([Math.cos(t), Math.sin(t), 0]);
+    ring.push([Math.cos(t) * OUTLINE_R, Math.sin(t) * OUTLINE_R, OUTLINE_Z]);
     angle.push(t);
   }
   const jitter = (r: number): V3 => {
@@ -104,6 +108,14 @@ export function mountSphere(host: HTMLElement) {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
   const { ring, curves } = build();
+
+  // dots on the sphere's surface (Fibonacci spread), turning with the globe
+  const dotRand = rng(11);
+  const dots: V3[] = [];
+  for (let i = 0; i < SURFACE_DOTS; i++) {
+    const y = 1 - (2 * (i + 0.5)) / SURFACE_DOTS, k = Math.sqrt(1 - y * y), phi = i * Math.PI * (3 - Math.sqrt(5));
+    if (dotRand() < FILL) dots.push([k * Math.cos(phi), y, k * Math.sin(phi)]);
+  }
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // which ring squares are shown, and which of them receive a line
@@ -145,9 +157,9 @@ export function mountSphere(host: HTMLElement) {
   host.addEventListener("pointerup", release);
   host.addEventListener("pointercancel", release);
 
-  const D = 3.4;                                   // camera distance, in sphere radii
   const draw = (time: number, flowing: boolean) => {
-    const R = Math.min(w, h) / 2 - 6, cx = w / 2, cy = h / 2;
+    // scale so the outline (projected radius D / sqrt(D^2 - 1)) fits with 6 px to spare
+    const R = (Math.min(w, h) / 2 - 6) * Math.sqrt(D * D - 1) / D, cx = w / 2, cy = h / 2;
     const project = ([x, y, z]: V3) => { const k = D / (D - z); return [cx + x * R * k, cy + y * R * k, z] as const; };
     const snap = (v: number) => Math.round(v * dpr) / dpr - SQUARE / 2;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -155,6 +167,13 @@ export function mountSphere(host: HTMLElement) {
 
     const rot = (v: V3) => rotate(v, yaw, pitch);
     const hub = rot([-0.42, -0.08, 0.25]);          // the shared point, fixed inside the globe
+
+    // surface dots: light grey, fainter on the far side
+    for (const d of dots) {
+      const [x, y, z] = project(rot(d));
+      ctx.fillStyle = `rgba(${IDLE}, ${z >= 0 ? 1 : (0.35 + (z + 1) * 0.4).toFixed(3)})`;
+      ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
+    }
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     const paths = curves.map((c) => {
@@ -212,7 +231,8 @@ export function mountSphere(host: HTMLElement) {
     // the ring: light grey without a line, black where lines start, #82816D where they arrive
     ring.forEach((p, i) => {
       ctx.fillStyle = `rgb(${!shown.has(i) ? IDLE : receives.has(i) ? RECEIVER : INK})`;
-      ctx.fillRect(snap(cx + p[0] * R), snap(cy + p[1] * R), SQUARE, SQUARE);
+      const [x, y] = project(p);
+      ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
     });
   };
 
