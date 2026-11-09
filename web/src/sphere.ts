@@ -3,19 +3,22 @@
  *
  * 4 x 4 px squares sit all over the surface of a sphere (60% of an even spread of positions).
  * Squares without a line are light grey (#D2D2D2), squares where lines start are black, squares
- * that receive a line are #82816D. Each line runs from a square through a smaller sphere inside the
- * big one (24 light grey squares) to a square on the other half, or to a hidden point that only shows a square when a stroke
- * arrives. A stroke keeps travelling along every line from A to B. Everything is 3D and turns
- * together; the globe turns on its own and can be dragged. Squares on the far side are fainter.
+ * that receive a line are #82816D. Each line is made of straight stretches with sharp corners: it
+ * runs from a square into a smaller sphere inside the big one (24 light grey squares, drifting in
+ * the inner 40%) and on to a square on the other half, or to a hidden point that only shows a
+ * square when a stroke arrives. On the way it may kink 1-3 times, each kink a hook of at most 15% of
+ * that stretch. A stroke keeps travelling along every line from A to B. Everything is 3D and turns
+ * together, very slowly, around a diagonal axis; the globe can be dragged. Far squares are fainter.
  * Canvas 2D with its own 3D projection, so lines and squares stay pixel-sharp.
  */
 
 type V3 = [number, number, number];
 
-const SAMPLES = 64;            // points per curve
 const D = 3.4;                 // camera distance, in sphere radii
 const SQUARE = 4;              // px
-const ORBIT_SECONDS = 48;      // one turn of the globe when left alone
+const ORBIT_SECONDS = 240;     // one turn of the globe when left alone: very slow
+const AXIS: V3 = [Math.SQRT1_2, Math.SQRT1_2, 0];   // it turns around a diagonal axis
+const HOOK = 0.15;             // a kink moves the line sideways by at most 15% of that stretch
 const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
 // a stroke is drawn in 7 equal parts, tail to head, at these opacities
@@ -50,11 +53,16 @@ function rng(seed: number) {
 }
 
 /** b: points square the line ends at; surf: or a point on the sphere's surface, only shown when a stroke arrives */
-interface Curve { a: number; b: number; surf?: V3; j1: V3; j2: V3; pull: number; highlight: boolean; delay: number; speed: number }
+interface Bend { f: number; dir: V3; amount: number }
+interface Curve { a: number; b: number; surf?: V3; rank: number; j1: V3; bendsIn: Bend[]; bendsOut: Bend[]; highlight: boolean; delay: number; speed: number }
 
 const SLOTS = 420;              // possible positions on the sphere
 const FILL = 0.6;              // at most 60% of the positions hold a square
-const CONNECTED = 0.35;        // share of squares with a line (kept within 30-60%)
+const CONNECTED = 0.4;         // most squares that can have a line
+// the lines come and go: the share of squares with an active line rises and falls between 20% and 40%
+const ACTIVE_MIN = 0.34;       // of the possible lines, which leaves about 20% of the squares connected
+const ACTIVE_SECONDS = 24;     // one rise and fall
+const ACTIVE_FADE = 0.06;      // how gently a line fades in or out
 const SURFACE_SHARE = 0.3;     // share of lines that end at a hidden point, shown only when a stroke arrives
 
 function build(): { points: V3[]; curves: Curve[] } {
@@ -75,7 +83,14 @@ function build(): { points: V3[]; curves: Curve[] } {
   // partners sit on the other half of the sphere, so every line crosses the inside
   const far = (a: number, b: number) => points[a][0] * points[b][0] + points[a][1] * points[b][1] + points[a][2] * points[b][2] < 0;
   const curves: Curve[] = [];
-  const add = (a: number, b: number, surf?: V3) => curves.push({ a, b, surf, j1: jitter(0.32), j2: jitter(0.32), pull: 0.7 + rand() * 0.25, highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
+  // 1-3 kinks per line, spread over the stretch into the small sphere and the stretch out of it
+  const bends = (n: number): Bend[] => Array.from({ length: n }, () => ({ f: 0.2 + rand() * 0.6, dir: jitter(1), amount: (rand() * 2 - 1) * HOOK }))
+    .sort((x, y) => x.f - y.f);
+  const add = (a: number, b: number, surf?: V3) => {
+    const total = 1 + Math.floor(rand() * 3);
+    const into = Math.floor(rand() * (total + 1));
+    curves.push({ a, b, surf, rank: rand(), j1: jitter(0.32), bendsIn: bends(into), bendsOut: bends(total - into), highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
+  };
   // every connected square gets one or two lines, never more
   const degree = new Map<number, number>(ids.map((i) => [i, 0]));
   const want = new Map<number, number>(ids.map((i) => [i, rand() < 0.5 ? 2 : 1]));
@@ -100,15 +115,29 @@ function build(): { points: V3[]; curves: Curve[] } {
   return { points, curves };
 }
 
-function rotate([x, y, z]: V3, yaw: number, pitch: number): V3 {
-  const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
-  const x1 = x * cy + z * sy, z1 = -x * sy + z * cy;          // turn around the vertical axis
-  return [x1, y * cp - z1 * sp, y * sp + z1 * cp];            // then tilt towards the viewer
-}
+type M3 = number[];               // 3 x 3 rotation matrix, row by row
 
-function bezier(p0: V3, c1: V3, c2: V3, p1: V3, t: number): V3 {
-  const u = 1 - t, a = u * u * u, b = 3 * u * u * t, c = 3 * u * t * t, d = t * t * t;
-  return [a * p0[0] + b * c1[0] + c * c2[0] + d * p1[0], a * p0[1] + b * c1[1] + c * c2[1] + d * p1[1], a * p0[2] + b * c1[2] + c * c2[2] + d * p1[2]];
+const apply = (m: M3, [x, y, z]: V3): V3 => [m[0] * x + m[1] * y + m[2] * z, m[3] * x + m[4] * y + m[5] * z, m[6] * x + m[7] * y + m[8] * z];
+const mul = (a: M3, b: M3): M3 => [0, 1, 2].flatMap((r) => [0, 1, 2].map((c) => a[r * 3] * b[c] + a[r * 3 + 1] * b[3 + c] + a[r * 3 + 2] * b[6 + c]));
+/** Rotation by `angle` around the unit vector `u`. */
+function axisAngle([x, y, z]: V3, angle: number): M3 {
+  const c = Math.cos(angle), s = Math.sin(angle), t = 1 - c;
+  return [t * x * x + c, t * x * y - s * z, t * x * z + s * y, t * x * y + s * z, t * y * y + c, t * y * z - s * x, t * x * z - s * y, t * y * z + s * x, t * z * z + c];
+}
+const add3 = (a: V3, b: V3, k = 1): V3 => [a[0] + b[0] * k, a[1] + b[1] * k, a[2] + b[2] * k];
+const sub3 = (a: V3, b: V3): V3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const len3 = (a: V3) => Math.hypot(a[0], a[1], a[2]);
+
+/** Corner points of a straight stretch from p to q with sideways kinks. */
+function kinked(p: V3, q: V3, bends: Bend[]): V3[] {
+  const d = sub3(q, p), L = len3(d) || 1, u: V3 = [d[0] / L, d[1] / L, d[2] / L];
+  return bends.map(({ f, dir, amount }) => {
+    const along = dir[0] * u[0] + dir[1] * u[1] + dir[2] * u[2];
+    let side = sub3(dir, [u[0] * along, u[1] * along, u[2] * along]);   // part of dir across the stretch
+    const sl = len3(side) || 1;
+    side = [side[0] / sl, side[1] / sl, side[2] / sl];
+    return add3(add3(p, d, f), side, amount * L);
+  });
 }
 
 export function mountSphere(host: HTMLElement) {
@@ -122,10 +151,6 @@ export function mountSphere(host: HTMLElement) {
 
   // which points squares are shown, and which of them receive a line
   const shown = new Set<number>(), receives = new Set<number>();
-  for (const c of curves) {
-    shown.add(c.a);
-    if (!c.surf) { shown.add(c.b); receives.add(c.b); }
-  }
 
   let w = 0, h = 0, dpr = 1;
   const resize = () => {
@@ -138,7 +163,13 @@ export function mountSphere(host: HTMLElement) {
 
   // orientation: turns on its own, can be dragged, keeps a little momentum after a drag
   const AUTO = reduce ? 0 : (Math.PI * 2) / ORBIT_SECONDS;     // rad per second
-  let yaw = 0.6, pitch = -0.25, vYaw = AUTO, vPitch = 0;
+  const autoSpin: V3 = [AXIS[0] * AUTO, AXIS[1] * AUTO, AXIS[2] * AUTO];
+  let orient: M3 = mul(axisAngle([1, 0, 0], -0.25), axisAngle([0, 1, 0], 0.6));
+  let spin: V3 = [...autoSpin];                                 // angular velocity, rad per second
+  const turnBy = (w: V3, dt: number) => {
+    const a = len3(w) * dt;
+    if (a > 1e-7) orient = mul(axisAngle([w[0] / len3(w), w[1] / len3(w), w[2] / len3(w)], a), orient);
+  };
   let dragging = false, lastX = 0, lastY = 0, lastT = 0;
   host.addEventListener("pointerdown", (e) => {
     dragging = true; lastX = e.clientX; lastY = e.clientY; lastT = performance.now();
@@ -150,8 +181,9 @@ export function mountSphere(host: HTMLElement) {
     const now = performance.now(), dt = Math.max(1, now - lastT) / 1000;
     const dx = e.clientX - lastX, dy = e.clientY - lastY;
     const k = 3 / Math.max(200, host.clientWidth);              // a drag across the globe is about half a turn
-    yaw += dx * k; pitch = Math.max(-1.2, Math.min(1.2, pitch + dy * k));
-    vYaw = (dx * k) / dt; vPitch = (dy * k) / dt;
+    // dragging turns the globe around the screen's vertical and horizontal axes
+    orient = mul(mul(axisAngle([0, 1, 0], dx * k), axisAngle([1, 0, 0], -dy * k)), orient);
+    spin = [(-dy * k) / dt, (dx * k) / dt, 0];
     lastX = e.clientX; lastY = e.clientY; lastT = now;
     if (!running) draw(clock, !reduce);
   });
@@ -167,61 +199,79 @@ export function mountSphere(host: HTMLElement) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    const rot = (v: V3) => rotate(v, yaw, pitch);
+    const rot = (v: V3) => apply(orient, v);
     const hubLocal = hubAt(time / 1000);
     const hub = rot(hubLocal);                       // centre of the smaller sphere, drifting inside the core
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
-    const paths = curves.map((c) => {
-      const p0 = rot(points[c.a]);
-      const p1: V3 = c.surf ? rot(c.surf) : rot(points[c.b]);
-      // each curve runs square -> shared point -> square, passing through the point smoothly
-      const j1 = rot(c.j1), j2 = rot(c.j2);
-      const m: V3 = [hub[0] + j1[0] * 0.35, hub[1] + j1[1] * 0.35, hub[2] + j1[2] * 0.35];   // a point inside the smaller sphere
-      let d: V3 = [p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]];
-      const len = Math.hypot(d[0], d[1], d[2]) || 1;
-      d = [d[0] / len, d[1] / len, d[2] / len];
-      const reach = 0.28 * c.pull;
-      const a1: V3 = [p0[0] + (m[0] - p0[0]) * 0.45 + j1[0] * 0.6, p0[1] + (m[1] - p0[1]) * 0.45 + j1[1] * 0.6, p0[2] + (m[2] - p0[2]) * 0.45 + j1[2] * 0.6];
-      const a2: V3 = [m[0] - d[0] * reach, m[1] - d[1] * reach, m[2] - d[2] * reach];
-      const b1: V3 = [m[0] + d[0] * reach, m[1] + d[1] * reach, m[2] + d[2] * reach];
-      const b2: V3 = [p1[0] + (m[0] - p1[0]) * 0.45 + j2[0] * 0.6, p1[1] + (m[1] - p1[1]) * 0.45 + j2[1] * 0.6, p1[2] + (m[2] - p1[2]) * 0.45 + j2[2] * 0.6];
+    // which lines are active right now; their squares show black (start) or #82816D (arrival)
+    const level = flowing ? ACTIVE_MIN + (1 - ACTIVE_MIN) * (0.5 + 0.5 * Math.sin((time / 1000 / ACTIVE_SECONDS) * Math.PI * 2)) : 1;
+    const vis = curves.map((c) => Math.max(0, Math.min(1, (level - c.rank) / ACTIVE_FADE)));
+    shown.clear(); receives.clear();
+    curves.forEach((c, n) => {
+      if (vis[n] < 0.5) return;
+      shown.add(c.a);
+      if (!c.surf) { shown.add(c.b); receives.add(c.b); }
+    });
+
+    const paths = curves.map((c, n) => {
+      // corner points in the globe's own space, so the kinks turn with it
+      const A = points[c.a];
+      const B: V3 = c.surf ?? points[c.b];
+      const M = add3(hubLocal, c.j1, 0.35);                     // a point inside the smaller sphere
+      const corners: V3[] = [A, ...kinked(A, M, c.bendsIn), M, ...kinked(M, B, c.bendsOut), B];
+      const at: number[] = [0];                                 // distance along the line to each corner
+      for (let i = 1; i < corners.length; i++) at.push(at[i - 1] + len3(sub3(corners[i], corners[i - 1])));
+      const total = at[at.length - 1];
+      const pointAt = (f: number): V3 => {
+        const d = f * total;
+        let i = 1;
+        while (i < at.length - 1 && at[i] < d) i++;
+        const t = (d - at[i - 1]) / ((at[i] - at[i - 1]) || 1);
+        return add3(corners[i - 1], sub3(corners[i], corners[i - 1]), t);
+      };
+      const p1 = rot(B);
       // a stroke travels from square A to square B, then starts again at A
-      let from = 0, to = 1, tail = 0, span = 1;      // tail/span: where the 7 parts sit along the route
+      let from = 0, to = 1, tail = 0, span = 1;                 // tail/span: where the 7 parts sit along the line
       if (flowing) {
         const head = ((time / 1000 / FLOW_SECONDS) * c.speed + c.delay) % (1 + STROKE);
         from = Math.max(0, head - STROKE); to = Math.min(1, head);
         tail = head - STROKE; span = STROKE;
-        if (c.surf && head >= 1) hits.push({ p: project(p1), alpha: 1 - (head - 1) / STROKE });   // the stroke has arrived
+        if (c.surf && head >= 1) hits.push({ p: project(p1), alpha: (1 - (head - 1) / STROKE) * vis[n] });   // the stroke has arrived
       } else if (c.surf) hits.push({ p: project(p1), alpha: 1 });
-      const pts = [];
+      // break the visible piece at its ends, at every corner and at every opacity step
+      const marks = [from, to, ...at.map((d) => d / total), ...PARTS.map((_, k) => tail + (k * span) / PARTS.length)]
+        .filter((f) => f >= from && f <= to).sort((x, y) => x - y);
+      const pts: (readonly [number, number, number])[] = [];
       const part: number[] = [];
       let depth = 0;
-      const half = SAMPLES / 2;
-      for (let i = Math.floor(SAMPLES * from); i <= SAMPLES * to; i++) {
-        const q = i <= half ? bezier(p0, a1, a2, m, i / half) : bezier(m, b1, b2, p1, (i - half) / half);
+      for (const f of marks) {
+        const q = rot(pointAt(f));
         depth += q[2];
         pts.push(project(q));
-        part.push(Math.min(PARTS.length - 1, Math.max(0, Math.floor(((i / SAMPLES - tail) / span) * PARTS.length))));
       }
-      return { c, pts, part, depth: pts.length ? depth / pts.length : 0 };
+      for (let i = 1; i < marks.length; i++) {
+        const mid = (marks[i - 1] + marks[i]) / 2;
+        part.push(Math.min(PARTS.length - 1, Math.max(0, Math.floor(((mid - tail) / span) * PARTS.length))));
+      }
+      return { c, pts, part, v: vis[n], depth: pts.length ? depth / pts.length : 0 };
     });
     paths.sort((a, b) => a.depth - b.depth);            // far curves first
 
     ctx.lineWidth = 0.75;
-    ctx.lineJoin = "round";
-    for (const { c, pts, part, depth } of paths) {
-      if (pts.length < 2) continue;
+    ctx.lineJoin = "miter";
+    for (const { c, pts, part, v, depth } of paths) {
+      if (pts.length < 2 || v <= 0) continue;
       const near = Math.max(0, Math.min(1, (depth + 0.6) / 1.2));   // 0 far ... 1 near
-      const depthFactor = c.highlight ? 1 : 0.5 + near * 0.5;       // far lines a little lighter
+      const depthFactor = (c.highlight ? 1 : 0.5 + near * 0.5) * v;   // far lines a little lighter; fading lines fainter
       // draw the stroke part by part, each at its own opacity
       let i = 0;
       while (i < pts.length - 1) {
-        const k = part[i + 1];
+        const k = part[i];
         ctx.strokeStyle = `rgba(${INK}, ${(PARTS[k] * depthFactor).toFixed(3)})`;
         ctx.beginPath();
         ctx.moveTo(pts[i][0], pts[i][1]);
-        while (i < pts.length - 1 && part[i + 1] === k) { i++; ctx.lineTo(pts[i][0], pts[i][1]); }
+        while (i < pts.length - 1 && part[i] === k) { i++; ctx.lineTo(pts[i][0], pts[i][1]); }
         ctx.stroke();
       }
     }
@@ -262,11 +312,10 @@ export function mountSphere(host: HTMLElement) {
     last = now;
     clock += dt * 1000;
     if (!dragging) {
-      // after a drag, ease back to the steady turn
-      vYaw += (AUTO - vYaw) * Math.min(1, dt * 1.5);
-      vPitch += (0 - vPitch) * Math.min(1, dt * 1.5);
-      yaw += vYaw * dt;
-      pitch = Math.max(-1.2, Math.min(1.2, pitch + vPitch * dt));
+      // after a drag, ease back to the slow diagonal turn
+      const e = Math.min(1, dt * 1.5);
+      spin = [spin[0] + (autoSpin[0] - spin[0]) * e, spin[1] + (autoSpin[1] - spin[1]) * e, spin[2] + (autoSpin[2] - spin[2]) * e];
+      turnBy(spin, dt);
     }
     draw(clock, true);
     raf = requestAnimationFrame(loop);
