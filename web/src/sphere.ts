@@ -26,11 +26,13 @@ function rng(seed: number) {
   };
 }
 
-interface Curve { a: number; b: number; j1: V3; j2: V3; pull: number; highlight: boolean; delay: number; speed: number }
+/** b: ring square the line ends at; surf: or a point on the sphere's surface, only shown when a stroke arrives */
+interface Curve { a: number; b: number; surf?: V3; j1: V3; j2: V3; pull: number; highlight: boolean; delay: number; speed: number }
 
 const SLOTS = 160;              // possible positions on the ring
 const FILL = 0.6;              // at most 60% of the positions hold a square
 const CONNECTED = 0.45;        // share of squares with a line (kept within 30-60%)
+const SURFACE_SHARE = 0.45;    // share of lines that end on the sphere's surface instead of the ring
 
 function build(): { ring: V3[]; curves: Curve[] } {
   const rand = rng(7);
@@ -56,12 +58,18 @@ function build(): { ring: V3[]; curves: Curve[] } {
   const ids = [...ring.keys()].sort(() => rand() - 0.5).slice(0, Math.round(ring.length * CONNECTED));
   const far = (a: number, b: number) => { const d = Math.abs(angle[a] - angle[b]) % (Math.PI * 2); return Math.min(d, Math.PI * 2 - d) > Math.PI / 2; };
   const curves: Curve[] = [];
-  const add = (a: number, b: number) => curves.push({ a, b, j1: jitter(0.32), j2: jitter(0.32), pull: 0.7 + rand() * 0.25, highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
+  const add = (a: number, b: number, surf?: V3) => curves.push({ a, b, surf, j1: jitter(0.32), j2: jitter(0.32), pull: 0.7 + rand() * 0.25, highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
   // every connected square gets one or two lines, never more
   const degree = new Map<number, number>(ids.map((i) => [i, 0]));
   const want = new Map<number, number>(ids.map((i) => [i, rand() < 0.5 ? 2 : 1]));
   for (const a of ids) {
     while ((degree.get(a) ?? 0) < (want.get(a) ?? 1)) {
+      if (rand() < SURFACE_SHARE) {                       // this line ends somewhere on the sphere's surface
+        const u = rand() * 2 - 1, phi = rand() * Math.PI * 2, k = Math.sqrt(1 - u * u);
+        add(a, a, [k * Math.cos(phi), u, k * Math.sin(phi)]);
+        degree.set(a, (degree.get(a) ?? 0) + 1);
+        continue;
+      }
       const options = ids.filter((b) => b !== a && far(a, b) && (degree.get(b) ?? 0) < 2);
       if (!options.length) break;
       const b = options[Math.floor(rand() * options.length)];
@@ -123,8 +131,10 @@ export function mountSphere(host: HTMLElement) {
     // the shared point orbits through the depth of the sphere
     const hub = rotY([-0.42 + px * 0.12, -0.08 + py * 0.12 + Math.sin(turn * 2) * 0.06, 0.25], turn);
 
+    const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     const paths = curves.map((c) => {
-      const p0 = ring[c.a], p1 = ring[c.b];
+      const p0 = ring[c.a];
+      const p1: V3 = c.surf ? rotY(c.surf, turn) : ring[c.b];
       // each curve runs square -> shared point -> square, passing through the point smoothly
       const j1 = rotY(c.j1, turn * 1.6), j2 = rotY(c.j2, turn * 1.6);
       const m: V3 = [hub[0] + j1[0] * 0.12, hub[1] + j1[1] * 0.12, hub[2] + j1[2] * 0.12];   // tight pinch
@@ -141,7 +151,8 @@ export function mountSphere(host: HTMLElement) {
       if (flowing) {
         const head = ((time / 1000 / FLOW_SECONDS) * c.speed + c.delay) % (1 + STROKE);
         from = Math.max(0, head - STROKE); to = Math.min(1, head);
-      }
+        if (c.surf && head >= 1) hits.push({ p: project(p1), alpha: 1 - (head - 1) / STROKE });   // the stroke has arrived
+      } else if (c.surf) hits.push({ p: project(p1), alpha: 1 });
       const pts = [];
       let depth = 0;
       const half = SAMPLES / 2;
@@ -165,6 +176,12 @@ export function mountSphere(host: HTMLElement) {
       ctx.moveTo(pts[0][0], pts[0][1]);
       for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
       ctx.stroke();
+    }
+
+    // squares on the surface appear where a stroke arrives, then fade
+    for (const { p, alpha } of hits) {
+      ctx.fillStyle = `rgba(${INK}, ${Math.max(0, alpha).toFixed(3)})`;
+      ctx.fillRect(Math.round(p[0] * dpr) / dpr - SQUARE / 2, Math.round(p[1] * dpr) / dpr - SQUARE / 2, SQUARE, SQUARE);
     }
 
     // the ring: 2 x 2 px squares, snapped to the device pixel grid
