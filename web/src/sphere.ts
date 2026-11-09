@@ -31,6 +31,8 @@ const SHAPE_MAX_PX = 40;       // the shape is never larger than this on screen,
 const SHAPE_SPAN = 1.24;       // its longest straight-line extent (corner to corner), in shape heights
 const SHAPE_SPIN_SECONDS = 60;  // its own turn, against the globe's
 const SHAPE_COLOR = "204, 204, 204";   // #CCCCCC, as in the logo
+const SHAPE_DEPTH_PX = 6;      // thickness of the shape
+const SHAPE_FACE_ALPHA = 0.45, SHAPE_SIDE_ALPHA = 0.3;   // see-through, so the lines show
 const toShape = (pts: number[]): V3[] => {
   const out: V3[] = [];
   for (let i = 0; i < pts.length; i += 2) out.push([((pts[i] - 959.67) / 540) * SHAPE_H, ((pts[i + 1] - 540) / 540) * SHAPE_H, 0]);
@@ -274,14 +276,33 @@ export function mountSphere(host: HTMLElement) {
     });
     paths.sort((a, b) => a.depth - b.depth);            // far curves first
 
-    // the hzero shape: its outline filled, the opening left empty; the lines pass through the opening
-    ctx.fillStyle = `rgb(${SHAPE_COLOR})`;
-    ctx.beginPath();
-    for (const ring of [SHAPE_OUTER, SHAPE_INNER]) {
-      ring.forEach((v, i) => { const [x, y] = project(shapeWorld(v)); if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
-      ctx.closePath();
+    // the hzero shape, 6 px thick: front face, back face and side walls, drawn far to near, see-through
+    const halfDepth = SHAPE_DEPTH_PX / 2 / (R * shapeSize);         // in shape units
+    const face = (z: number) => [SHAPE_OUTER, SHAPE_INNER].map((ring) => ring.map((v) => project(shapeWorld([v[0], v[1], z]))));
+    const pieces: { polys: (readonly [number, number, number])[][]; alpha: number; z: number }[] = [];
+    for (const z of [-halfDepth, halfDepth]) {
+      const polys = face(z);
+      pieces.push({ polys, alpha: SHAPE_FACE_ALPHA, z: polys[0].reduce((t, p) => t + p[2], 0) / polys[0].length });
     }
-    ctx.fill("evenodd");
+    const front = face(halfDepth), backFace = face(-halfDepth);
+    for (let r = 0; r < 2; r++) {
+      const n = front[r].length;
+      for (let i = 0; i < n; i++) {
+        const j = (i + 1) % n;
+        const quad = [front[r][i], front[r][j], backFace[r][j], backFace[r][i]];
+        pieces.push({ polys: [quad], alpha: SHAPE_SIDE_ALPHA, z: quad.reduce((t, p) => t + p[2], 0) / 4 });
+      }
+    }
+    pieces.sort((a, b) => a.z - b.z);
+    for (const { polys, alpha } of pieces) {
+      ctx.fillStyle = `rgba(${SHAPE_COLOR}, ${alpha})`;
+      ctx.beginPath();
+      for (const poly of polys) {
+        poly.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+        ctx.closePath();
+      }
+      ctx.fill("evenodd");
+    }
 
     ctx.lineWidth = 0.75;
     ctx.lineJoin = "miter";
