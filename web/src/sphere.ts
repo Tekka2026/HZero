@@ -1,8 +1,8 @@
 /**
  * "Why it matters" visual: a sphere of connections.
  *
- * The outer ring is the sphere's outline, marked with 2 x 2 px squares. Only squares with a line are
- * shown. Each line runs from a ring square through a shared point inside the sphere to another ring
+ * The outer ring is the sphere's outline, marked with 2 x 2 px squares; squares without a line
+ * are light grey. Each line runs from a ring square through a shared point inside the sphere to another ring
  * square or to a point on the sphere's surface; a stroke keeps travelling along it from A to B.
  * Squares that receive a line are #82816D; surface points only show a square when a stroke arrives.
  * The globe turns on its own and can be dragged. A sphere's outline looks the same from every
@@ -19,6 +19,7 @@ const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
 const INK = "10, 10, 10";
 const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
+const IDLE = "210, 210, 210";       // #D2D2D2: ring squares without a line
 
 function rng(seed: number) {
   return () => {
@@ -208,10 +209,9 @@ export function mountSphere(host: HTMLElement) {
       ctx.fillRect(snap(p[0]), snap(p[1]), SQUARE, SQUARE);
     }
 
-    // the ring: only squares with a line; black where lines start, #82816D where they arrive
+    // the ring: light grey without a line, black where lines start, #82816D where they arrive
     ring.forEach((p, i) => {
-      if (!shown.has(i)) return;
-      ctx.fillStyle = `rgb(${receives.has(i) ? RECEIVER : INK})`;
+      ctx.fillStyle = `rgb(${!shown.has(i) ? IDLE : receives.has(i) ? RECEIVER : INK})`;
       ctx.fillRect(snap(cx + p[0] * R), snap(cy + p[1] * R), SQUARE, SQUARE);
     });
   };
