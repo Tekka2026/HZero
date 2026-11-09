@@ -33,6 +33,8 @@ const SHAPE_SPIN_SECONDS = 60;  // its own turn, against the globe's
 const SHAPE_COLOR = "204, 204, 204";   // #CCCCCC, as in the logo
 const SHAPE_DEPTH_PX = 6;      // thickness of the shape
 const SHAPE_FACE_ALPHA = 0.45, SHAPE_SIDE_ALPHA = 0.3;   // see-through, so the lines show
+const LIT = [226, 242, 142];   // #E2F28E: the shape lights up whenever a stroke crosses it
+const LIT_FADE = 0.12;         // how long the light lasts, as a share of a stroke's trip (about half a second)
 const toShape = (pts: number[]): V3[] => {
   const out: V3[] = [];
   for (let i = 0; i < pts.length; i += 2) out.push([((pts[i] - 959.67) / 540) * SHAPE_H, ((pts[i + 1] - 540) / 540) * SHAPE_H, 0]);
@@ -222,6 +224,7 @@ export function mountSphere(host: HTMLElement) {
     const shapeWorld = (v: V3) => add3(hub, apply(shapeOrient, [v[0] * shapeSize, v[1] * shapeSize, v[2] * shapeSize]));
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
+    let lit = 0;                                     // 0 grey ... 1 fully lit
     // which lines are active right now; their squares show black (start) or #82816D (arrival)
     const level = flowing ? ACTIVE_MIN + (1 - ACTIVE_MIN) * (0.5 + 0.5 * Math.sin((time / 1000 / ACTIVE_SECONDS) * Math.PI * 2)) : 1;
     const vis = curves.map((c) => Math.max(0, Math.min(1, (level - c.rank) / ACTIVE_FADE)));
@@ -255,6 +258,9 @@ export function mountSphere(host: HTMLElement) {
         const head = ((time / 1000 / FLOW_SECONDS) * c.speed + c.delay) % (1 + STROKE);
         from = Math.max(0, head - STROKE); to = Math.min(1, head);
         tail = head - STROKE; span = STROKE;
+        // the stroke's head has just passed through the shape: light it up, fading as the head moves on
+        const atShape = at[1 + c.bendsIn.length] / total;
+        if (vis[n] > 0 && head >= atShape && head - atShape < LIT_FADE) lit = Math.max(lit, (1 - (head - atShape) / LIT_FADE) * vis[n]);
         if (c.surf && head >= 1) hits.push({ p: project(p1), alpha: (1 - (head - 1) / STROKE) * vis[n] });   // the stroke has arrived
       } else if (c.surf) hits.push({ p: project(p1), alpha: 1 });
       // break the visible piece at its ends, at every corner and at every opacity step
@@ -295,7 +301,9 @@ export function mountSphere(host: HTMLElement) {
     }
     pieces.sort((a, b) => a.z - b.z);
     for (const { polys, alpha } of pieces) {
-      ctx.fillStyle = `rgba(${SHAPE_COLOR}, ${alpha})`;
+      const base = SHAPE_COLOR.split(", ").map(Number);
+      const col = base.map((v, i) => Math.round(v + (LIT[i] - v) * lit));
+      ctx.fillStyle = `rgba(${col.join(", ")}, ${(alpha + (1 - alpha) * 0.5 * lit).toFixed(3)})`;
       ctx.beginPath();
       for (const poly of polys) {
         poly.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
