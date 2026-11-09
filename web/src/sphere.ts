@@ -1,12 +1,12 @@
 /**
  * "Why it matters" visual: a sphere of connections.
  *
- * The outer ring is the sphere's outline, marked with 2 x 2 px squares; squares without a line
- * are light grey, and light grey dots cover the sphere's surface. Each line runs from a ring square through a shared point inside the sphere to another ring
+ * A ring of 2 x 2 px squares runs around the sphere; squares without a line are light grey, and
+ * light grey dots cover the sphere's surface. Each line runs from a ring square through a shared point inside the sphere to another ring
  * square or to a point on the sphere's surface; a stroke keeps travelling along it from A to B.
  * Squares that receive a line are #82816D; surface points only show a square when a stroke arrives.
- * The globe turns on its own and can be dragged. A sphere's outline looks the same from every
- * angle, so the ring stays a circle while everything inside and on the surface rotates.
+ * Everything is fully 3D: the ring is a great circle of the sphere, and the ring, the surface dots,
+ * the shared point and the lines all turn together. The globe turns on its own and can be dragged.
  * Canvas 2D with its own 3D projection, so lines and squares stay pixel-sharp.
  */
 
@@ -14,8 +14,6 @@ type V3 = [number, number, number];
 
 const SAMPLES = 64;            // points per curve
 const D = 3.4;                 // camera distance, in sphere radii
-// the sphere's outline seen from the camera: a circle at depth 1/D, radius sqrt(1 - 1/D^2)
-const OUTLINE_Z = 1 / D, OUTLINE_R = Math.sqrt(1 - 1 / (D * D));
 const SQUARE = 2;              // px
 const ORBIT_SECONDS = 48;      // one turn of the globe when left alone
 const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
@@ -55,7 +53,7 @@ function build(): { ring: V3[]; curves: Curve[] } {
   for (let i = 0; i < SLOTS; i++) {
     if (!keep.has(i)) continue;
     const t = (i / SLOTS) * Math.PI * 2 - Math.PI / 2;
-    ring.push([Math.cos(t) * OUTLINE_R, Math.sin(t) * OUTLINE_R, OUTLINE_Z]);
+    ring.push([Math.cos(t), Math.sin(t), 0]);           // a great circle of the sphere, turning with it
     angle.push(t);
   }
   const jitter = (r: number): V3 => {
@@ -177,19 +175,19 @@ export function mountSphere(host: HTMLElement) {
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     const paths = curves.map((c) => {
-      const p0 = ring[c.a];
-      const p1: V3 = c.surf ? rot(c.surf) : ring[c.b];
+      const p0 = rot(ring[c.a]);
+      const p1: V3 = c.surf ? rot(c.surf) : rot(ring[c.b]);
       // each curve runs square -> shared point -> square, passing through the point smoothly
       const j1 = rot(c.j1), j2 = rot(c.j2);
       const m: V3 = [hub[0] + j1[0] * 0.12, hub[1] + j1[1] * 0.12, hub[2] + j1[2] * 0.12];   // tight pinch
-      let d: V3 = [p1[0] - p0[0], p1[1] - p0[1], 0];
-      const len = Math.hypot(d[0], d[1]) || 1;
-      d = [d[0] / len, d[1] / len, 0];
+      let d: V3 = [p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]];
+      const len = Math.hypot(d[0], d[1], d[2]) || 1;
+      d = [d[0] / len, d[1] / len, d[2] / len];
       const reach = 0.28 * c.pull;
-      const a1: V3 = [p0[0] + (m[0] - p0[0]) * 0.45 + j1[0] * 0.6, p0[1] + (m[1] - p0[1]) * 0.45 + j1[1] * 0.6, m[2] * 0.45 + j1[2]];
-      const a2: V3 = [m[0] - d[0] * reach, m[1] - d[1] * reach, m[2] - j2[2] * 0.4];
-      const b1: V3 = [m[0] + d[0] * reach, m[1] + d[1] * reach, m[2] + j2[2] * 0.4];
-      const b2: V3 = [p1[0] + (m[0] - p1[0]) * 0.45 + j2[0] * 0.6, p1[1] + (m[1] - p1[1]) * 0.45 + j2[1] * 0.6, m[2] * 0.45 + j2[2]];
+      const a1: V3 = [p0[0] + (m[0] - p0[0]) * 0.45 + j1[0] * 0.6, p0[1] + (m[1] - p0[1]) * 0.45 + j1[1] * 0.6, p0[2] + (m[2] - p0[2]) * 0.45 + j1[2] * 0.6];
+      const a2: V3 = [m[0] - d[0] * reach, m[1] - d[1] * reach, m[2] - d[2] * reach];
+      const b1: V3 = [m[0] + d[0] * reach, m[1] + d[1] * reach, m[2] + d[2] * reach];
+      const b2: V3 = [p1[0] + (m[0] - p1[0]) * 0.45 + j2[0] * 0.6, p1[1] + (m[1] - p1[1]) * 0.45 + j2[1] * 0.6, p1[2] + (m[2] - p1[2]) * 0.45 + j2[2] * 0.6];
       // a stroke travels from square A to square B, then starts again at A
       let from = 0, to = 1;
       if (flowing) {
@@ -230,8 +228,9 @@ export function mountSphere(host: HTMLElement) {
 
     // the ring: light grey without a line, black where lines start, #82816D where they arrive
     ring.forEach((p, i) => {
-      ctx.fillStyle = `rgb(${!shown.has(i) ? IDLE : receives.has(i) ? RECEIVER : INK})`;
-      const [x, y] = project(p);
+      const [x, y, z] = project(rot(p));
+      const alpha = z >= 0 ? 1 : 0.35 + (z + 1) * 0.4;           // fainter on the far side
+      ctx.fillStyle = `rgba(${!shown.has(i) ? IDLE : receives.has(i) ? RECEIVER : INK}, ${alpha.toFixed(3)})`;
       ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
     });
   };
