@@ -10,11 +10,11 @@
 
 type V3 = [number, number, number];
 
-const N = 132;                 // squares on the ring = curves
 const SAMPLES = 64;            // points per curve
 const SQUARE = 2;              // px
 const ORBIT_SECONDS = 48;      // one turn of the interior
-const DRAW_IN_MS = 1800;       // curves drawing in when the visual first comes into view
+const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
+const STROKE = 0.4;           // stroke length, share of the route
 const INK = "10, 10, 10";
 
 function rng(seed: number) {
@@ -26,27 +26,52 @@ function rng(seed: number) {
   };
 }
 
-interface Curve { a: number; b: number; j1: V3; j2: V3; pull: number; highlight: boolean; delay: number }
+interface Curve { a: number; b: number; j1: V3; j2: V3; pull: number; highlight: boolean; delay: number; speed: number }
+
+const SLOTS = 160;              // possible positions on the ring
+const FILL = 0.6;              // at most 60% of the positions hold a square
+const CONNECTED = 0.45;        // share of squares with a line (kept within 30-60%)
 
 function build(): { ring: V3[]; curves: Curve[] } {
   const rand = rng(7);
+  // squares come in clusters with gaps: score each slot with a slow wave plus noise, keep the top 60%
+  const score = Array.from({ length: SLOTS }, (_, i) => {
+    const t = (i / SLOTS) * Math.PI * 2;
+    return Math.sin(t * 2 + 0.6) * 0.6 + Math.sin(t * 5 + 2.1) * 0.35 + rand() * 0.5;
+  });
+  const keep = new Set([...score.keys()].sort((a, b) => score[b] - score[a]).slice(0, Math.floor(SLOTS * FILL)));
   const ring: V3[] = [];
-  for (let i = 0; i < N; i++) {
-    const t = (i / N) * Math.PI * 2 - Math.PI / 2;
+  const angle: number[] = [];
+  for (let i = 0; i < SLOTS; i++) {
+    if (!keep.has(i)) continue;
+    const t = (i / SLOTS) * Math.PI * 2 - Math.PI / 2;
     ring.push([Math.cos(t), Math.sin(t), 0]);
+    angle.push(t);
   }
   const jitter = (r: number): V3 => {
     const u = rand() * 2 - 1, phi = rand() * Math.PI * 2, s = Math.sqrt(1 - u * u), k = Math.cbrt(rand()) * r;
     return [s * Math.cos(phi) * k, u * k, s * Math.sin(phi) * k];
   };
+  // pick the connected squares, then join each to one or two others at least a quarter turn away
+  const ids = [...ring.keys()].sort(() => rand() - 0.5).slice(0, Math.round(ring.length * CONNECTED));
+  const far = (a: number, b: number) => { const d = Math.abs(angle[a] - angle[b]) % (Math.PI * 2); return Math.min(d, Math.PI * 2 - d) > Math.PI / 2; };
   const curves: Curve[] = [];
-  for (let a = 0; a < N; a++) {
-    // partner at least a quarter of the ring away, so every curve crosses the interior
-    const b = (a + Math.floor(N * (0.25 + rand() * 0.5))) % N;
-    curves.push({ a, b, j1: jitter(0.32), j2: jitter(0.32), pull: 0.7 + rand() * 0.25, highlight: false, delay: rand() * 0.45 });
+  const add = (a: number, b: number) => curves.push({ a, b, j1: jitter(0.32), j2: jitter(0.32), pull: 0.7 + rand() * 0.25, highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
+  // every connected square gets one or two lines, never more
+  const degree = new Map<number, number>(ids.map((i) => [i, 0]));
+  const want = new Map<number, number>(ids.map((i) => [i, rand() < 0.5 ? 2 : 1]));
+  for (const a of ids) {
+    while ((degree.get(a) ?? 0) < (want.get(a) ?? 1)) {
+      const options = ids.filter((b) => b !== a && far(a, b) && (degree.get(b) ?? 0) < 2);
+      if (!options.length) break;
+      const b = options[Math.floor(rand() * options.length)];
+      add(a, b);
+      degree.set(a, (degree.get(a) ?? 0) + 1);
+      degree.set(b, (degree.get(b) ?? 0) + 1);
+    }
   }
-  curves[17].highlight = true;
-  curves[61].highlight = true;
+  if (curves[3]) curves[3].highlight = true;
+  if (curves[11]) curves[11].highlight = true;
   return { ring, curves };
 }
 
@@ -87,7 +112,7 @@ export function mountSphere(host: HTMLElement) {
   host.addEventListener("pointerleave", () => { tx = 0; ty = 0; });
 
   const D = 3.4;                                   // camera distance, in sphere radii
-  const draw = (time: number, drawIn: number) => {
+  const draw = (time: number, flowing: boolean) => {
     const R = Math.min(w, h) / 2 - 6, cx = w / 2, cy = h / 2;
     const project = ([x, y, z]: V3) => { const k = D / (D - z); return [cx + x * R * k, cy + y * R * k, z] as const; };
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -111,11 +136,16 @@ export function mountSphere(host: HTMLElement) {
       const a2: V3 = [m[0] - d[0] * reach, m[1] - d[1] * reach, m[2] - j2[2] * 0.4];
       const b1: V3 = [m[0] + d[0] * reach, m[1] + d[1] * reach, m[2] + j2[2] * 0.4];
       const b2: V3 = [p1[0] + (m[0] - p1[0]) * 0.45 + j2[0] * 0.6, p1[1] + (m[1] - p1[1]) * 0.45 + j2[1] * 0.6, m[2] * 0.45 + j2[2]];
-      const shown = Math.max(0, Math.min(1, (drawIn - c.delay) / (1 - 0.45)));
+      // a stroke travels from square A to square B, then starts again at A
+      let from = 0, to = 1;
+      if (flowing) {
+        const head = ((time / 1000 / FLOW_SECONDS) * c.speed + c.delay) % (1 + STROKE);
+        from = Math.max(0, head - STROKE); to = Math.min(1, head);
+      }
       const pts = [];
       let depth = 0;
       const half = SAMPLES / 2;
-      for (let i = 0; i <= SAMPLES * shown; i++) {
+      for (let i = Math.floor(SAMPLES * from); i <= SAMPLES * to; i++) {
         const q = i <= half ? bezier(p0, a1, a2, m, i / half) : bezier(m, b1, b2, p1, (i - half) / half);
         depth += q[2];
         pts.push(project(q));
@@ -146,17 +176,17 @@ export function mountSphere(host: HTMLElement) {
   };
 
   resize();
-  new ResizeObserver(() => { resize(); if (reduce || !running) draw(frozen, 1); }).observe(host);
+  new ResizeObserver(() => { resize(); if (reduce || !running) draw(frozen, !reduce); }).observe(host);
 
   let running = false, raf = 0, start = 0, frozen = 9000;
   const loop = (now: number) => {
     if (!start) start = now;
     const t = now - start;
-    draw(t + 9000, Math.min(1, t / DRAW_IN_MS));
+    draw(t + 9000, true);
     frozen = t + 9000;
     raf = requestAnimationFrame(loop);
   };
-  draw(frozen, reduce ? 1 : 0);
+  draw(frozen, !reduce);
   if (reduce) return;
   new IntersectionObserver((entries) => {
     const visible = entries.some((e) => e.isIntersecting);
