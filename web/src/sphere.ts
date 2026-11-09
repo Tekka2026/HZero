@@ -1,7 +1,7 @@
 /**
  * "Why it matters" visual: a sphere of connections.
  *
- * 4 x 4 px squares sit all over the surface of a sphere (60% of an even spread of positions).
+ * 4 x 4 px squares sit all over the surface of a sphere (20% of an even spread of positions).
  * Squares without a line are light grey (#D2D2D2), squares where lines start are black, squares
  * that receive a line are #82816D. Each line is made of straight stretches with sharp corners: it
  * runs from a square into a smaller sphere inside the big one (24 light grey squares, drifting in
@@ -57,7 +57,7 @@ interface Bend { f: number; dir: V3; amount: number }
 interface Curve { a: number; b: number; surf?: V3; rank: number; j1: V3; bendsIn: Bend[]; bendsOut: Bend[]; highlight: boolean; delay: number; speed: number }
 
 const SLOTS = 420;              // possible positions on the sphere
-const FILL = 0.6;              // at most 60% of the positions hold a square
+const FILL = 0.2;              // 20% of the positions hold a square (within 10-30%)
 const CONNECTED = 0.4;         // most squares that can have a line
 // the lines come and go: the share of squares with an active line rises and falls between 20% and 40%
 const ACTIVE_MIN = 0.34;       // of the possible lines, which leaves about 20% of the squares connected
