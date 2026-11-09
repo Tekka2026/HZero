@@ -34,6 +34,7 @@ const SHAPE_COLOR = "204, 204, 204";   // #CCCCCC, as in the logo
 const SHAPE_DEPTH_PX = 6;      // thickness of the shape
 const SHAPE_FACE_ALPHA = 0.45, SHAPE_SIDE_ALPHA = 0.3;   // see-through, so the lines show
 const LIT = [226, 242, 142];   // #E2F28E: the shape lights up whenever a stroke crosses it
+const LIT_SHARE = 0.2;         // only some strokes light the shape
 const LIT_FADE = 0.12;         // how long the light lasts, as a share of a stroke's trip (about half a second)
 const toShape = (pts: number[]): V3[] => {
   const out: V3[] = [];
@@ -59,7 +60,7 @@ function rng(seed: number) {
 
 /** b: points square the line ends at; surf: or a point on the sphere's surface, only shown when a stroke arrives */
 interface Bend { f: number; dir: V3; amount: number }
-interface Curve { a: number; b: number; surf?: V3; rank: number; through: V3; bendsIn: Bend[]; bendsOut: Bend[]; highlight: boolean; delay: number; speed: number }
+interface Curve { a: number; b: number; surf?: V3; rank: number; lights: boolean; through: V3; bendsIn: Bend[]; bendsOut: Bend[]; highlight: boolean; delay: number; speed: number }
 
 const SLOTS = 420;              // possible positions on the sphere
 const FILL = 0.2;              // 20% of the positions hold a square (within 10-30%)
@@ -96,7 +97,7 @@ function build(): { points: V3[]; curves: Curve[] } {
     const into = Math.floor(rand() * (total + 1));
     const u = 0.2 + rand() * 0.6, v = 0.15 + rand() * 0.7;     // a point inside the shape's opening
     const through = add3(add3(OPEN_TL, sub3(OPEN_TR, OPEN_TL), u), sub3(OPEN_BL, OPEN_TL), v);
-    curves.push({ a, b, surf, rank: rand(), through, bendsIn: bends(into), bendsOut: bends(total - into), highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
+    curves.push({ a, b, surf, rank: rand(), lights: rand() < LIT_SHARE, through, bendsIn: bends(into), bendsOut: bends(total - into), highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
   };
   // every connected square gets one or two lines, never more
   const degree = new Map<number, number>(ids.map((i) => [i, 0]));
@@ -258,9 +259,9 @@ export function mountSphere(host: HTMLElement) {
         const head = ((time / 1000 / FLOW_SECONDS) * c.speed + c.delay) % (1 + STROKE);
         from = Math.max(0, head - STROKE); to = Math.min(1, head);
         tail = head - STROKE; span = STROKE;
-        // the stroke's head has just passed through the shape: light it up, fading as the head moves on
+        // some strokes light the shape as their head passes through it, fading as the head moves on
         const atShape = at[1 + c.bendsIn.length] / total;
-        if (vis[n] > 0 && head >= atShape && head - atShape < LIT_FADE) lit = Math.max(lit, (1 - (head - atShape) / LIT_FADE) * vis[n]);
+        if (c.lights && vis[n] > 0 && head >= atShape && head - atShape < LIT_FADE) lit = Math.max(lit, (1 - (head - atShape) / LIT_FADE) * vis[n]);
         if (c.surf && head >= 1) hits.push({ p: project(p1), alpha: (1 - (head - 1) / STROKE) * vis[n] });   // the stroke has arrived
       } else if (c.surf) hits.push({ p: project(p1), alpha: 1 });
       // break the visible piece at its ends, at every corner and at every opacity step
