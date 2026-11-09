@@ -31,6 +31,7 @@
   --ink-60: rgb(10 10 10 / 0.62);
   --ink-40: rgb(10 10 10 / 0.42);
   --ink-45: #8d8d8d;          /* grey second line in headlines (3.3:1, large text only) */
+  --highlight: #82816D;         /* highlighted word in the main title, sphere lines (3.9:1, large text only) */
   --nav-text: #4a4a4a;          /* menu links before hover */
   --line: rgb(10 10 10 / 0.1);
   --bg: #ffffff;
@@ -442,6 +443,7 @@ main > div > section { padding-block: 150px 0; }
 }
 .hero-copy { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; row-gap: 36px; }
 .hero-copy h1 { grid-column: 1 / span 10; }
+.hero-copy h1 em { color: var(--highlight); }
 .hero-description { grid-column: 1 / span 6; color: var(--ink-60); }
 
 .intro-scroll {

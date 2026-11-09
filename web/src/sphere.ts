@@ -47,6 +47,7 @@ const SHAPE_INNER = toShape([778.666, 773.354, 1055.95, 773.354, 1084.6, 749.317
 const [OPEN_TL, OPEN_TR, OPEN_BL] = toShape([863.382, 306.646, 1140.67, 306.646, 778.666, 773.354]);
 const INK = "10, 10, 10";
 const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
+const LINE = RECEIVER;               // the lines are #82816D too
 const IDLE = "210, 210, 210";       // #D2D2D2: squares without a line
 
 function rng(seed: number) {
@@ -323,7 +324,7 @@ export function mountSphere(host: HTMLElement) {
       let i = 0;
       while (i < pts.length - 1) {
         const k = part[i];
-        ctx.strokeStyle = `rgba(${INK}, ${(PARTS[k] * depthFactor).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(${LINE}, ${(PARTS[k] * depthFactor).toFixed(3)})`;
         ctx.beginPath();
         ctx.moveTo(pts[i][0], pts[i][1]);
         while (i < pts.length - 1 && part[i] === k) { i++; ctx.lineTo(pts[i][0], pts[i][1]); }

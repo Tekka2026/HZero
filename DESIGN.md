@@ -30,6 +30,8 @@ Units: px. Chart values refer to the 1920 × 1080 slide frame at 1×.
 | sand | `#A38457` | Website accent: large text, small markers |
 | sand-ink | `#7F643B` | Website accent: small text (4.5:1 on white) |
 | grey second line | `#8D8D8D` | Second line of website headlines |
+| highlight | `#82816D` | Highlighted word in the main title (H1), lines and arrival squares of the sphere |
+| lime | `#E2F28E` | Favicon; the sphere's centre shape when a stroke lights it |
 
 Charts use their own palette (section 2.4). Do not mix the two.
 
