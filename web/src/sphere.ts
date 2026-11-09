@@ -21,7 +21,16 @@ const STROKE = 0.4;           // stroke length, share of the route
 // a stroke is drawn in 7 equal parts, tail to head, at these opacities
 const PARTS = [0.1, 0.2, 0.6, 1, 0.5, 0.4, 0.1];
 // the smaller sphere inside: every line passes through it; drawn with 24 light grey squares
-const HUB: V3 = [-0.42, -0.08, 0.25];
+const CORE = 0.4;              // the smaller sphere's centre stays within the inner 40% of the globe
+
+/** Where the smaller sphere's centre is at a given time: a slow, smooth loop inside the core. */
+function hubAt(seconds: number): V3 {
+  const t = seconds * 0.11;                                   // gentle: one loop takes about a minute
+  const p: V3 = [Math.sin(t * 1.0 + 0.4) * 0.9, Math.sin(t * 1.3 + 2.1) * 0.6, Math.sin(t * 0.7 + 4.0) * 0.8];
+  const len = Math.hypot(p[0], p[1], p[2]);
+  const k = (CORE * 0.95) / Math.max(1, len);                 // never leave the core
+  return [p[0] * k, p[1] * k, p[2] * k];
+}
 const INNER_R = 0.22;
 const INNER: V3[] = Array.from({ length: 24 }, (_, i) => {
   const y = 1 - (2 * (i + 0.5)) / 24, k = Math.sqrt(1 - y * y), phi = i * Math.PI * (3 - Math.sqrt(5));
@@ -159,7 +168,8 @@ export function mountSphere(host: HTMLElement) {
     ctx.clearRect(0, 0, w, h);
 
     const rot = (v: V3) => rotate(v, yaw, pitch);
-    const hub = rot(HUB);                            // centre of the smaller sphere, fixed inside the globe
+    const hubLocal = hubAt(time / 1000);
+    const hub = rot(hubLocal);                       // centre of the smaller sphere, drifting inside the core
 
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     const paths = curves.map((c) => {
@@ -218,7 +228,7 @@ export function mountSphere(host: HTMLElement) {
 
     // the smaller sphere: 24 light grey squares, fainter on its far side
     for (const q of INNER) {
-      const [x, y] = project(rot([HUB[0] + q[0], HUB[1] + q[1], HUB[2] + q[2]]));
+      const [x, y] = project(rot([hubLocal[0] + q[0], hubLocal[1] + q[1], hubLocal[2] + q[2]]));
       const side = (rot(q)[2] / INNER_R + 1) / 2;                  // 0 back ... 1 front of the small sphere
       ctx.fillStyle = `rgba(${IDLE}, ${(0.45 + side * 0.55).toFixed(3)})`;
       ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
