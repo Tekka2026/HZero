@@ -252,19 +252,6 @@ main > div > section { padding-block: 150px 0; }
 }
 .nav > * { pointer-events: auto; }
 
-/* Frosted bar once the page is scrolled, so content never runs into the logo and links. */
-.nav::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: rgb(255 255 255 / 0.78);
-  backdrop-filter: blur(16px) saturate(1.3);
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-.nav.is-scrolled::before { opacity: 1; }
 .nav { isolation: isolate; }
 
 .brand-link {
@@ -272,7 +259,7 @@ main > div > section { padding-block: 150px 0; }
   align-items: center;
   min-height: 43px;
 }
-.brand { width: auto; height: 36px; }
+.brand { width: auto; height: 36px; transition: filter 0.2s; }
 
 /* Desktop: centred pill with section links (samara main-navigation-menu). */
 .site-menu,
@@ -285,10 +272,10 @@ main > div > section { padding-block: 150px 0; }
   align-items: center;
   padding: 3px;
   border-radius: 22px;
-  background: rgb(255 255 255 / 0.72);
-  box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.1), 0 1px 2px rgb(0 0 0 / 0.04);
+  background: rgb(255 255 255 / 0.4);
   backdrop-filter: blur(18px) saturate(1.2);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  transition: background-color 0.2s;
 }
 
 .site-menu a {
@@ -373,8 +360,8 @@ main > div > section { padding-block: 150px 0; }
     padding: 0;
     border: 0;
     border-radius: 12px;
-    background: rgb(255 255 255 / 0.72);
-    box-shadow: 0 2px 3px rgb(0 0 0 / 0.08), inset 0 0 0 0.5px rgb(0 0 0 / 0.1);
+    background: rgb(255 255 255 / 0.4);
+    box-shadow: 0 2px 3px rgb(0 0 0 / 0.1);
     backdrop-filter: blur(18px) saturate(1.2);
     -webkit-backdrop-filter: blur(18px) saturate(1.2);
     cursor: pointer;
@@ -416,6 +403,21 @@ main > div > section { padding-block: 150px 0; }
   .site-menu .site-menu-contact { display: flex; color: var(--sand-ink); }
   .menu-pill { display: none; }
 }
+
+/* Over a dark background the navigation inverts, as on samara.com. */
+.nav.is-inverted .brand { filter: invert(1); }
+.nav.is-inverted .site-menu { background: rgb(0 0 0 / 0.2); }
+.nav.is-inverted .site-menu a { color: rgb(255 255 255 / 0.6); }
+.nav.is-inverted .site-menu a:hover,
+.nav.is-inverted .site-menu a:focus-visible,
+.nav.is-inverted .site-menu a.is-current { color: #fff; }
+.nav.is-inverted .site-menu.is-pointing a.is-current:not(:hover):not(:focus-visible) { color: rgb(255 255 255 / 0.6); }
+.nav.is-inverted .menu-pill { background: rgb(255 255 255 / 0.14); }
+.nav.is-inverted .nav-cta { background: #fff; color: var(--ink); }
+.nav.is-inverted .menu-toggle { background: rgb(0 0 0 / 0.2); }
+.nav.is-inverted .menu-icon i { background: #fff; }
+.nav.is-inverted .menu-toggle[aria-expanded="true"] { background: rgb(255 255 255 / 0.9); }
+.nav.is-inverted .menu-toggle[aria-expanded="true"] .menu-icon i { background: var(--ink); }
 
 /* ---------- Hero ---------- */
 

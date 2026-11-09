@@ -68,11 +68,37 @@ export function initInView(root: ParentNode = document) {
 }
 
 /** Give the navigation a frosted background once the page has scrolled. */
+/** Inverts the navigation (white logo and links) while whatever sits behind the logo is dark. */
 export function initNav() {
   const nav = document.querySelector<HTMLElement>(".nav");
-  if (!nav) return;
-  const update = () => nav.classList.toggle("is-scrolled", window.scrollY > 8);
-  window.addEventListener("scroll", update, { passive: true });
+  const brand = nav?.querySelector<HTMLElement>(".brand");
+  if (!nav || !brand) return;
+
+  const isDark = (el: Element | null): boolean => {
+    for (let node = el; node && node !== document.documentElement; node = node.parentElement) {
+      if (nav.contains(node)) continue;
+      const tag = node.tagName;
+      if (tag === "IMG" || tag === "VIDEO" || tag === "CANVAS") return false;   // media: leave as is
+      const m = getComputedStyle(node).backgroundColor.match(/[\d.]+/g);
+      if (!m) continue;
+      const [r, g, b, a = "1"] = m.map(String);
+      if (Number(a) < 0.5) continue;
+      return (0.2126 * +r + 0.7152 * +g + 0.0722 * +b) / 255 < 0.4;
+    }
+    return false;
+  };
+
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const box = brand.getBoundingClientRect();
+    const x = box.left + box.width / 2, y = box.top + box.height / 2;
+    const under = document.elementsFromPoint(x, y).find((el) => !nav.contains(el)) ?? null;
+    nav.classList.toggle("is-inverted", isDark(under));
+  };
+  const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
   update();
 }
 
