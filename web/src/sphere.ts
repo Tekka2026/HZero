@@ -1,12 +1,12 @@
 /**
  * "Why it matters" visual: a sphere of connections.
  *
- * A ring of 2 x 2 px squares runs around the sphere; squares without a line are light grey, and
- * light grey dots cover the sphere's surface. Each line runs from a ring square through a shared point inside the sphere to another ring
- * square or to a point on the sphere's surface; a stroke keeps travelling along it from A to B.
- * Squares that receive a line are #82816D; surface points only show a square when a stroke arrives.
- * Everything is fully 3D: the ring is a great circle of the sphere, and the ring, the surface dots,
- * the shared point and the lines all turn together. The globe turns on its own and can be dragged.
+ * 2 x 2 px squares sit all over the surface of a sphere (60% of an even spread of positions).
+ * Squares without a line are light grey (#D2D2D2), squares where lines start are black, squares
+ * that receive a line are #82816D. Each line runs from a square through a shared point inside the
+ * sphere to a square on the other half, or to a hidden point that only shows a square when a stroke
+ * arrives. A stroke keeps travelling along every line from A to B. Everything is 3D and turns
+ * together; the globe turns on its own and can be dragged. Squares on the far side are fainter.
  * Canvas 2D with its own 3D projection, so lines and squares stay pixel-sharp.
  */
 
@@ -20,8 +20,7 @@ const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
 const INK = "10, 10, 10";
 const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
-const IDLE = "210, 210, 210";       // #D2D2D2: ring squares without a line, dots on the surface
-const SURFACE_DOTS = 420;      // evenly spread points on the sphere; 60% of them are shown, like the ring
+const IDLE = "210, 210, 210";       // #D2D2D2: squares without a line
 
 function rng(seed: number) {
   return () => {
@@ -32,37 +31,31 @@ function rng(seed: number) {
   };
 }
 
-/** b: ring square the line ends at; surf: or a point on the sphere's surface, only shown when a stroke arrives */
+/** b: points square the line ends at; surf: or a point on the sphere's surface, only shown when a stroke arrives */
 interface Curve { a: number; b: number; surf?: V3; j1: V3; j2: V3; pull: number; highlight: boolean; delay: number; speed: number }
 
-const SLOTS = 160;              // possible positions on the ring
+const SLOTS = 420;              // possible positions on the sphere
 const FILL = 0.6;              // at most 60% of the positions hold a square
-const CONNECTED = 0.45;        // share of squares with a line (kept within 30-60%)
-const SURFACE_SHARE = 0.45;    // share of lines that end on the sphere's surface instead of the ring
+const CONNECTED = 0.35;        // share of squares with a line (kept within 30-60%)
+const SURFACE_SHARE = 0.3;     // share of lines that end at a hidden point, shown only when a stroke arrives
 
-function build(): { ring: V3[]; curves: Curve[] } {
+function build(): { points: V3[]; curves: Curve[] } {
   const rand = rng(7);
-  // squares come in clusters with gaps: score each slot with a slow wave plus noise, keep the top 60%
-  const score = Array.from({ length: SLOTS }, (_, i) => {
-    const t = (i / SLOTS) * Math.PI * 2;
-    return Math.sin(t * 2 + 0.6) * 0.6 + Math.sin(t * 5 + 2.1) * 0.35 + rand() * 0.5;
-  });
-  const keep = new Set([...score.keys()].sort((a, b) => score[b] - score[a]).slice(0, Math.floor(SLOTS * FILL)));
-  const ring: V3[] = [];
-  const angle: number[] = [];
+  // squares over the whole sphere: an even (Fibonacci) spread of positions, 60% of them filled
+  const points: V3[] = [];
   for (let i = 0; i < SLOTS; i++) {
-    if (!keep.has(i)) continue;
-    const t = (i / SLOTS) * Math.PI * 2 - Math.PI / 2;
-    ring.push([Math.cos(t), Math.sin(t), 0]);           // a great circle of the sphere, turning with it
-    angle.push(t);
+    if (rand() >= FILL) continue;
+    const y = 1 - (2 * (i + 0.5)) / SLOTS, k = Math.sqrt(1 - y * y), phi = i * Math.PI * (3 - Math.sqrt(5));
+    points.push([k * Math.cos(phi), y, k * Math.sin(phi)]);
   }
   const jitter = (r: number): V3 => {
     const u = rand() * 2 - 1, phi = rand() * Math.PI * 2, s = Math.sqrt(1 - u * u), k = Math.cbrt(rand()) * r;
     return [s * Math.cos(phi) * k, u * k, s * Math.sin(phi) * k];
   };
-  // pick the connected squares, then join each to one or two others at least a quarter turn away
-  const ids = [...ring.keys()].sort(() => rand() - 0.5).slice(0, Math.round(ring.length * CONNECTED));
-  const far = (a: number, b: number) => { const d = Math.abs(angle[a] - angle[b]) % (Math.PI * 2); return Math.min(d, Math.PI * 2 - d) > Math.PI / 2; };
+  // pick the connected squares, then join each to one or two others
+  const ids = [...points.keys()].sort(() => rand() - 0.5).slice(0, Math.round(points.length * CONNECTED));
+  // partners sit on the other half of the sphere, so every line crosses the inside
+  const far = (a: number, b: number) => points[a][0] * points[b][0] + points[a][1] * points[b][1] + points[a][2] * points[b][2] < 0;
   const curves: Curve[] = [];
   const add = (a: number, b: number, surf?: V3) => curves.push({ a, b, surf, j1: jitter(0.32), j2: jitter(0.32), pull: 0.7 + rand() * 0.25, highlight: false, delay: rand(), speed: 0.8 + rand() * 0.5 });
   // every connected square gets one or two lines, never more
@@ -86,7 +79,7 @@ function build(): { ring: V3[]; curves: Curve[] } {
   }
   if (curves[3]) curves[3].highlight = true;
   if (curves[11]) curves[11].highlight = true;
-  return { ring, curves };
+  return { points, curves };
 }
 
 function rotate([x, y, z]: V3, yaw: number, pitch: number): V3 {
@@ -105,18 +98,11 @@ export function mountSphere(host: HTMLElement) {
   host.appendChild(canvas);
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
-  const { ring, curves } = build();
+  const { points, curves } = build();
 
-  // dots on the sphere's surface (Fibonacci spread), turning with the globe
-  const dotRand = rng(11);
-  const dots: V3[] = [];
-  for (let i = 0; i < SURFACE_DOTS; i++) {
-    const y = 1 - (2 * (i + 0.5)) / SURFACE_DOTS, k = Math.sqrt(1 - y * y), phi = i * Math.PI * (3 - Math.sqrt(5));
-    if (dotRand() < FILL) dots.push([k * Math.cos(phi), y, k * Math.sin(phi)]);
-  }
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // which ring squares are shown, and which of them receive a line
+  // which points squares are shown, and which of them receive a line
   const shown = new Set<number>(), receives = new Set<number>();
   for (const c of curves) {
     shown.add(c.a);
@@ -166,17 +152,10 @@ export function mountSphere(host: HTMLElement) {
     const rot = (v: V3) => rotate(v, yaw, pitch);
     const hub = rot([-0.42, -0.08, 0.25]);          // the shared point, fixed inside the globe
 
-    // surface dots: light grey, fainter on the far side
-    for (const d of dots) {
-      const [x, y, z] = project(rot(d));
-      ctx.fillStyle = `rgba(${IDLE}, ${z >= 0 ? 1 : (0.35 + (z + 1) * 0.4).toFixed(3)})`;
-      ctx.fillRect(snap(x), snap(y), SQUARE, SQUARE);
-    }
-
     const hits: { p: readonly [number, number, number]; alpha: number }[] = [];
     const paths = curves.map((c) => {
-      const p0 = rot(ring[c.a]);
-      const p1: V3 = c.surf ? rot(c.surf) : rot(ring[c.b]);
+      const p0 = rot(points[c.a]);
+      const p1: V3 = c.surf ? rot(c.surf) : rot(points[c.b]);
       // each curve runs square -> shared point -> square, passing through the point smoothly
       const j1 = rot(c.j1), j2 = rot(c.j2);
       const m: V3 = [hub[0] + j1[0] * 0.12, hub[1] + j1[1] * 0.12, hub[2] + j1[2] * 0.12];   // tight pinch
@@ -226,8 +205,8 @@ export function mountSphere(host: HTMLElement) {
       ctx.fillRect(snap(p[0]), snap(p[1]), SQUARE, SQUARE);
     }
 
-    // the ring: light grey without a line, black where lines start, #82816D where they arrive
-    ring.forEach((p, i) => {
+    // the squares: light grey without a line, black where lines start, #82816D where they arrive
+    points.forEach((p, i) => {
       const [x, y, z] = project(rot(p));
       const alpha = z >= 0 ? 1 : 0.35 + (z + 1) * 0.4;           // fainter on the far side
       ctx.fillStyle = `rgba(${!shown.has(i) ? IDLE : receives.has(i) ? RECEIVER : INK}, ${alpha.toFixed(3)})`;
