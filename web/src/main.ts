@@ -22,3 +22,8 @@ if (container) {
     .then(({ mountHybridScene }) => mountHybridScene(container))
     .catch((err) => console.warn("3D diagram unavailable, keeping SVG fallback.", err));
 }
+
+// Charts page: inline the Jupyter-made SVGs and animate them in.
+if (document.querySelector("[data-chart]")) {
+  import("./charts").then(({ initCharts }) => initCharts()).catch((err) => console.error("Charts unavailable", err));
+}

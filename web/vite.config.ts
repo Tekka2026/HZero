@@ -13,6 +13,7 @@ export default defineConfig({
         main: resolve(import.meta.dirname, "index.html"),
         impressum: resolve(import.meta.dirname, "impressum.html"),
         datenschutz: resolve(import.meta.dirname, "datenschutz.html"),
+        charts: resolve(import.meta.dirname, "charts.html"),
       },
     },
   },

@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-09T10:48:57.833839</dc:date>
+    <dc:date>2026-11-09T11:05:01.336842</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -42,27 +42,27 @@ z
     <image xlink:href="data:image/png;base64,
 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" id="image69ec657ffd" transform="scale(1 -1) translate(0 -233.28)" x="403.2" y="-295.92" width="576" height="233.28"/>
    </g>
-   <g id="line2d_1">
+   <g id="hz-grid-0">
     <path d="M 403.2 482.976 
 L 979.2 482.976 
 " clip-path="url(#p906adcbf67)" style="fill: none; stroke: #d2d2d2; stroke-width: 0.72; stroke-linecap: square"/>
    </g>
-   <g id="line2d_2">
+   <g id="hz-grid-1">
     <path d="M 403.2 436.752 
 L 979.2 436.752 
 " clip-path="url(#p906adcbf67)" style="fill: none; stroke: #d2d2d2; stroke-width: 0.72; stroke-linecap: square"/>
    </g>
-   <g id="line2d_3">
+   <g id="hz-grid-2">
     <path d="M 403.2 390.528 
 L 979.2 390.528 
 " clip-path="url(#p906adcbf67)" style="fill: none; stroke: #d2d2d2; stroke-width: 0.72; stroke-linecap: square"/>
    </g>
-   <g id="line2d_4">
+   <g id="hz-grid-3">
     <path d="M 403.2 344.304 
 L 979.2 344.304 
 " clip-path="url(#p906adcbf67)" style="fill: none; stroke: #d2d2d2; stroke-width: 0.72; stroke-linecap: square"/>
    </g>
-   <g id="line2d_5">
+   <g id="hz-grid-4">
     <path d="M 403.2 298.08 
 L 979.2 298.08 
 " clip-path="url(#p906adcbf67)" style="fill: none; stroke: #d2d2d2; stroke-width: 0.72; stroke-linecap: square"/>
@@ -70,7 +70,7 @@ L 979.2 298.08
    <g id="matplotlib.axis_1"/>
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
-     <g id="line2d_6"/>
+     <g id="line2d_1"/>
      <g id="text_1">
       <!-- 4 -->
       <g transform="translate(386.863875 488.20725) scale(0.108 -0.108)">
@@ -102,7 +102,7 @@ z
      </g>
     </g>
     <g id="ytick_2">
-     <g id="line2d_7"/>
+     <g id="line2d_2"/>
      <g id="text_2">
       <!-- 8 -->
       <g transform="translate(387.159187 441.98325) scale(0.108 -0.108)">
@@ -138,7 +138,7 @@ z
      </g>
     </g>
     <g id="ytick_3">
-     <g id="line2d_8"/>
+     <g id="line2d_3"/>
      <g id="text_3">
       <!-- 12 -->
       <g transform="translate(382.861125 395.75925) scale(0.108 -0.108)">
@@ -178,7 +178,7 @@ z
      </g>
     </g>
     <g id="ytick_4">
-     <g id="line2d_9"/>
+     <g id="line2d_4"/>
      <g id="text_4">
       <!-- 16 -->
       <g transform="translate(382.74975 349.53525) scale(0.108 -0.108)">
@@ -209,7 +209,7 @@ z
      </g>
     </g>
     <g id="ytick_5">
-     <g id="line2d_10"/>
+     <g id="line2d_5"/>
      <g id="text_5">
       <!-- 20 -->
       <g transform="translate(380.439562 303.31125) scale(0.108 -0.108)">
@@ -234,7 +234,7 @@ z
      </g>
     </g>
    </g>
-   <g id="patch_3">
+   <g id="hz-bar-0-0">
     <path d="M 403.2 529.2 
 L 497.4 529.2 
 L 497.4 298.08 
@@ -242,7 +242,7 @@ L 403.2 298.08
 z
 " clip-path="url(#p906adcbf67)" style="fill: #a8b1a7"/>
    </g>
-   <g id="patch_4">
+   <g id="hz-bar-0-1">
     <path d="M 499.56 529.2 
 L 593.76 529.2 
 L 593.76 313.1028 
@@ -250,7 +250,7 @@ L 499.56 313.1028
 z
 " clip-path="url(#p906adcbf67)" style="fill: #a8b1a7"/>
    </g>
-   <g id="patch_5">
+   <g id="hz-bar-0-2">
     <path d="M 595.92 529.2 
 L 690.12 529.2 
 L 690.12 353.5488 
@@ -258,7 +258,7 @@ L 595.92 353.5488
 z
 " clip-path="url(#p906adcbf67)" style="fill: #a8b1a7"/>
    </g>
-   <g id="patch_6">
+   <g id="hz-bar-0-3">
     <path d="M 692.28 529.2 
 L 786.48 529.2 
 L 786.48 482.976 
@@ -266,7 +266,7 @@ L 692.28 482.976
 z
 " clip-path="url(#p906adcbf67)" style="fill: #a8b1a7"/>
    </g>
-   <g id="patch_7">
+   <g id="hz-bar-0-4">
     <path d="M 788.64 529.2 
 L 882.84 529.2 
 L 882.84 493.3764 
@@ -274,7 +274,7 @@ L 788.64 493.3764
 z
 " clip-path="url(#p906adcbf67)" style="fill: #a8b1a7"/>
    </g>
-   <g id="patch_8">
+   <g id="hz-bar-0-5">
     <path d="M 885 529.2 
 L 979.2 529.2 
 L 979.2 493.3764 

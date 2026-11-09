@@ -108,8 +108,9 @@ def _y_axis(ax, ticks: Sequence[float], side: str, fmt):
 
 
 def _grid(ax, ticks):
-    for t in ticks:
-        ax.axhline(t, color=COLORS["grid"], linewidth=1 * PT, zorder=Z["grid"], snap=True, antialiased=False)
+    for i, t in enumerate(ticks):
+        ax.axhline(t, color=COLORS["grid"], linewidth=1 * PT, zorder=Z["grid"], snap=True, antialiased=False,
+                   gid=f"hz-grid-{i}")
 
 
 def _slots(n: int):
@@ -145,6 +146,12 @@ def _title(fig, axis, text: str, side: str):
                  fontfamily=FONT, fontsize=TITLE_SIZE * PT, color=COLORS["text"], zorder=Z["text"])
 
 
+def _tag(artists, prefix: str):
+    """Give each artist an id in the SVG (hz-bar-<series>-<index>), so the website can animate it."""
+    for i, a in enumerate(artists):
+        a.set_gid(f"{prefix}-{i}")
+
+
 def _num(t: float) -> str:
     return f"{t:g}"
 
@@ -155,7 +162,8 @@ def bar_chart(categories: Sequence[str], values: Sequence[float], ticks: Sequenc
     """Single-series bar chart (systems by segment). Category labels may use '\\n' for two lines."""
     fig, ax = _frame()
     lefts, width, centres = _slots(len(categories))
-    ax.bar(lefts, values, width=width, align="edge", color=COLORS[color], linewidth=0, zorder=Z["bars"])
+    bars = ax.bar(lefts, values, width=width, align="edge", color=COLORS[color], linewidth=0, zorder=Z["bars"])
+    _tag(bars.patches, "hz-bar-0")
     gt = _y_axis(ax, ticks, "left", fmt)
     _grid(ax, gt)
     _categories(fig, ax, categories, centres)
@@ -182,8 +190,9 @@ def bar_line_chart(categories: Sequence[str], bars: Mapping[str, Sequence[float]
     lefts, width, centres = _slots(len(categories))
     bottom = np.zeros(len(categories))
     for (name, vals), key in zip(bars.items(), BAR_ORDER):
-        ax.bar(lefts, vals, width=width, bottom=bottom, align="edge", color=COLORS[key],
-               linewidth=0, zorder=Z["bars"], label=name)
+        bc = ax.bar(lefts, vals, width=width, bottom=bottom, align="edge", color=COLORS[key],
+                    linewidth=0, zorder=Z["bars"], label=name)
+        _tag(bc.patches, f"hz-bar-{list(bars).index(name)}")
         bottom = bottom + np.asarray(vals, dtype=float)
     gt = _y_axis(ax, left_ticks, "left", fmt)
     _grid(ax, gt)
@@ -195,10 +204,12 @@ def bar_line_chart(categories: Sequence[str], bars: Mapping[str, Sequence[float]
     ax2.tick_params(length=0, colors=COLORS["text"])
     _y_axis(ax2, right_ticks, "right", fmt)
     for (name, vals), (line_key, mark_key) in zip(lines.items(), LINE_ORDER):
+        s = list(lines).index(name)
         ax2.plot(centres, vals, color=COLORS[line_key], linewidth=LINE_WIDTH * PT, zorder=Z["lines"],
-                 solid_joinstyle="miter", label=name)
-        ax2.scatter(centres, vals, s=(2 * MARKER_R * PT) ** 2, color=COLORS[mark_key], linewidths=0,
-                    zorder=Z["markers"])
+                 solid_joinstyle="miter", label=name, gid=f"hz-line-{s}")
+        for i, (cx, v) in enumerate(zip(centres, vals)):          # one element per marker, so each can animate
+            ax2.scatter([cx], [v], s=(2 * MARKER_R * PT) ** 2, color=COLORS[mark_key], linewidths=0,
+                        zorder=Z["markers"], gid=f"hz-marker-{s}-{i}")
     ax2.set_xlim(0, PLOT["w"])
     ax.set_zorder(1)
     ax2.set_zorder(2)

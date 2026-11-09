@@ -221,7 +221,8 @@ button { font: inherit; color: inherit; }
 .section-four-inner,
 .s5-team-inner,
 .section-six-inner,
-.legal-main {
+.legal-main,
+.charts-main {
   display: grid;
   grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   column-gap: var(--gutter);
@@ -1028,3 +1029,52 @@ svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #3a3226; opacity: 0.1
 
 /* Section name as a semibold run-in at the start of the first paragraph */
 .lead-in { font-weight: 600; color: var(--ink); }
+
+/* ---------- Charts page ---------- */
+
+.charts-main { row-gap: 0; padding-top: calc(var(--nav-height) + 120px); padding-bottom: 150px; }
+.charts-heading { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 36px; padding-bottom: 100px; }
+.charts-heading h1 { font-size: clamp(54px, 4.16vw, 60px); line-height: 1.1; letter-spacing: -0.028em; }
+.charts-intro { font-size: clamp(21px, 1.6vw, 26px); line-height: 1.25; font-weight: 300; letter-spacing: -0.014em; color: var(--ink-60); }
+
+.chart { grid-column: 1 / -1; margin: 0; display: flex; flex-direction: column; gap: 24px; padding-top: 36px; border-top: 1px solid var(--line); }
+.chart + .chart { margin-top: 100px; }
+.chart-text { display: flex; flex-direction: column; gap: 10px; max-width: 640px; }
+.chart-text h2 { font-size: clamp(26px, 2vw, 30px); line-height: 1.2; letter-spacing: -0.014em; }
+.chart-text p { font-size: var(--type-18); line-height: 1.33; color: var(--ink-60); }
+.chart-frame { background: #e5e5e5; }
+.chart-frame img, .chart-frame svg { display: block; width: 100%; height: auto; }
+.chart-meta { display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 14px; line-height: 1.28; color: var(--ink-60); }
+.chart-replay { border: 0; padding: 8px 14px; border-radius: 18px; background: rgb(0 0 0 / 0.05); color: var(--ink); font-size: 14px; cursor: pointer; transition: background-color 0.2s; }
+.chart-replay:hover { background: rgb(0 0 0 / 0.09); }
+
+/* Motion (DESIGN.md 2.10): the empty chart first, then bars, then lines with their markers. */
+.chart-svg [id^="hz-bar-"] { transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(0); }
+.chart-svg [id^="hz-line-"] { clip-path: inset(-4px 100% -4px -4px); }
+.chart-svg [id^="hz-marker-"] { transform-box: fill-box; transform-origin: 50% 50%; transform: scale(0); }
+
+.chart-svg.is-played [id^="hz-bar-"] {
+  transform: scaleY(1);
+  transition: transform var(--duration) cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay);
+}
+.chart-svg.is-played [id^="hz-line-"] {
+  clip-path: inset(-4px -4px -4px -4px);
+  transition: clip-path var(--duration) linear var(--delay);
+}
+.chart-svg.is-played [id^="hz-marker-"] {
+  transform: scale(1);
+  transition: transform var(--duration) cubic-bezier(0.3, 1.5, 0.5, 1) var(--delay);
+}
+.chart-svg.is-static [id^="hz-bar-"],
+.chart-svg.is-static [id^="hz-marker-"] { transform: none; }
+.chart-svg.is-static [id^="hz-line-"] { clip-path: none; }
+
+@media (max-width: 768px) {
+  .charts-main { padding-top: calc(var(--nav-height) + 64px); padding-bottom: 80px; }
+  .charts-heading { grid-column: 1 / -1; padding-bottom: 64px; }
+  .charts-heading h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.024em; }
+  .charts-intro { font-size: clamp(18px, 5.6vw, 21px); letter-spacing: -0.01em; }
+  .chart-text h2 { font-size: clamp(21px, 6.4vw, 24px); line-height: 1.25; }
+  .chart + .chart { margin-top: 64px; }
+  .chart-frame { margin-inline: calc(var(--margin) * -1); }
+}

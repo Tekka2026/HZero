@@ -141,7 +141,22 @@ Letter spacing 0, sentence case, no bold, no italics. The chart has no title ins
 
 The references have no legend. Name the series in the text next to the chart: the slide text or the paragraph above it on the website. If a chart truly needs a legend, ask design first; there is no legend style yet.
 
-### 2.9 Fixes compared with the references
+### 2.10 Motion (website)
+
+On the website a chart starts empty: canvas, backdrop, gridlines, tick labels, category labels and axis titles. The data then animates in, the first time 45% of the chart is in view and again on "Replay".
+
+| Piece | Movement | Duration | Start | Easing |
+|---|---|---|---|---|
+| Bar, bottom segment | Grows up from the baseline (scale 0 → 1, anchored at the bottom) | 700 ms | 70 ms × category index | `cubic-bezier(0.2, 0.7, 0.2, 1)` |
+| Bar, top segment | Same, from the top of the bottom segment | 455 ms | 70 ms × index + 450 ms | same |
+| Line | Revealed from left to right at constant speed | 1400 ms | 500 ms | linear |
+| Marker | Scales in from its centre when the line reaches it | 320 ms | 500 ms + 1400 ms × index / (n − 1) | `cubic-bezier(0.3, 1.5, 0.5, 1)` |
+
+With reduced motion turned on, the finished chart shows at once.
+
+How it works: `hzero_charts` gives every bar, line and marker an id in the SVG (`hz-bar-<series>-<index>`, `hz-line-<series>`, `hz-marker-<series>-<index>`). The page `charts.html` inlines the SVG, and `web/src/charts.ts` with the chart rules in `site.css` animates those ids. Slides use the finished, static frame.
+
+### 2.11 Fixes compared with the references
 
 | Reference | Issue | Rule |
 |---|---|---|
@@ -180,7 +195,7 @@ fig = bar_line_chart(
 export(fig, "spending-and-systems")
 ```
 
-To use a chart on the website: `<img src="charts/systems-by-segment.svg" alt="Number of systems per segment: R&D Federal 20, …">`.
+To use a chart on the website: add a `<figure class="chart" data-chart="charts/<name>.svg">` to `web/charts.html`, following the two that are there. The `<img>` inside it holds the alt text, which says what the chart shows. The page animates the chart in (2.10).
 
 To use it in slides: place `exports/slides/<name>.png` (or the SVG) full-bleed on a 16:9 slide.
 
