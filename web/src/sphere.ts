@@ -1,7 +1,7 @@
 /**
  * "Why it matters" visual: a sphere of connections.
  *
- * 2 x 2 px squares sit all over the surface of a sphere (60% of an even spread of positions).
+ * 4 x 4 px squares sit all over the surface of a sphere (60% of an even spread of positions).
  * Squares without a line are light grey (#D2D2D2), squares where lines start are black, squares
  * that receive a line are #82816D. Each line runs from a square through a shared point inside the
  * sphere to a square on the other half, or to a hidden point that only shows a square when a stroke
@@ -14,7 +14,7 @@ type V3 = [number, number, number];
 
 const SAMPLES = 64;            // points per curve
 const D = 3.4;                 // camera distance, in sphere radii
-const SQUARE = 2;              // px
+const SQUARE = 4;              // px
 const ORBIT_SECONDS = 48;      // one turn of the globe when left alone
 const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
