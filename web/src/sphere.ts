@@ -5,7 +5,7 @@
  * Squares without a line are light grey (#D2D2D2), squares where lines start are black, squares
  * that receive a line are #82816D. Each line is made of straight stretches with sharp corners: it
  * runs from a square through the opening of the hzero shape floating inside the globe (the logo's
- * slanted, chamfered outline in #CCCCCC, drifting in the inner 40% and spinning against the globe) and on to a square on the other half, or to a hidden point that only shows a
+ * slanted, chamfered outline in #CCCCCC, at the centre and spinning against the globe) and on to a square on the other half, or to a hidden point that only shows a
  * square when a stroke arrives. On the way it may kink 1-3 times, each kink a hook of at most 15% of
  * that stretch. A stroke keeps travelling along every line from A to B. Everything is 3D and turns
  * together, very slowly, around a diagonal axis; the globe can be dragged. Far squares are fainter.
@@ -23,17 +23,8 @@ const FLOW_SECONDS = 3.2;      // a stroke's trip from A to B
 const STROKE = 0.4;           // stroke length, share of the route
 // a stroke is drawn in 7 equal parts, tail to head, at these opacities
 const PARTS = [0.1, 0.2, 0.6, 1, 0.5, 0.4, 0.1];
-// the hzero shape inside: every line passes through its opening
-const CORE = 0.4;              // the shape's centre stays within the inner 40% of the globe
-
-/** Where the shape's centre is at a given time: a slow, smooth loop inside the core. */
-function hubAt(seconds: number): V3 {
-  const t = seconds * 0.11;                                   // gentle: one loop takes about a minute
-  const p: V3 = [Math.sin(t * 1.0 + 0.4) * 0.9, Math.sin(t * 1.3 + 2.1) * 0.6, Math.sin(t * 0.7 + 4.0) * 0.8];
-  const len = Math.hypot(p[0], p[1], p[2]);
-  const k = (CORE * 0.95) / Math.max(1, len);                 // never leave the core
-  return [p[0] * k, p[1] * k, p[2] * k];
-}
+// the hzero shape sits at the centre of the globe; every line passes through its opening
+const SCROLL_TURN_PX = 2400;    // page scroll that turns the globe once, against the scroll
 // the shape from the hzero logo (icon.svg), outer and inner outline, scaled to 0.46 sphere radii high
 const SHAPE_H = 0.46;
 const SHAPE_SPIN_SECONDS = 60;  // its own turn, against the globe's
@@ -199,6 +190,14 @@ export function mountSphere(host: HTMLElement) {
   });
   const release = () => { dragging = false; host.classList.remove("is-dragging"); };
   host.addEventListener("pointerup", release);
+  // scrolling the page turns the globe the other way: scroll down and its front rolls down
+  let lastScroll = window.scrollY;
+  window.addEventListener("scroll", () => {
+    const delta = window.scrollY - lastScroll;
+    lastScroll = window.scrollY;
+    orient = mul(axisAngle([1, 0, 0], (-delta / SCROLL_TURN_PX) * Math.PI * 2), orient);
+    if (!running) draw(clock, !reduce);
+  }, { passive: true });
   host.addEventListener("pointercancel", release);
 
   const draw = (time: number, flowing: boolean) => {
@@ -210,8 +209,7 @@ export function mountSphere(host: HTMLElement) {
     ctx.clearRect(0, 0, w, h);
 
     const rot = (v: V3) => apply(orient, v);
-    const hubLocal = hubAt(time / 1000);
-    const hub = rot(hubLocal);                       // centre of the shape, drifting inside the core
+    const hub: V3 = [0, 0, 0];                       // the shape sits at the centre
     // the shape turns against the globe: the globe's turn undone, plus its own counter-spin
     const back: M3 = [orient[0], orient[3], orient[6], orient[1], orient[4], orient[7], orient[2], orient[5], orient[8]];
     const shapeOrient = mul(axisAngle(AXIS, -(time / 1000 / SHAPE_SPIN_SECONDS) * Math.PI * 2), back);
