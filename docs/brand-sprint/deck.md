@@ -4,6 +4,8 @@ Two sessions of 2.5 hours. Day 1 (Discovery & Divergence): the founders give raw
 
 The slides are built in Figma on the `slides` page of the Hzero file: one 1920 Ã— 1080 frame per slide, with the facilitator notes in a separate frame to the right of each slide. The notes frames are not part of the presentation.
 
+**Participants:** the two hZero founders.
+
 **Ground rule for every slide:** no design vocabulary on screen. Words like "kerning", "brand architecture" and "visual language" stay in the facilitator's head. On screen, everything is a question a founder can answer from their own experience.
 
 ---
@@ -38,7 +40,7 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 Ã
 **Title:** Where does hZero sit?
 **Subtitle:** Four scales. Place your dot. Then defend it.
 
-**Visual layout:** Four full-width slider rows, stacked. Each row has a left word, a thin track with 7 tick marks, and a right word. Beneath each track there's room for one dot per founder in a different colour. A right-hand column (4 columns wide) holds the "unpack" questions. The facilitator moves the dots live on the canvas, or the founders drag them.
+**Visual layout:** Four full-width slider rows, stacked. Each row has a left word, a thin track with 7 tick marks, and a right word. Beneath the tracks is a dot tray with one colour per founder: lime for founder 1, black for founder 2 (four dots each). A right-hand column (4 columns wide) holds the "unpack" questions. The facilitator moves the dots live on the canvas, or the founders drag them.
 
 **On-slide copy:**
 - Instruction: Each of you places one dot per scale, on your own, without talking. Then we compare.
