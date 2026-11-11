@@ -1096,11 +1096,13 @@ html.reveal h2:not(.rv-ready) { visibility: hidden; animation: rv-failsafe 0s 3.
   padding-bottom: 0.14em;
   margin-bottom: -0.14em;
 }
-/* Long, decelerating ease (expo-out) with a soft fade: the words glide up and settle rather than snap. */
+/* Word by word: each word glides up out of its mask with a small turn around its bottom-left corner,
+   on a long decelerating ease (expo-out), with a light fade that starts at 35% rather than from nothing. */
 .rv-i {
   display: inline-block;
-  transform: translate3d(0, 105%, 0);
-  opacity: 0;
+  transform: translate3d(0, 105%, 0) rotate(6deg);
+  transform-origin: 0% 100%;
+  opacity: 0.35;
   transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s cubic-bezier(0.33, 1, 0.68, 1);
   transition-delay: var(--rv-delay, 0s);
   will-change: transform, opacity;

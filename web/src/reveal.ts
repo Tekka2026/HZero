@@ -7,8 +7,8 @@
  * motion, the inline script in <head> never adds `reveal` and headings show as normal.
  */
 const FONT_TIMEOUT_MS = 2500;
-const LINE_STAGGER_S = 0.12;
-const WORD_STAGGER_S = 0.025;
+const WORD_STAGGER_S = 0.07;
+const LINE_PAUSE_S = 0.05;
 
 function wrap(node: Node): HTMLSpanElement {
   const outer = document.createElement("span");
@@ -46,16 +46,16 @@ function splitWords(node: Node) {
   }
 }
 
-/** Gives each word the delay of its line, so lines wipe in one after another. */
+/** Gives each word its delay: one after another through the heading, with a short pause at each new line. */
 function staggerLines(heading: HTMLElement) {
   let line = -1;
   let lastTop = -Infinity;
   let word = 0;
   for (const el of heading.querySelectorAll<HTMLElement>(".rv-w, .rv-media")) {
     const top = Math.round(el.getBoundingClientRect().top);
-    if (top > lastTop + 4) { line += 1; lastTop = top; word = 0; }
-    // Each line follows the one above; within a line the words ripple in just behind each other.
-    el.style.setProperty("--rv-delay", `${(line * LINE_STAGGER_S + word * WORD_STAGGER_S).toFixed(3)}s`);
+    if (top > lastTop + 4) { line += 1; lastTop = top; }
+    // Word by word through the whole heading, with a short extra beat at each new line.
+    el.style.setProperty("--rv-delay", `${(word * WORD_STAGGER_S + line * LINE_PAUSE_S).toFixed(3)}s`);
     word += 1;
   }
 }
