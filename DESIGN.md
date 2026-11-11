@@ -15,7 +15,7 @@ Units: px. Chart values refer to the 1920 × 1080 slide frame at 1×.
 
 | Role | Face | Weights | Where |
 |---|---|---|---|
-| Display titles | Gear Wide | 400 | Website h1 and h2. Sizes are about 78% of the Samara scale (70% on phones), tracking -0.02em. Trial (72 characters only) for now: not for public use until bought. |
+| Display titles | Gear Wide | 400 | Website h1 and h2. h2 sizes are about 78% of the Samara scale (70% on phones), h1 is 15% smaller again; tracking -0.02em. Trial (72 characters only) for now: not for public use until bought. |
 | Smaller titles | Selecta (Maxitype) | 400 | Website h3 and below. Trial licence for now: not for public use until bought. |
 | Text, labels, numbers | Inter | 400, 600 | Everything else, including all chart text. |
 | Monospace | none | | Never use monospace text anywhere. |
