@@ -1,10 +1,10 @@
-# hZero Brand Sprint: Deck Content
+# hzero Brand Sprint: Deck Content
 
 Two sessions of 2.5 hours. Day 1 (Discovery & Divergence): the founders give raw input. Overnight: the facilitator translates it into three visual directions. Day 2 (Convergence & Definition): the founders choose, as curators.
 
 The slides are built in Figma on the `slides` page of the Hzero file: one 1920 × 1080 frame per slide, with the facilitator notes in a separate frame to the right of each slide. The notes frames are not part of the presentation.
 
-**Participants:** the two hZero founders.
+**Participants:** the two hzero founders.
 
 **Ground rule for every slide:** no design vocabulary on screen. Words like "kerning", "brand architecture" and "visual language" stay in the facilitator's head. On screen, everything is a question a founder can answer from their own experience.
 
@@ -15,7 +15,7 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 �
 ### Slide 1 · Welcome & Ground Rules
 
 **Title:** You bring the truth. I bring the craft.
-**Subtitle:** hZero brand sprint · Day 1 of 2 · 2.5 hours
+**Subtitle:** hzero brand sprint · Day 1 of 2 · 2.5 hours
 
 **Visual layout:** Split slide. Left 7 columns: the title, very large, and one sentence under it. Right 5 columns: three stacked rule cards, numbered, with square corners. Bottom strip: today's agenda as a thin timeline with four stops and the time per stop.
 
@@ -28,16 +28,16 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 �
 - Timeline: Personality sliders · 40 min / Mood & feeling · 40 min / Raw truths · 50 min / Wrap-up · 20 min
 
 **Facilitator script:**
-- Open by naming the fear directly: "Most founders assume a brand sprint is a test of taste. It isn't. You are the only people in the room who know what hZero actually is. My job is to turn that into something people can see."
+- Open by naming the fear directly: "Most founders assume a brand sprint is a test of taste. It isn't. You are the only people in the room who know what hzero actually is. My job is to turn that into something people can see."
 - Make the role split concrete: today they are witnesses, tomorrow they are judges. They will never be asked to pick a font from a list of fifty.
 - Ask for one thing before starting: phones away, and permission to interrupt when an answer sounds like marketing copy. Agree a word for it, for example "brochure!".
-- Warm-up (3 min): "Explain hZero to a smart 12-year-old in one sentence." Write the answers down word for word. These are often the best raw material of the whole day.
+- Warm-up (3 min): "Explain hzero to a smart 12-year-old in one sentence." Write the answers down word for word. These are often the best raw material of the whole day.
 
 ---
 
 ### Slide 2 · Brand Personality Sliders
 
-**Title:** Where does hZero sit?
+**Title:** Where does hzero sit?
 **Subtitle:** Four scales. Place your dot. Then defend it.
 
 **Visual layout:** Four full-width slider rows, stacked. Each row has a left word, a thin track with 7 tick marks, and a right word. Beneath the tracks is a dot tray with one colour per founder: lime for founder 1, black for founder 2 (four dots each). A right-hand column (4 columns wide) holds the "unpack" questions. The facilitator moves the dots live on the canvas, or the founders drag them.
@@ -57,7 +57,7 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 �
 
 **Facilitator script:**
 - Silent placement first (2 min per scale), so the most senior voice doesn't anchor the others.
-- Translate each scale into hZero's world before they vote:
+- Translate each scale into hzero's world before they vote:
   - **Traditional ↔ Disruptive:** "Do you fit into the HPC centre's existing tools, or do you replace how they work?"
   - **Minimalist ↔ Maximalist:** "Does the operator see one clear number, or the whole system?"
   - **Playful ↔ Authoritative:** "Would you joke in front of a supercomputer centre's procurement board?"
@@ -69,17 +69,17 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 �
 
 ### Slide 3 · Visual Mood & Emotional Benchmarking
 
-**Title:** How should hZero feel in five years?
+**Title:** How should hzero feel in five years?
 **Subtitle:** Pin five images. Talk about the feeling, not the colours.
 
 **Visual layout:** Five large, empty image slots in a row (portrait 3:4), each with a dashed outline and a numbered caption field underneath. The slots are labelled with what to find, not what to show. A strip under the slots holds three "feeling" prompts. The facilitator brings a curated pool of about 60 printed or on-screen images (machines, materials, places, people, nature, objects); founders may also bring their own photos.
 
 **On-slide copy:**
-- Instruction: Choose five images from the pool, or from your own phone, that capture how hZero should feel when it has won. They don't need to show computers.
+- Instruction: Choose five images from the pool, or from your own phone, that capture how hzero should feel when it has won. They don't need to show computers.
 - Slot labels:
   1. **The feeling of the product working:** what does "it just runs" feel like?
-  2. **A material or texture:** if hZero were made of something, what would it be?
-  3. **A place:** where would hZero feel at home?
+  2. **A material or texture:** if hzero were made of something, what would it be?
+  3. **A place:** where would hzero feel at home?
   4. **A person or a moment:** who is relieved, proud or calm because of you?
   5. **The wildcard:** an image you love and can't explain.
 - Feeling prompts, one per image:
@@ -97,10 +97,10 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 �
 
 ### Slide 4 · The "Anti-AI Slop" & Raw Truths Exercise
 
-**Title:** What could only hZero say?
+**Title:** What could only hzero say?
 **Subtitle:** If a machine could have written it, it doesn't count.
 
-**Visual layout:** Four container cards in a 2 × 2 grid, each with a title, two prompt questions and an empty answer area with lines. A narrow band on top shows the "slop test": a generic sentence crossed out next to an empty line for the hZero version. The facilitator types the answers live into the cards.
+**Visual layout:** Four container cards in a 2 × 2 grid, each with a title, two prompt questions and an empty answer area with lines. A narrow band on top shows the "slop test": a generic sentence crossed out next to an empty line for the hzero version. The facilitator types the answers live into the cards.
 
 **On-slide copy:**
 - Slop test: ~~"We empower organisations to unlock the full potential of next-generation computing."~~ Now say what you actually do, in words your engineers would use.
@@ -136,7 +136,7 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 �
 - What you gave me today:
   1. Your positions on four personality scales
   2. Five images and the feelings behind them
-  3. The raw truths only hZero can say
+  3. The raw truths only hzero can say
   4. The words you kept repeating
 - What you'll see tomorrow:
   - **Three visual directions.** Each one has colours, type, imagery and a voice.
@@ -170,14 +170,14 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 �
 - Patterns:
   - [ ] Cluster the quotes into 3–5 human themes
   - [ ] Note where the sliders conflict with the stories
-  - [ ] List the "never" items: what hZero must never look or sound like
+  - [ ] List the "never" items: what hzero must never look or sound like
 - Translation rules:
   - [ ] Each slider sets one visual dial: contrast, density, type weight, colour saturation
   - [ ] Each image sets one texture or imagery rule
   - [ ] Each starred quote becomes a voice example
 - Packages, per direction:
   - [ ] Colour: 1 primary, 2 secondary, 1 accent, with hex codes
-  - [ ] Type: one header and one body pairing, shown on a real hZero sentence
+  - [ ] Type: one header and one body pairing, shown on a real hzero sentence
   - [ ] Imagery: 3 example images plus 3 rules
   - [ ] Voice: 3 adjectives plus a rewritten homepage line
 - Quality gate:
@@ -217,12 +217,12 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 �
 
 ### Slide 8 · Three Visual Directions
 
-**Title:** Three ways hZero could look and sound
+**Title:** Three ways hzero could look and sound
 **Subtitle:** React first. Explain second. Choose last.
 
 **Visual layout:** Three equal columns, A, B and C, each a tall container card containing:
 - a colour strip with 4 swatches and their hex codes
-- a type specimen: a header and body pairing shown on the same hZero sentence
+- a type specimen: a header and body pairing shown on the same hzero sentence
 - three imagery rules
 - three voice words
 
@@ -285,7 +285,7 @@ Under the columns is a voting row, one per column: "Love" and "Steal this" stick
 
 ### Slide 10 · Brand Voice & Un-AI-able Tone
 
-**Title:** How hZero sounds when it's being itself
+**Title:** How hzero sounds when it's being itself
 **Subtitle:** Three words, clear examples, and a test against sameness.
 
 **Visual layout:** Top: three large adjective cards. Middle: a two-column "We are / We are not" table with four rows. Bottom: the "human edge" checklist, and a single before/after sentence pair.
@@ -307,8 +307,8 @@ Under the columns is a voting row, one per column: "Love" and "Steal this" stick
   - Could a competitor publish it unchanged? If yes, rewrite it.
   - Is there one sentence that could only come from us?
 - Before / after:
-  - Before: "hZero empowers organisations to harness hybrid computing."
-  - After: "hZero makes quantum and classical computers work as one system, so your team stops babysitting jobs at 3am."
+  - Before: "hzero empowers organisations to harness hybrid computing."
+  - After: "hzero makes quantum and classical computers work as one system, so your team stops babysitting jobs at 3am."
 
 **Facilitator script:**
 - Pick the three words by vote from a shortlist of about eight, pulled from Day 1 quotes. Don't accept words that every company uses, like "innovative" or "trusted".
