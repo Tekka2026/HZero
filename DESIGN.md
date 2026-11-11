@@ -15,7 +15,7 @@ Units: px. Chart values refer to the 1920 × 1080 slide frame at 1×.
 
 | Role | Face | Weights | Where |
 |---|---|---|---|
-| Titles | Selecta (Maxitype) | 400 | Website headings. Trial licence for now: not for public use until bought. |
+| Titles | IBM Plex Sans | 400 | Website headings (h1–h6). Self-hosted in `web/assets/fonts/plex/`, SIL Open Font License (free). Tracking -0.025em on the largest titles, -0.02em on section titles. |
 | Text, labels, numbers | Inter | 400, 600 | Everything else, including all chart text. |
 | Monospace | none | | Never use monospace text anywhere. |
 

@@ -63,7 +63,7 @@ function staggerLines(heading: HTMLElement) {
 function fontReady(): Promise<unknown> {
   if (!("fonts" in document)) return Promise.resolve();
   return Promise.race([
-    document.fonts.load('400 1em "Selecta"').then(() => document.fonts.ready),
+    document.fonts.load('400 1em "IBM Plex Sans"').then(() => document.fonts.ready),
     new Promise((resolve) => setTimeout(resolve, FONT_TIMEOUT_MS)),
   ]);
 }

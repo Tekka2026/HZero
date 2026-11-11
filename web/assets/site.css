@@ -4,24 +4,34 @@
  *   > 1024px   12 columns, 24px gutter, 54px side margin, 1600px max width
  *   769–1024   12 columns, 15px gutter, 30px side margin
  *   ≤ 768px    6 columns,  15px gutter, 21px side margin
- * Titles: Selecta (see assets/fonts/selecta/), falling back to Inter. Body: Inter. No monospace anywhere.
+ * Titles: IBM Plex Sans Regular (assets/fonts/plex/, SIL Open Font License), falling back to Inter.
+ * Body: Inter. No monospace anywhere.
  */
 @import "@fontsource-variable/inter";
 
-/* Selecta Regular, the weight every title uses. Declared here (not in fonts.ts) and preloaded in each page,
-   so it arrives before the titles are drawn. "block" keeps titles invisible for a moment rather than
-   showing them in Inter and then jumping to Selecta. */
+/* IBM Plex Sans Regular, the title font. Self-hosted and preloaded in each page (latin), so it arrives
+   before the titles are drawn. "block" keeps titles invisible for a moment rather than showing them in
+   Inter and then jumping. */
 @font-face {
-  font-family: "Selecta";
-  src: url("fonts/selecta/SelectaTrialUnlicensed-Regular.woff2") format("woff2");
+  font-family: "IBM Plex Sans";
+  src: url("fonts/plex/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("fonts/plex/ibm-plex-sans-latin-ext-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 :root {
   --type-18: 18px;
-  --font-title: "Selecta", "Inter Variable", Inter, Arial, sans-serif;
+  --font-title: "IBM Plex Sans", "Inter Variable", Inter, Arial, sans-serif;
   --font-body: "Inter Variable", Inter, Arial, sans-serif;
 
   /* Samara's page grid: 12 columns. Content sits in columns 2-11 (a 10-column grid);
@@ -115,7 +125,7 @@ button { font: inherit; color: inherit; }
 .section-six h2 {                 /* type-96 / m-type-48 */
   font-size: clamp(72px, 6.67vw, 120px);
   line-height: 1;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
 }
 
 .section-opening h2,
@@ -125,7 +135,7 @@ button { font: inherit; color: inherit; }
 .legal-main h1 {                  /* type-60 / m-type-36 */
   font-size: clamp(54px, 4.16vw, 60px);
   line-height: 1.1;
-  letter-spacing: -0.028em;
+  letter-spacing: -0.02em;
 }
 
 .s5-achievement-heading h3 {      /* type-48 */
@@ -180,13 +190,13 @@ button { font: inherit; color: inherit; }
 
 @media (max-width: 768px) {
   .hero-copy h1,
-  .section-six h2 { font-size: clamp(42px, 12.8vw, 48px); line-height: 1.1; letter-spacing: -0.028em; }
+  .section-six h2 { font-size: clamp(42px, 12.8vw, 48px); line-height: 1.1; letter-spacing: -0.02em; }
 
   .section-opening h2,
   .section-three-heading h2,
   .section-four-heading h2,
   .s5-team-heading h2,
-  .legal-main h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.024em; }
+  .legal-main h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.018em; }
 
   .s5-achievement-heading h3 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; }
 
@@ -1036,7 +1046,7 @@ svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #3a3226; opacity: 0.1
 
 .charts-main { row-gap: 0; padding-top: calc(var(--nav-height) + 120px); padding-bottom: 150px; }
 .charts-heading { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 36px; padding-bottom: 100px; }
-.charts-heading h1 { font-size: clamp(54px, 4.16vw, 60px); line-height: 1.1; letter-spacing: -0.028em; }
+.charts-heading h1 { font-size: clamp(54px, 4.16vw, 60px); line-height: 1.1; letter-spacing: -0.02em; }
 .charts-intro { font-size: clamp(21px, 1.6vw, 26px); line-height: 1.25; font-weight: 300; letter-spacing: -0.014em; color: var(--ink-60); }
 
 .chart { grid-column: 1 / -1; margin: 0; display: flex; flex-direction: column; gap: 24px; padding-top: 36px; border-top: 1px solid var(--line); }
@@ -1074,7 +1084,7 @@ svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #3a3226; opacity: 0.1
 @media (max-width: 768px) {
   .charts-main { padding-top: calc(var(--nav-height) + 64px); padding-bottom: 80px; }
   .charts-heading { grid-column: 1 / -1; padding-bottom: 64px; }
-  .charts-heading h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.024em; }
+  .charts-heading h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.018em; }
   .charts-intro { font-size: clamp(18px, 5.6vw, 21px); letter-spacing: -0.01em; }
   .chart-text h2 { font-size: clamp(21px, 6.4vw, 24px); line-height: 1.25; }
   .chart + .chart { margin-top: 64px; }

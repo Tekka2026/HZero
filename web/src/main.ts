@@ -1,10 +1,8 @@
 import "./site-menu.js";
 import "./hz3d.css";
-import { loadSelecta } from "./fonts";
 import { initFlow, initInView, initMenuPill, initNav, initSpotlight } from "./interactions";
 import { initHeadingReveal } from "./reveal";
 
-loadSelecta();
 
 // Viewport width without the scrollbar, so the nav and the content share one column grid.
 const setVw = () => document.documentElement.style.setProperty("--vw", `${document.documentElement.clientWidth}px`);
