@@ -1,20 +1,11 @@
 /**
- * Title fonts.
+ * Title font: Selecta (Maxitype).
  *
- * - Gear Wide (web/assets/fonts/gear/) for h1 and h2.
- * - Selecta (Maxitype, web/assets/fonts/selecta/) for the smaller titles (h3 and below).
- *
- * Every file in a folder is registered under that folder's family name; weight and style are read from the
- * file name (e.g. Selecta-Light.woff2, GearTrialWide-RegularSlant.woff2). With no files present, titles fall
- * back to Inter.
+ * Drop the font files into web/assets/fonts/selecta/ (woff2, woff or otf/ttf).
+ * Every file there is registered as the "Selecta" family; weight and style are read from the file name
+ * (e.g. Selecta-Light.woff2, SelectaTrial-MediumItalic.otf). With no files present, titles fall back to Inter.
  */
-const selecta = import.meta.glob("../assets/fonts/selecta/*.{woff2,woff,otf,ttf}", {
-  eager: true,
-  query: "?url",
-  import: "default",
-}) as Record<string, string>;
-
-const gear = import.meta.glob("../assets/fonts/gear/*.{woff2,woff,otf,ttf}", {
+const files = import.meta.glob("../assets/fonts/selecta/*.{woff2,woff,otf,ttf}", {
   eager: true,
   query: "?url",
   import: "default",
@@ -31,7 +22,7 @@ const WEIGHTS: [RegExp, number][] = [
   [/bold/i, 700],
 ];
 
-function register(family: string, files: Record<string, string>): void {
+export function loadSelecta(): void {
   const entries = Object.entries(files);
   if (!entries.length || !("fonts" in document)) return;
   // Prefer woff2 over other formats when the same style is present more than once.
@@ -40,17 +31,12 @@ function register(family: string, files: Record<string, string>): void {
   for (const [path, url] of entries.sort(([a], [b]) => rank(a) - rank(b))) {
     const name = path.split("/").pop()!.replace(/\.[^.]+$/, "");
     const weight = WEIGHTS.find(([re]) => re.test(name))?.[1] ?? 400;
-    const style = /italic|oblique|slant/i.test(name) ? "italic" : "normal";
+    const style = /italic|oblique/i.test(name) ? "italic" : "normal";
     const key = `${weight}-${style}`;
     if (seen.has(key)) continue;
-    const face = new FontFace(family, `url(${url})`, { weight: String(weight), style, display: "swap" });
+    const face = new FontFace("Selecta", `url(${url})`, { weight: String(weight), style, display: "swap" });
     seen.set(key, face);
     document.fonts.add(face);
     face.load().catch((err) => console.warn(`Could not load ${name}`, err));
   }
-}
-
-export function loadTitleFonts(): void {
-  register("Gear Wide", gear);
-  register("Selecta", selecta);
 }

@@ -4,14 +4,12 @@
  *   > 1024px   12 columns, 24px gutter, 54px side margin, 1600px max width
  *   769–1024   12 columns, 15px gutter, 30px side margin
  *   ≤ 768px    6 columns,  15px gutter, 21px side margin
- * Titles: h1 and h2 in Gear Wide (assets/fonts/gear/), smaller titles in Selecta (assets/fonts/selecta/),
- * both falling back to Inter. Body: Inter. No monospace anywhere.
+ * Titles: Selecta (see assets/fonts/selecta/), falling back to Inter. Body: Inter. No monospace anywhere.
  */
 @import "@fontsource-variable/inter";
 
 :root {
   --type-18: 18px;
-  --font-display: "Gear Wide", "Inter Variable", Inter, Arial, sans-serif;
   --font-title: "Selecta", "Inter Variable", Inter, Arial, sans-serif;
   --font-body: "Inter Variable", Inter, Arial, sans-serif;
 
@@ -79,10 +77,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
 
-/* Gear Wide is much wider than Selecta: h2 sizes below are ~70% of the Samara scale (63% on phones), h1 ~66% (60%)
-   and the tracking is looser (-0.02em). */
-h1, h2 { font-family: var(--font-display); }
-
 p, ol, ul, dl, figure, address { margin: 0; }
 ol, ul { padding: 0; list-style: none; }
 img, video, svg { display: block; max-width: 100%; }
@@ -106,31 +100,21 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Type scale (samara type-NN) ---------- */
 
-.section-six h2 {                 /* type-96 / m-type-48, scaled for Gear Wide */
-  font-size: clamp(50px, 4.68vw, 85px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-}
-
-.hero-copy h1 {                   /* type-96 scaled for Gear Wide (~66%) */
-  font-size: clamp(48px, 4.42vw, 80px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+.hero-copy h1,
+.section-six h2 {                 /* type-96 / m-type-48 */
+  font-size: clamp(72px, 6.67vw, 120px);
+  line-height: 1;
+  letter-spacing: -0.035em;
 }
 
 .section-opening h2,
 .section-three-heading h2,
 .section-four-heading h2,
-.s5-team-heading h2 {             /* type-60 / m-type-36, scaled for Gear Wide */
-  font-size: clamp(38px, 2.93vw, 42px);
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-}
-
-.legal-main h1 {                  /* type-60 scaled for Gear Wide (~66%) */
-  font-size: clamp(36px, 2.76vw, 40px);
-  line-height: 1.12;
-  letter-spacing: -0.02em;
+.s5-team-heading h2,
+.legal-main h1 {                  /* type-60 / m-type-36 */
+  font-size: clamp(54px, 4.16vw, 60px);
+  line-height: 1.1;
+  letter-spacing: -0.028em;
 }
 
 .s5-achievement-heading h3 {      /* type-48 */
@@ -184,14 +168,14 @@ button { font: inherit; color: inherit; }
 }
 
 @media (max-width: 768px) {
-  .section-six h2 { font-size: clamp(26px, 8.1vw, 31px); line-height: 1.12; letter-spacing: -0.02em; }
-  .hero-copy h1 { font-size: clamp(25px, 7.65vw, 29px); line-height: 1.12; }
+  .hero-copy h1,
+  .section-six h2 { font-size: clamp(42px, 12.8vw, 48px); line-height: 1.1; letter-spacing: -0.028em; }
 
   .section-opening h2,
   .section-three-heading h2,
   .section-four-heading h2,
-  .s5-team-heading h2 { font-size: clamp(20px, 6vw, 23px); line-height: 1.2; letter-spacing: -0.02em; }
-  .legal-main h1 { font-size: clamp(19px, 5.7vw, 21px); line-height: 1.2; }
+  .s5-team-heading h2,
+  .legal-main h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.024em; }
 
   .s5-achievement-heading h3 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; }
 
@@ -988,7 +972,7 @@ svg.hzero-first-visual__scene { height: auto; }
   padding-block: 36px;
   border-top: 1px solid var(--line);
 }
-.legal-section h2 { grid-column: 1 / span 3; font-size: 15px; line-height: 1.35; letter-spacing: 0; }
+.legal-section h2 { grid-column: 1 / span 3; }
 .legal-section > :not(h2) { grid-column: 5 / -1; }
 .legal-section p + p { margin-top: 0; }
 .legal-section a { color: var(--ink); text-underline-offset: 3px; }
@@ -1004,7 +988,7 @@ svg.hzero-first-visual__scene { height: auto; }
 
 @media (max-width: 1024px) {
   .legal-main h1, .legal-intro { grid-column: 1 / -1; }
-  .legal-section h2 { grid-column: 1 / -1; font-size: clamp(14px, 4vw, 15px); }
+  .legal-section h2 { grid-column: 1 / -1; }
   .legal-section > :not(h2) { grid-column: 1 / -1; }
 }
 @media (max-width: 768px) {
@@ -1041,13 +1025,13 @@ svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #3a3226; opacity: 0.1
 
 .charts-main { row-gap: 0; padding-top: calc(var(--nav-height) + 120px); padding-bottom: 150px; }
 .charts-heading { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 36px; padding-bottom: 100px; }
-.charts-heading h1 { font-size: clamp(36px, 2.76vw, 40px); line-height: 1.12; letter-spacing: -0.02em; }
+.charts-heading h1 { font-size: clamp(54px, 4.16vw, 60px); line-height: 1.1; letter-spacing: -0.028em; }
 .charts-intro { font-size: clamp(21px, 1.6vw, 26px); line-height: 1.25; font-weight: 300; letter-spacing: -0.014em; color: var(--ink-60); }
 
 .chart { grid-column: 1 / -1; margin: 0; display: flex; flex-direction: column; gap: 24px; padding-top: 36px; border-top: 1px solid var(--line); }
 .chart + .chart { margin-top: 100px; }
 .chart-text { display: flex; flex-direction: column; gap: 10px; max-width: 640px; }
-.chart-text h2 { font-size: clamp(18px, 1.4vw, 21px); line-height: 1.25; letter-spacing: -0.01em; }
+.chart-text h2 { font-size: clamp(26px, 2vw, 30px); line-height: 1.2; letter-spacing: -0.014em; }
 .chart-text p { font-size: var(--type-18); line-height: 1.33; color: var(--ink-60); }
 .chart-frame { background: #fff; }
 .chart-frame img, .chart-frame svg { display: block; width: 100%; height: auto; }
@@ -1079,9 +1063,9 @@ svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #3a3226; opacity: 0.1
 @media (max-width: 768px) {
   .charts-main { padding-top: calc(var(--nav-height) + 64px); padding-bottom: 80px; }
   .charts-heading { grid-column: 1 / -1; padding-bottom: 64px; }
-  .charts-heading h1 { font-size: clamp(19px, 5.7vw, 21px); line-height: 1.2; letter-spacing: -0.02em; }
+  .charts-heading h1 { font-size: clamp(32px, 9.6vw, 36px); line-height: 1.17; letter-spacing: -0.024em; }
   .charts-intro { font-size: clamp(18px, 5.6vw, 21px); letter-spacing: -0.01em; }
-  .chart-text h2 { font-size: clamp(15px, 4.6vw, 17px); line-height: 1.3; }
+  .chart-text h2 { font-size: clamp(21px, 6.4vw, 24px); line-height: 1.25; }
   .chart + .chart { margin-top: 64px; }
   .chart-frame { margin-inline: calc(var(--margin) * -1); }
 }
