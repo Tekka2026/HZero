@@ -84,8 +84,7 @@ The slides are built in Figma on the `slides` page of the Hzero file: one 1920 Ã
   5. **The wildcard:** an image you love and can't explain.
 - Feeling prompts, one per image:
   - What do you feel first, in one word?
-  - What would be wrong if this image were cleaner, glossier or more "techy"?
-  - What sound would this image make?
+  - What is not right about this image?
 
 **Facilitator script:**
 - Pre-curate the pool so it avoids stock "quantum" imagery: no glowing blue circuits, no floating qubits, no handshakes. Include raw materials (machined aluminium, cable looms, concrete, paper with pencil notes), calm control rooms, and quiet human moments.
