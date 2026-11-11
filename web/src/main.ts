@@ -2,6 +2,7 @@ import "./site-menu.js";
 import "./hz3d.css";
 import { loadSelecta } from "./fonts";
 import { initFlow, initInView, initMenuPill, initNav, initSpotlight } from "./interactions";
+import { initHeadingReveal } from "./reveal";
 
 loadSelecta();
 
@@ -14,6 +15,7 @@ initMenuPill();
 initFlow();
 initSpotlight();
 initInView();
+initHeadingReveal();
 
 // Load the WebGL diagram only when its container exists, and keep Three.js out of the critical path.
 const container = document.querySelector<HTMLElement>("[data-hz3d]");

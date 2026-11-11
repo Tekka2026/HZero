@@ -8,6 +8,17 @@
  */
 @import "@fontsource-variable/inter";
 
+/* Selecta Regular, the weight every title uses. Declared here (not in fonts.ts) and preloaded in each page,
+   so it arrives before the titles are drawn. "block" keeps titles invisible for a moment rather than
+   showing them in Inter and then jumping to Selecta. */
+@font-face {
+  font-family: "Selecta";
+  src: url("fonts/selecta/SelectaTrialUnlicensed-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
 :root {
   --type-18: 18px;
   --font-title: "Selecta", "Inter Variable", Inter, Arial, sans-serif;
@@ -474,7 +485,7 @@ main > div > section { padding-block: 150px 0; }
 
 .section-two-inner { row-gap: 64px; align-items: center; }
 .section-opening { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: 36px; }
-.section-opening h2 span { display: block; }
+.section-opening h2 > span:not(.rv-w) { display: block; }
 .section-two-copy { display: flex; flex-direction: column; gap: 24px; }
 .section-two-copy p { color: var(--ink-60); }
 .hzero-first-visual { grid-column: 6 / -1; min-width: 0; }
@@ -830,7 +841,7 @@ svg.hzero-first-visual__scene { height: auto; }
 
 .s5-team-inner { row-gap: 0; }
 .s5-team-heading { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 36px; padding-bottom: 100px; }
-.s5-team-heading h2 span { display: block; }
+.s5-team-heading h2 > span:not(.rv-w) { display: block; }
 .s5-heading-logo { display: inline-block; height: 0.68em; width: auto; vertical-align: -0.02em; }
 .s5-intro { max-width: 760px; color: var(--ink-60); }
 
@@ -1068,4 +1079,40 @@ svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #3a3226; opacity: 0.1
   .chart-text h2 { font-size: clamp(21px, 6.4vw, 24px); line-height: 1.25; }
   .chart + .chart { margin-top: 64px; }
   .chart-frame { margin-inline: calc(var(--margin) * -1); }
+}
+
+/* ---------- Heading reveal: wipe up from a mask, line by line (src/reveal.ts) ---------- */
+
+/* Set by the inline script in <head> (only without reduced motion): hide h1/h2 until they are split. */
+html.reveal h1:not(.rv-ready),
+html.reveal h2:not(.rv-ready) { visibility: hidden; animation: rv-failsafe 0s 3.5s forwards; }
+@keyframes rv-failsafe { to { visibility: visible; } }
+
+.rv-w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* Room for descenders inside the mask, without changing the line height. */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.rv-i {
+  display: inline-block;
+  transform: translate3d(0, 112%, 0) rotate(4deg);
+  transform-origin: 0 100%;
+  transition: transform 1.15s cubic-bezier(0.7, 0, 0.18, 1);
+  transition-delay: var(--rv-delay, 0s);
+}
+.rv-in .rv-i { transform: none; }
+/* Images in a heading (the hzero logo) wipe up in place, without a mask wrapper, so they keep their alignment. */
+.rv-ready .rv-media {
+  clip-path: inset(100% 0 0 0);
+  transform: translate3d(0, 35%, 0);
+  transition: clip-path 1.15s cubic-bezier(0.7, 0, 0.18, 1), transform 1.15s cubic-bezier(0.7, 0, 0.18, 1);
+  transition-delay: var(--rv-delay, 0s);
+}
+.rv-in .rv-media { clip-path: inset(0 0 0 0); transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-i, .rv-ready .rv-media { transform: none; clip-path: none; transition: none; }
 }

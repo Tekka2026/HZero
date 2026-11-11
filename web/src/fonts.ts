@@ -4,6 +4,9 @@
  * Drop the font files into web/assets/fonts/selecta/ (woff2, woff or otf/ttf).
  * Every file there is registered as the "Selecta" family; weight and style are read from the file name
  * (e.g. Selecta-Light.woff2, SelectaTrial-MediumItalic.otf). With no files present, titles fall back to Inter.
+ *
+ * Regular (400) is the weight every title uses, so it is declared in site.css and preloaded in each page's <head>
+ * instead: that way the browser fetches it straight away and titles never flash in Inter first.
  */
 const files = import.meta.glob("../assets/fonts/selecta/*.{woff2,woff,otf,ttf}", {
   eager: true,
@@ -33,10 +36,10 @@ export function loadSelecta(): void {
     const weight = WEIGHTS.find(([re]) => re.test(name))?.[1] ?? 400;
     const style = /italic|oblique/i.test(name) ? "italic" : "normal";
     const key = `${weight}-${style}`;
-    if (seen.has(key)) continue;
+    if (seen.has(key) || key === "400-normal") continue;
     const face = new FontFace("Selecta", `url(${url})`, { weight: String(weight), style, display: "swap" });
     seen.set(key, face);
+    // Registered only: the browser downloads a weight the first time a heading actually uses it.
     document.fonts.add(face);
-    face.load().catch((err) => console.warn(`Could not load ${name}`, err));
   }
 }
