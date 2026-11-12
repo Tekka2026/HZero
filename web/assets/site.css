@@ -4,12 +4,29 @@
  *   > 1024px   12 columns, 24px gutter, 54px side margin, 1600px max width
  *   769–1024   12 columns, 15px gutter, 30px side margin
  *   ≤ 768px    6 columns,  15px gutter, 21px side margin
- * Titles: IBM Plex Sans Regular (assets/fonts/plex/, SIL Open Font License), falling back to Inter.
+ * Titles: T-Star Regular (assets/fonts/tstar/, trial licence), with IBM Plex Sans and Inter as fallbacks.
  * Body: Inter. No monospace anywhere.
  */
 @import "@fontsource-variable/inter";
 
-/* IBM Plex Sans Regular, the title font. Self-hosted and preloaded in each page (latin), so it arrives
+/* T-Star Regular, the title font (trial: 77 characters; anything else falls back to IBM Plex Sans).
+   Preloaded in each page; "block" keeps titles invisible for a moment instead of jumping between fonts. */
+@font-face {
+  font-family: "T-Star";
+  src: url("fonts/tstar/TStarTrial-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "T-Star";
+  src: url("fonts/tstar/TStarTrial-RegularItalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+
+/* IBM Plex Sans Regular: fallback for characters T-Star's trial does not have. Self-hosted and preloaded in each page (latin), so it arrives
    before the titles are drawn. "block" keeps titles invisible for a moment rather than showing them in
    Inter and then jumping. */
 @font-face {
@@ -31,7 +48,7 @@
 
 :root {
   --type-18: 18px;
-  --font-title: "IBM Plex Sans", "Inter Variable", Inter, Arial, sans-serif;
+  --font-title: "T-Star", "IBM Plex Sans", "Inter Variable", Inter, Arial, sans-serif;
   --font-body: "Inter Variable", Inter, Arial, sans-serif;
 
   /* Samara's page grid: 12 columns. Content sits in columns 2-11 (a 10-column grid);
