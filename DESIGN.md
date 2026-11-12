@@ -21,17 +21,23 @@ Units: px. Chart values refer to the 1920 × 1080 slide frame at 1×.
 
 ### Colours
 
+The website is black: a near-black page with a trace of cyan, cyan-tinted greys, and the hzero cyan as the one signal colour (see the brand guidelines).
+
 | Token | Value | Use |
 |---|---|---|
-| ink | `#0A0A0A` | Website text, black buttons |
-| white | `#FFFFFF` | Website background |
-| bg-alt | `#F6F5F2` | Alternate website sections |
-| panel | `#EFEDE8` | Website panels |
-| sand | `#A38457` | Website accent: large text, small markers |
-| sand-ink | `#7F643B` | Website accent: small text (4.5:1 on white) |
-| grey second line | `#8D8D8D` | Second line of website headlines |
-| highlight | `#82816D` | Highlighted word in the main title (H1), lines and arrival squares of the sphere |
+| bg | `#091314` | Page background |
+| bg-alt | `#0D1A1C` | Alternate sections |
+| panel | `#132224` | Cards and panels |
+| ink | `#EEF2F2` | Text |
+| ink-60 | `#EEF2F2` at 66% | Secondary text |
+| steel | `#778386` | Second line of headlines (large text only) |
+| mist | `#AAB5B7` | Menu links, logo bracket on dark, the sphere's centre shape |
+| line | white at 10% | Hairlines |
+| cyan (highlight, accent) | `#6CEAFB` | Highlighted word in the H1, Contact button, links and markers, sphere lines and receiving squares. One signal per screen. |
+| on-signal | `#091314` | Text on cyan |
 | lime | `#E2F28E` | Favicon; the sphere's centre shape when a stroke lights it |
+
+The logo on the site is the "signal" version: white letters, cyan bracket.
 
 Charts use their own palette (section 2.4). Do not mix the two.
 

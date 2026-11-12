@@ -1,6 +1,6 @@
 import "./site-menu.js";
 import "./hz3d.css";
-import { initFlow, initInView, initMenuPill, initNav, initSpotlight } from "./interactions";
+import { initFlow, initInView, initMenuPill, initSpotlight } from "./interactions";
 import { initHeadingReveal } from "./reveal";
 
 
@@ -8,7 +8,6 @@ import { initHeadingReveal } from "./reveal";
 const setVw = () => document.documentElement.style.setProperty("--vw", `${document.documentElement.clientWidth}px`);
 setVw();
 window.addEventListener("resize", setVw);
-initNav();
 initMenuPill();
 initFlow();
 initSpotlight();

@@ -2,10 +2,10 @@
  * "Why it matters" visual: a sphere of connections.
  *
  * 4 x 4 px squares sit all over the surface of a sphere (20% of an even spread of positions).
- * Squares without a line are light grey (#D2D2D2), squares where lines start are black, squares
- * that receive a line are #82816D. Each line is made of straight stretches with sharp corners: it
+ * On the black page: squares without a line are dark slate (#2E3B3E), squares where lines start are
+ * near-white (#EEF2F2), squares that receive a line are hzero cyan (#6CEAFB). Each line is made of straight stretches with sharp corners: it
  * runs from a square through the opening of the hzero shape floating inside the globe (the logo's
- * slanted, chamfered outline in #CCCCCC, at the centre and spinning against the globe) and on to a square on the other half, or to a hidden point that only shows a
+ * slanted, chamfered outline in mist #AAB5B7, at the centre and spinning against the globe) and on to a square on the other half, or to a hidden point that only shows a
  * square when a stroke arrives. On the way it may kink 1-3 times, each kink a hook of at most 15% of
  * that stretch. A stroke keeps travelling along every line from A to B. Everything is 3D and turns
  * together, very slowly, around a diagonal axis; the globe can be dragged. Far squares are fainter.
@@ -30,7 +30,7 @@ const SHAPE_H = 1;              // unit height here; scaled to pixels when drawn
 const SHAPE_MAX_PX = 40;       // the shape is never larger than this on screen, in any position
 const SHAPE_SPAN = 1.24;       // its longest straight-line extent (corner to corner), in shape heights
 const SHAPE_SPIN_SECONDS = 60;  // its own turn, against the globe's
-const SHAPE_COLOR = "204, 204, 204";   // #CCCCCC, as in the logo
+const SHAPE_COLOR = "170, 181, 183";   // #AAB5B7 mist, the logo bracket on dark
 const SHAPE_DEPTH_PX = 6;      // thickness of the shape
 const SHAPE_FACE_ALPHA = 0.45, SHAPE_SIDE_ALPHA = 0.3;   // see-through, so the lines show
 const LIT = [226, 242, 142];   // #E2F28E: the shape lights up whenever a stroke crosses it
@@ -46,10 +46,10 @@ const SHAPE_OUTER = toShape([751.397, 810, 713.704, 765.079, 795.502, 314.921, 8
 const SHAPE_INNER = toShape([778.666, 773.354, 1055.95, 773.354, 1084.6, 749.317, 1160.84, 330.683, 1140.67, 306.646, 863.382, 306.646, 834.736, 330.683, 758.497, 749.317]);
 // corners of the opening, for picking where a line passes through
 const [OPEN_TL, OPEN_TR, OPEN_BL] = toShape([863.382, 306.646, 1140.67, 306.646, 778.666, 773.354]);
-const INK = "10, 10, 10";
-const RECEIVER = "130, 129, 109";   // #82816D: squares that receive a line
-const LINE = RECEIVER;               // the lines are #82816D too
-const IDLE = "210, 210, 210";       // #D2D2D2: squares without a line
+const INK = "238, 242, 242";         // #EEF2F2: squares where a line starts
+const RECEIVER = "108, 234, 251";   // #6CEAFB hzero cyan: squares that receive a line
+const LINE = RECEIVER;               // the lines are cyan too
+const IDLE = "46, 59, 62";          // #2E3B3E: squares without a line
 
 function rng(seed: number) {
   return () => {
