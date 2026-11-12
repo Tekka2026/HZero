@@ -68,31 +68,36 @@ export function initInView(root: ParentNode = document) {
 }
 
 /**
- * Hides the logo and navigation while scrolling down and brings them back on the first scroll up.
- * They always show near the top of the page, while the phone menu is open and while keyboard focus is in them.
+ * The logo and navigation follow the scroll: they slide out while scrolling down and back in while
+ * scrolling up, moving SPEED times the scroll distance, so they lead the page slightly.
+ * They are always fully shown near the top of the page, while the phone menu is open and while
+ * keyboard focus is in them.
  */
 export function initNav() {
   const nav = document.querySelector<HTMLElement>(".nav");
   if (!nav) return;
   const toggle = document.getElementById("menu-toggle");
-  const SHOW_ABOVE = 120;     // px from the top: always visible here
-  const DELTA = 6;            // ignore tiny scroll jitter
+  const SPEED = 1.25;         // nav movement per px scrolled
+  const SHOW_ABOVE = 40;      // px from the top: always fully shown here
   let lastY = window.scrollY;
+  let offset = 0;             // 0 = fully shown, -hideAt = fully hidden
   let queued = false;
+  const hideAt = () => nav.offsetHeight + 12;
 
+  const apply = () => { nav.style.transform = offset ? `translate3d(0, ${offset.toFixed(1)}px, 0)` : ""; };
   const update = () => {
     queued = false;
-    const y = window.scrollY;
+    const y = Math.max(0, window.scrollY);
     const menuOpen = toggle?.getAttribute("aria-expanded") === "true";
     const focused = nav.contains(document.activeElement);
-    if (y < SHOW_ABOVE || menuOpen || focused) nav.classList.remove("is-hidden");
-    else if (y > lastY + DELTA) nav.classList.add("is-hidden");
-    else if (y < lastY - DELTA) nav.classList.remove("is-hidden");
-    if (Math.abs(y - lastY) > DELTA || y < SHOW_ABOVE) lastY = y;
+    if (y < SHOW_ABOVE || menuOpen || focused) offset = 0;
+    else offset = Math.min(0, Math.max(-hideAt(), offset - (y - lastY) * SPEED));
+    lastY = y;
+    apply();
   };
   const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
   window.addEventListener("scroll", schedule, { passive: true });
-  nav.addEventListener("focusin", () => nav.classList.remove("is-hidden"));
+  nav.addEventListener("focusin", () => { offset = 0; apply(); });
   update();
 }
 

@@ -299,10 +299,8 @@ main > div > section { padding-block: 150px 0; }
   pointer-events: none;
 }
 .nav > * { pointer-events: auto; }
-/* Slides away while scrolling down, comes back as soon as you scroll up (src/interactions.ts). */
-.nav { transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
-.nav.is-hidden { transform: translateY(-110%); }
-@media (prefers-reduced-motion: reduce) { .nav { transition: none; } }
+/* Follows the scroll at 1.25x: slides out scrolling down, back in scrolling up (src/interactions.ts). */
+.nav { will-change: transform; }
 
 .nav { isolation: isolate; }
 
