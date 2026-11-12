@@ -3,7 +3,7 @@
  *
  * 4 x 4 px squares sit all over the surface of a sphere (20% of an even spread of positions).
  * On the black page: squares without a line are dark slate (#2E3B3E), squares where lines start are
- * near-white (#EEF2F2), squares that receive a line are hzero cyan (#6CEAFB). Each line is made of straight stretches with sharp corners: it
+ * near-white (#EEF2F2), squares that receive a line are hzero cyan (#2ECCD4). Each line is made of straight stretches with sharp corners: it
  * runs from a square through the opening of the hzero shape floating inside the globe (the logo's
  * slanted, chamfered outline in mist #AAB5B7, at the centre and spinning against the globe) and on to a square on the other half, or to a hidden point that only shows a
  * square when a stroke arrives. On the way it may kink 1-3 times, each kink a hook of at most 15% of
@@ -47,7 +47,7 @@ const SHAPE_INNER = toShape([778.666, 773.354, 1055.95, 773.354, 1084.6, 749.317
 // corners of the opening, for picking where a line passes through
 const [OPEN_TL, OPEN_TR, OPEN_BL] = toShape([863.382, 306.646, 1140.67, 306.646, 778.666, 773.354]);
 const INK = "238, 242, 242";         // #EEF2F2: squares where a line starts
-const RECEIVER = "108, 234, 251";   // #6CEAFB hzero cyan: squares that receive a line
+const RECEIVER = "46, 204, 212";   // #2ECCD4 hzero cyan: squares that receive a line
 const LINE = RECEIVER;               // the lines are cyan too
 const IDLE = "46, 59, 62";          // #2E3B3E: squares without a line
 

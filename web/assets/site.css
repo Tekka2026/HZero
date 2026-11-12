@@ -53,15 +53,15 @@
   --ink-60: rgb(238 242 242 / 0.66);
   --ink-40: rgb(238 242 242 / 0.45);
   --ink-45: #778386;          /* steel: grey second line in headlines (4.6:1 on the page) */
-  --highlight: #6ceafb;         /* hzero cyan: highlighted word in the main title, sphere lines, the signal */
+  --highlight: #2eccd4;         /* hzero cyan: highlighted word in the main title, sphere lines, the signal */
   --nav-text: #aab5b7;          /* mist: menu links before hover */
   --line: rgb(255 255 255 / 0.1);
   --bg: #091314;              /* page */
   --bg-alt: #0d1a1c;          /* alternate sections */
   --panel: #132224;           /* cards and panels */
-  --sand-light: rgb(108 234 251 / 0.1);   /* fills (name kept for compatibility) */
-  --sand: #6ceafb;            /* accent: cyan */
-  --sand-ink: #6ceafb;        /* accent for small text: 13:1 on the page */
+  --sand-light: rgb(46 204 212 / 0.1);   /* fills (name kept for compatibility) */
+  --sand: #2eccd4;            /* accent: cyan */
+  --sand-ink: #2eccd4;        /* accent for small text: 9.6:1 on the page */
   --accent: var(--sand);
   --on-signal: #091314;       /* text on cyan */
 
@@ -367,7 +367,7 @@ main > div > section { padding-block: 150px 0; }
   text-decoration: none;
   transition: background-color 0.2s;
 }
-.nav-cta:hover { background: #a3f3fd; }
+.nav-cta:hover { background: #5fdde3; }
 
 .menu-toggle { display: none; }
 
@@ -452,7 +452,7 @@ main > div > section { padding-block: 150px 0; }
 }
 .hero-copy { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; row-gap: 36px; }
 .hero-copy h1 { grid-column: 1 / span 10; }
-.hero-copy h1 em { color: #2eccd4; }
+.hero-copy h1 em { color: var(--highlight); }
 .hero-description { grid-column: 1 / span 6; color: var(--ink-60); }
 
 .intro-scroll {
@@ -673,11 +673,11 @@ svg.hzero-first-visual__scene { height: auto; }
 }
 .bento-card::before {
   z-index: -1;
-  background: radial-gradient(420px circle at var(--mx) var(--my), rgb(108 234 251 / 0.08), transparent 60%);
+  background: radial-gradient(420px circle at var(--mx) var(--my), rgb(46 204 212 / 0.08), transparent 60%);
 }
 .bento-card::after {
   padding: 1px;
-  background: radial-gradient(260px circle at var(--mx) var(--my), rgb(108 234 251 / 0.5), transparent 70%);
+  background: radial-gradient(260px circle at var(--mx) var(--my), rgb(46 204 212 / 0.5), transparent 70%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
@@ -1022,11 +1022,11 @@ svg.hzero-first-visual__scene .s-tile-side { fill: #1e3236; stroke: #1e3236; }
 svg.hzero-first-visual__scene .s-tile-top { fill: #16282b; stroke: rgb(255 255 255 / 0.2); }
 svg.hzero-first-visual__scene .s-label { fill: var(--ink); font-family: var(--font-body); }
 svg.hzero-first-visual__scene .s-footprint { stroke: rgb(255 255 255 / 0.08); }
-svg.hzero-first-visual__scene .s-step3-connection { stroke: rgb(108 234 251 / 0.6); }
+svg.hzero-first-visual__scene .s-step3-connection { stroke: rgb(46 204 212 / 0.6); }
 svg.hzero-first-visual__scene .s-inactive-connection { stroke: rgb(255 255 255 / 0.12); }
 svg.hzero-first-visual__scene .s-new-active { fill: var(--highlight); stroke: var(--highlight); }
 svg.hzero-first-visual__scene .s-new-node:not(.s-new-active) { stroke: rgb(255 255 255 / 0.3); }
-svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #6ceafb; opacity: 0.12; }
+svg.hzero-first-visual__scene path[fill="#1a1a1a"] { fill: #2eccd4; opacity: 0.12; }
 
 /* Section name as a semibold run-in at the start of the first paragraph */
 .lead-in { font-weight: 600; color: var(--ink); }
