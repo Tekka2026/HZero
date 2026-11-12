@@ -87,7 +87,7 @@ THEMES["light"]["colors"].update({
     "avg_run": "#446455", "avg_calibrate": "#D4A359",
 })
 COLORS.update(THEMES["light"]["colors"])
-BAND_ALPHA = {"run": 0.04, "calibrate": 0.12}
+BAND_ALPHA = {"run": 0.0, "calibrate": 0.12}   # "run" is the normal state: no tint, the backdrop shows
 DASH = (6, 5)                      # dashed average lines: dash, gap, px
 
 BAR_ORDER = ["sage", "green"]      # stack order, bottom first
@@ -103,6 +103,7 @@ CAT_PITCH = 15.4                   # line pitch of two-line category labels, px
 TITLE_GAP = 22                     # widest tick label to axis title (ink to ink), px
 _TITLE_GAP_BOX = 20                # the same gap measured between matplotlib text boxes
 LINE_WIDTH = 2                     # px
+SERIES_WIDTH = 1                   # px, the measured line in series_chart
 MARKER_R = 3                       # px
 WEB_PADDING = 48                   # px around the chart in the web export
 
@@ -305,13 +306,15 @@ def series_chart(x: Sequence[float], y: Sequence[float], x_ticks: Sequence[float
     ax.set_xticks([])
     span_top = (top - y_bottom) / (ax.get_ylim()[1] - y_bottom)     # bands stop at the top gridline
     for i, (kind, b0, b1) in enumerate(bands):
+        if BAND_ALPHA[kind] == 0:
+            continue
         ax.axvspan(b0, b1, ymin=0, ymax=span_top, color=COLORS[f"band_{kind}"], alpha=BAND_ALPHA[kind],
                    linewidth=0, zorder=Z["backdrop"] + 0.5, gid=f"hz-band-{i}")
     _grid(ax, y_ticks)
     for i, (kind, a0, a1, v) in enumerate(averages):
         ax.plot([a0, a1], [v, v], color=COLORS[f"avg_{kind}"], linewidth=LINE_WIDTH * PT, zorder=Z["lines"],
                 dashes=(DASH[0] / LINE_WIDTH, DASH[1] / LINE_WIDTH), solid_capstyle="butt", gid=f"hz-avg-{i}")
-    ax.plot(x, y, color=COLORS["series"], linewidth=LINE_WIDTH * PT, zorder=Z["lines"] + 0.5,
+    ax.plot(x, y, color=COLORS["series"], linewidth=SERIES_WIDTH * PT, zorder=Z["lines"] + 0.5,
             solid_joinstyle="round", solid_capstyle="round", gid="hz-line-0")
     if label:
         text, lx, lv = label
