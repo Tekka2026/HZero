@@ -303,6 +303,20 @@ main > div > section { padding-block: 150px 0; }
 .nav { will-change: transform; }
 
 .nav { isolation: isolate; }
+/* Once content scrolls under the logo and nav, a soft fade from the background colour sits behind them. */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(100% + 40px);
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(9, 19, 20, 0.92) 0%, rgba(9, 19, 20, 0.7) 45%, rgba(9, 19, 20, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.nav.is-over::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .nav::before { transition: none; } }
 
 .brand-link {
   display: flex;

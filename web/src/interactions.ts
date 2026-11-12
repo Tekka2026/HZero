@@ -71,7 +71,7 @@ export function initInView(root: ParentNode = document) {
  * The logo and navigation follow the scroll: they slide out while scrolling down and back in while
  * scrolling up, moving SPEED times the scroll distance, so they lead the page slightly.
  * They are always fully shown near the top of the page, while the phone menu is open and while
- * keyboard focus is in them.
+ * keyboard focus is in them. Once the page has scrolled, `is-over` fades in a gradient behind them.
  */
 export function initNav() {
   const nav = document.querySelector<HTMLElement>(".nav");
@@ -93,6 +93,7 @@ export function initNav() {
     if (y < SHOW_ABOVE || menuOpen || focused) offset = 0;
     else offset = Math.min(0, Math.max(-hideAt(), offset - (y - lastY) * SPEED));
     lastY = y;
+    nav.classList.toggle("is-over", y > 8);
     apply();
   };
   const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
