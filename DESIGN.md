@@ -53,7 +53,7 @@ Charts use their own palette (section 2.4). Do not mix the two.
 | Body | 18 | 16–18 | 133% |
 | Labels | 15, 14, 12 | same | 120%, 128%, 133% |
 
-Layout: a 12-column grid with 54 px margins and 24 px gutters on desktop (30/15 on tablet, 21/15 and 6 columns on phones). Content uses columns 2–11. The logo and the Contact button each take one column, and the footer uses all 12.
+Layout: a 12-column grid with 54 px margins and 24 px gutters on desktop (30/15 on tablet, 21/15 and 6 columns on phones). Content uses all 12 columns, aligned with the logo and the Contact button, like the footer. The navigation slides away while scrolling down and returns on scrolling up.
 
 ---
 

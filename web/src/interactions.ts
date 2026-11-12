@@ -67,38 +67,32 @@ export function initInView(root: ParentNode = document) {
   root.querySelectorAll(".bento-card").forEach((el) => io.observe(el));
 }
 
-/** Give the navigation a frosted background once the page has scrolled. */
-/** Inverts the navigation (white logo and links) while whatever sits behind the logo is dark. */
+/**
+ * Hides the logo and navigation while scrolling down and brings them back on the first scroll up.
+ * They always show near the top of the page, while the phone menu is open and while keyboard focus is in them.
+ */
 export function initNav() {
   const nav = document.querySelector<HTMLElement>(".nav");
-  const brand = nav?.querySelector<HTMLElement>(".brand");
-  if (!nav || !brand) return;
-
-  const isDark = (el: Element | null): boolean => {
-    for (let node = el; node && node !== document.documentElement; node = node.parentElement) {
-      if (nav.contains(node)) continue;
-      const tag = node.tagName;
-      if (tag === "IMG" || tag === "VIDEO" || tag === "CANVAS") return false;   // media: leave as is
-      const m = getComputedStyle(node).backgroundColor.match(/[\d.]+/g);
-      if (!m) continue;
-      const [r, g, b, a = "1"] = m.map(String);
-      if (Number(a) < 0.5) continue;
-      return (0.2126 * +r + 0.7152 * +g + 0.0722 * +b) / 255 < 0.4;
-    }
-    return false;
-  };
-
+  if (!nav) return;
+  const toggle = document.getElementById("menu-toggle");
+  const SHOW_ABOVE = 120;     // px from the top: always visible here
+  const DELTA = 6;            // ignore tiny scroll jitter
+  let lastY = window.scrollY;
   let queued = false;
+
   const update = () => {
     queued = false;
-    const box = brand.getBoundingClientRect();
-    const x = box.left + box.width / 2, y = box.top + box.height / 2;
-    const under = document.elementsFromPoint(x, y).find((el) => !nav.contains(el)) ?? null;
-    nav.classList.toggle("is-inverted", isDark(under));
+    const y = window.scrollY;
+    const menuOpen = toggle?.getAttribute("aria-expanded") === "true";
+    const focused = nav.contains(document.activeElement);
+    if (y < SHOW_ABOVE || menuOpen || focused) nav.classList.remove("is-hidden");
+    else if (y > lastY + DELTA) nav.classList.add("is-hidden");
+    else if (y < lastY - DELTA) nav.classList.remove("is-hidden");
+    if (Math.abs(y - lastY) > DELTA || y < SHOW_ABOVE) lastY = y;
   };
   const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
   window.addEventListener("scroll", schedule, { passive: true });
-  window.addEventListener("resize", schedule);
+  nav.addEventListener("focusin", () => nav.classList.remove("is-hidden"));
   update();
 }
 
