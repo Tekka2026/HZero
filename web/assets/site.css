@@ -74,7 +74,7 @@
   --sand-ink: #2eccd4;        /* accent for small text: 9.6:1 on the page */
   --accent: var(--sand);
   --on-signal: #091314;       /* text on cyan */
-  --signal-green: #65ff66;    /* highlighted part of H2 titles, the sphere's lit shape, the favicon */
+  --signal-green: #65ff66;    /* highlighted part of H2 titles, the sphere's lit shape */
 
   color-scheme: dark;
 }
