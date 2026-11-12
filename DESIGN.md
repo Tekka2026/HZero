@@ -15,7 +15,7 @@ Units: px. Chart values refer to the 1920 × 1080 slide frame at 1×.
 
 | Role | Face | Weights | Where |
 |---|---|---|---|
-| Titles | T-Star | 400 | Website headings (h1–h6). Self-hosted in `web/assets/fonts/tstar/`. Trial (77 characters) for now: buy a web licence before going public. IBM Plex Sans is the fallback for missing characters. Tracking -0.025em on the largest titles, -0.02em on section titles. |
+| Titles | FK Display | 400 | Website headings (h1–h6). Self-hosted in `web/assets/fonts/fkdisplay/` (Florian Karsten Typefaces; check the web licence). IBM Plex Sans is the fallback. Tracking -0.025em on the largest titles, -0.02em on section titles. |
 | Text, labels, numbers | Inter | 400, 600 | Everything else, including all chart text. |
 | Monospace | none | | Never use monospace text anywhere. |
 

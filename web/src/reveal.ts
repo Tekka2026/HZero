@@ -63,7 +63,7 @@ function staggerLines(heading: HTMLElement) {
 function fontReady(): Promise<unknown> {
   if (!("fonts" in document)) return Promise.resolve();
   return Promise.race([
-    document.fonts.load('400 1em "T-Star"').then(() => document.fonts.ready),
+    document.fonts.load('400 1em "FK Display"').then(() => document.fonts.ready),
     new Promise((resolve) => setTimeout(resolve, FONT_TIMEOUT_MS)),
   ]);
 }
