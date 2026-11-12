@@ -9,10 +9,15 @@ Every size in this file is in pixels on the 1920 x 1080 slide frame; the figure 
     fig = bar_chart(["R&D\\nFederal", "HPC\\nData center"], [20, 18.7], ticks=[4, 8, 12, 16, 20],
                     title="Number of systems")
     export(fig, "systems-by-segment")
+
+    with theme("dark"):                       # the dark slide style (28.svg)
+        fig = series_chart(...)
+        export(fig, "success-probability")
 """
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Mapping, Sequence
 
@@ -25,7 +30,7 @@ import numpy as np  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
 from matplotlib.transforms import Bbox  # noqa: E402
 
-__all__ = ["COLORS", "FRAME", "PLOT", "bar_line_chart", "bar_chart", "export"]
+__all__ = ["COLORS", "FRAME", "PLOT", "bar_line_chart", "bar_chart", "series_chart", "theme", "export"]
 
 # ---------------------------------------------------------------- fonts
 _HERE = Path(__file__).parent
@@ -51,6 +56,40 @@ COLORS = {
     "sand_line": "#E1C9A4", "sand": "#D4A359",       # line series 1: line, marker
     "coral_line": "#EFB1A2", "coral": "#EE7254",     # line series 2: line, marker
 }
+# Plot backdrop: a vertical gradient, (colour, alpha) at the top and at the bottom of the plot box.
+BACKDROP = {"top": ("#E5E5E5", 0.0), "bottom": ("#E5E5E5", 0.5)}
+
+# The dark slide style, measured from 28.svg: page #091314, plot backdrop #091314 -> #102223,
+# gridlines #3A4243, text #F7F7F7, bars mint (base) and hzero cyan (top), lines green and coral.
+THEMES = {
+    "light": {"colors": dict(COLORS), "backdrop": dict(BACKDROP)},
+    "dark": {
+        "colors": {
+            "canvas": "#091314",
+            "backdrop": "#102223",
+            "grid": "#3A4243",
+            "text": "#F7F7F7",
+            "green": "#2ECCD4",            # bar, primary / top of a stack (hzero cyan)
+            "sage": "#C4FFD2",             # bar, secondary / base of a stack (mint)
+            "sand_line": "#38893E", "sand": "#65FF66",       # line series 1: line, marker
+            "coral_line": "#EFB1A2", "coral": "#EE7254",     # line series 2: line, marker
+            # series_chart
+            "series": "#2ECCD4",           # the measured value
+            "band_run": "#C4FFD2",         # normal operation band (mint, see BAND_ALPHA)
+            "band_calibrate": "#C4FFD2",   # calibration band (mint, stronger, see BAND_ALPHA)
+            "avg_run": "#2ECCD4", "avg_calibrate": "#C4FFD2",
+        },
+        "backdrop": {"top": ("#091314", 1.0), "bottom": ("#102223", 1.0)},
+    },
+}
+THEMES["light"]["colors"].update({
+    "series": "#446455", "band_run": "#A8B1A7", "band_calibrate": "#E1C9A4",
+    "avg_run": "#446455", "avg_calibrate": "#D4A359",
+})
+COLORS.update(THEMES["light"]["colors"])
+BAND_ALPHA = {"run": 0.04, "calibrate": 0.12}
+DASH = (6, 5)                      # dashed average lines: dash, gap, px
+
 BAR_ORDER = ["sage", "green"]      # stack order, bottom first
 LINE_ORDER = [("sand_line", "sand"), ("coral_line", "coral")]
 
@@ -87,10 +126,13 @@ def _frame():
     for s in ax.spines.values():
         s.set_visible(False)
     ax.tick_params(length=0, colors=COLORS["text"], labelsize=TICK_SIZE * PT, labelfontfamily=FONT)
-    # backdrop: #E5E5E5, transparent at the top, 50% at the bottom
+    # backdrop: a vertical gradient (light: #E5E5E5, transparent at the top, 50% at the bottom;
+    # dark: #091314 at the top to #102223 at the bottom)
+    (c0, a0), (c1, a1) = BACKDROP["top"], BACKDROP["bottom"]
+    t = np.linspace(0, 1, 256)[:, None]
     grad = np.zeros((256, 1, 4))
-    grad[..., :3] = matplotlib.colors.to_rgb(COLORS["backdrop"])
-    grad[:, 0, 3] = np.linspace(0, 0.5, 256)
+    grad[:, 0, :3] = (1 - t) * np.array(matplotlib.colors.to_rgb(c0)) + t * np.array(matplotlib.colors.to_rgb(c1))
+    grad[:, 0, 3] = (1 - t[:, 0]) * a0 + t[:, 0] * a1
     ax.imshow(grad, extent=(0, 1, 0, 1), transform=ax.transAxes, aspect="auto",
               origin="upper", zorder=Z["backdrop"], interpolation="bilinear")
     return fig, ax
@@ -145,6 +187,19 @@ def _title(fig, axis, text: str, side: str):
         edge = max(b.x1 for b in boxes) / fig.dpi / fig.get_figwidth()
         fig.text(edge + (_TITLE_GAP_BOX - 0.5) / FRAME[0], cy, text, rotation=90, ha="left", va="center",
                  fontfamily=FONT, fontsize=TITLE_SIZE * PT, color=COLORS["text"], zorder=Z["text"])
+
+
+@contextmanager
+def theme(name: str):
+    """Use a chart theme ("light", the default, or "dark") inside a with-block."""
+    old_colors, old_backdrop = dict(COLORS), dict(BACKDROP)
+    COLORS.update(THEMES[name]["colors"])
+    BACKDROP.update(THEMES[name]["backdrop"])
+    try:
+        yield
+    finally:
+        COLORS.clear(); COLORS.update(old_colors)
+        BACKDROP.clear(); BACKDROP.update(old_backdrop)
 
 
 def _tag(artists, prefix: str):
@@ -219,6 +274,62 @@ def bar_line_chart(categories: Sequence[str], bars: Mapping[str, Sequence[float]
         _title(fig, ax.yaxis, left_title, "left")
     if right_title:
         _title(fig, ax2.yaxis, right_title, "right")
+    return fig
+
+
+def series_chart(x: Sequence[float], y: Sequence[float], x_ticks: Sequence[float], y_ticks: Sequence[float],
+                 y_bottom: float, x_range: tuple[float, float] | None = None,
+                 bands: Sequence[tuple[str, float, float]] = (),
+                 averages: Sequence[tuple[str, float, float, float]] = (),
+                 label: tuple[str, float, float] | None = None,
+                 y_title: str | None = None, x_title: str | None = None, fmt=_num):
+    """A measured value over time (e.g. estimated success probability), with operating-mode bands.
+
+    bands:    (kind, x0, x1), kind "run" or "calibrate": tinted columns behind the data.
+    averages: (kind, x0, x1, value): dashed horizontal lines.
+    label:    (text, x, value): a label set 8 px above that value, left-aligned at x.
+    The y axis starts at y_bottom; the highest tick sits 3 px below the plot top, as in every chart.
+    x tick labels sit where category labels sit; the x title sits 22 px below them.
+    """
+    fig, ax = _frame()
+    x = np.asarray(x, dtype=float); y = np.asarray(y, dtype=float)
+    x0, x1 = x_range or (x.min(), x.max())
+    top = max(y_ticks)
+    ax.set_xlim(x0, x1)
+    ax.set_ylim(y_bottom, top + (top - y_bottom) * HEADROOM / (PLOT["h"] - HEADROOM))
+    ax.set_yticks(list(y_ticks), [fmt(t) for t in y_ticks], fontfamily=FONT, fontsize=TICK_SIZE * PT, color=COLORS["text"])
+    ax.yaxis.set_ticks_position("left")
+    ax.tick_params(axis="y", pad=TICK_PAD * PT, length=0)
+    for lab in ax.get_yticklabels():
+        lab.set_verticalalignment("center_baseline")
+    ax.set_xticks([])
+    span_top = (top - y_bottom) / (ax.get_ylim()[1] - y_bottom)     # bands stop at the top gridline
+    for i, (kind, b0, b1) in enumerate(bands):
+        ax.axvspan(b0, b1, ymin=0, ymax=span_top, color=COLORS[f"band_{kind}"], alpha=BAND_ALPHA[kind],
+                   linewidth=0, zorder=Z["backdrop"] + 0.5, gid=f"hz-band-{i}")
+    _grid(ax, y_ticks)
+    for i, (kind, a0, a1, v) in enumerate(averages):
+        ax.plot([a0, a1], [v, v], color=COLORS[f"avg_{kind}"], linewidth=LINE_WIDTH * PT, zorder=Z["lines"],
+                dashes=(DASH[0] / LINE_WIDTH, DASH[1] / LINE_WIDTH), solid_capstyle="butt", gid=f"hz-avg-{i}")
+    ax.plot(x, y, color=COLORS["series"], linewidth=LINE_WIDTH * PT, zorder=Z["lines"] + 0.5,
+            solid_joinstyle="round", solid_capstyle="round", gid="hz-line-0")
+    if label:
+        text, lx, lv = label
+        ax.annotate(text, (lx, lv), xytext=(0, 8 * PT), textcoords="offset points", ha="left", va="baseline",
+                    fontfamily=FONT, fontsize=TICK_SIZE * PT, fontweight=600, color=COLORS["avg_run"],
+                    zorder=Z["text"])
+    # x tick labels on the category-label baseline
+    base = PLOT["y"] + PLOT["h"] + CAT_PAD + CAP_HEIGHT * TICK_SIZE
+    for t in x_ticks:
+        px = PLOT["x"] + (t - x0) / (x1 - x0) * PLOT["w"]
+        fig.text(_fx(px), _fy(base), fmt(t), ha="center", va="baseline", fontfamily=FONT,
+                 fontsize=TICK_SIZE * PT, color=COLORS["text"], zorder=Z["text"])
+    if x_title:
+        tb = base + TITLE_GAP + CAP_HEIGHT * TITLE_SIZE                  # 22 px below the tick labels, ink to ink
+        fig.text(_fx(PLOT["x"] + PLOT["w"] / 2), _fy(tb), x_title, ha="center", va="baseline", fontfamily=FONT,
+                 fontsize=TITLE_SIZE * PT, color=COLORS["text"], zorder=Z["text"])
+    if y_title:
+        _title(fig, ax.yaxis, y_title, "left")
     return fig
 
 
