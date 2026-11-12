@@ -35,7 +35,8 @@ The website is black: a near-black page with a trace of cyan, cyan-tinted greys,
 | line | white at 10% | Hairlines |
 | cyan (highlight, accent) | `#2ECCD4` | Hero highlight ("Zero disruption."), Contact button, links and markers, sphere lines and receiving squares. One signal per screen. |
 | on-signal | `#091314` | Text on cyan |
-| lime | `#E2F28E` | Favicon; the sphere's centre shape when a stroke lights it |
+| lime | `#E2F28E` | Favicon |
+| signal green | `#65FF66` | The sphere's centre shape when a stroke lights it |
 
 The logo on the site is the "signal" version: white letters, cyan bracket.
 

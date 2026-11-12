@@ -33,7 +33,7 @@ const SHAPE_SPIN_SECONDS = 60;  // its own turn, against the globe's
 const SHAPE_COLOR = "170, 181, 183";   // #AAB5B7 mist, the logo bracket on dark
 const SHAPE_DEPTH_PX = 6;      // thickness of the shape
 const SHAPE_FACE_ALPHA = 0.45, SHAPE_SIDE_ALPHA = 0.3;   // see-through, so the lines show
-const LIT = [226, 242, 142];   // #E2F28E: the shape lights up whenever a stroke crosses it
+const LIT = [101, 255, 102];   // #65FF66: the shape lights up green whenever a stroke crosses it
 const START_FADE_SECONDS = 2;  // a starting square fades out this long after its stroke has left it
 const LIT_SHARE = 0.2;         // only some strokes light the shape
 const LIT_FADE = 0.12;         // how long the light lasts, as a share of a stroke's trip (about half a second)
