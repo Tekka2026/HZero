@@ -74,6 +74,7 @@
   --sand-ink: #2eccd4;        /* accent for small text: 9.6:1 on the page */
   --accent: var(--sand);
   --on-signal: #091314;       /* text on cyan */
+  --signal-green: #65ff66;    /* highlighted part of H2 titles, the sphere's lit shape, the favicon */
 
   color-scheme: dark;
 }
@@ -115,6 +116,7 @@ ol, ul { padding: 0; list-style: none; }
 img, video, svg { display: block; max-width: 100%; }
 a { color: inherit; }
 em { font-style: normal; color: var(--ink-45); }
+h2 em { color: var(--signal-green); }   /* the highlighted part of a section title */
 button { font: inherit; color: inherit; }
 
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }

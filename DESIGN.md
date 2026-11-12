@@ -30,13 +30,12 @@ The website is black: a near-black page with a trace of cyan, cyan-tinted greys,
 | panel | `#132224` | Cards and panels |
 | ink | `#EEF2F2` | Text |
 | ink-60 | `#EEF2F2` at 66% | Secondary text |
-| steel | `#778386` | Second line of headlines (large text only) |
+| steel | `#778386` | Highlighted part of H1 titles other than the hero (large text only) |
 | mist | `#AAB5B7` | Menu links, logo bracket on dark, the sphere's centre shape |
 | line | white at 10% | Hairlines |
 | cyan (highlight, accent) | `#2ECCD4` | Hero highlight ("Zero disruption."), Contact button, links and markers, sphere lines and receiving squares. One signal per screen. |
 | on-signal | `#091314` | Text on cyan |
-| lime | `#E2F28E` | Favicon |
-| signal green | `#65FF66` | The sphere's centre shape when a stroke lights it |
+| signal green | `#65FF66` | Highlighted part of H2 titles, the favicon, the sphere's centre shape when a stroke lights it |
 
 The logo on the site is the "signal" version: white letters, cyan bracket.
 
