@@ -45,9 +45,10 @@ Charts use their own palette (section 2.4). Do not mix the two.
 
 | Style | Desktop | Phone | Line height |
 |---|---|---|---|
-| Hero title | 72–120 | 42–48 | 100% / 110% |
+| Hero title (H1) | 58–96 | 34–38 | 102% / 110% |
+| Closing title ("Get in touch") | 72–120 | 42–48 | 100% / 110% |
 | Section title | 54–60 | 32–36 | 110% / 117% |
-| Intro text (light) | 21–26 | 18–21 | 125% |
+| Intro text (light) | 19–23 | 17–19 | 125% |
 | Card title | 18–21 | 18–21 | 125% |
 | Body | 18 | 16–18 | 133% |
 | Labels | 15, 14, 12 | same | 120%, 128%, 133% |
