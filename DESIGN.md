@@ -33,7 +33,8 @@ The website is black: a near-black page with a trace of cyan, cyan-tinted greys,
 | steel | `#778386` | Second line of headlines (large text only) |
 | mist | `#AAB5B7` | Menu links, logo bracket on dark, the sphere's centre shape |
 | line | white at 10% | Hairlines |
-| cyan (highlight, accent) | `#6CEAFB` | Highlighted word in the H1, Contact button, links and markers, sphere lines and receiving squares. One signal per screen. |
+| cyan (highlight, accent) | `#6CEAFB` | Contact button, links and markers, sphere lines and receiving squares. One signal per screen. |
+| hero highlight | `#2ECCD4` | "Zero disruption." in the hero title (H1) |
 | on-signal | `#091314` | Text on cyan |
 | lime | `#E2F28E` | Favicon; the sphere's centre shape when a stroke lights it |
 
