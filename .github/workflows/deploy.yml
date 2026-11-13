@@ -56,6 +56,8 @@ jobs:
         env:
           BRAND_OUT: ../web/dist/brand
           ASTRO_TELEMETRY_DISABLED: "1"
+          # Locks every brand page and adds the team-only fonts. Without it the site builds public.
+          BRAND_PASSWORD: ${{ secrets.BRAND_PASSWORD }}
         run: |
           npm ci
           npm run build

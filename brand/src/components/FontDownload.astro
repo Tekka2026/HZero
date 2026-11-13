@@ -1,0 +1,27 @@
+---
+// FK Display for the team. The files are embedded in the page itself (not served as separate files),
+// and this block is only built when the site is password-protected (BRAND_PASSWORD set at build time),
+// so the font can never be downloaded from a public page. See brand/README.md.
+import fs from "node:fs";
+import path from "node:path";
+import Icon from "./Icon.astro";
+const dir = path.resolve("src/assets/protected");
+const isProtected = Boolean(process.env.BRAND_PASSWORD) && fs.existsSync(path.join(dir, "FKDisplay-Regular.woff2"));
+const files = isProtected
+  ? ["FKDisplay-Regular.woff2", "FKDisplay-RegularAlt.woff2"].map((name) => ({
+      name,
+      href: `data:font/woff2;base64,${fs.readFileSync(path.join(dir, name)).toString("base64")}`,
+      note: name.includes("Alt") ? "Regular with alternate glyphs" : "Regular",
+    }))
+  : [];
+---
+{isProtected ? (
+  <ul class="files">
+    {files.map((f) => (
+      <li class="file"><span class="file-name">{f.name}</span><span class="file-note">{f.note} · web font (.woff2)</span><a class="button button--ghost" href={f.href} download={f.name}>Download<Icon name="down" size={16} /></a></li>
+    ))}
+  </ul>
+) : (
+  <p class="small">The font files are available to the team on the password-protected version of this site.</p>
+)}
+<p class="small">For hzero use only, under hzero's FK Display licence. Do not share the files outside hzero. For desktop apps (Figma, Keynote, Word), get the desktop files from the shared drive or the foundry.</p>

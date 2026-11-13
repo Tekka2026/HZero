@@ -43,6 +43,21 @@ intro: "The big statement under the title."
 
 Mark anything not final with `<Tag />` (proposal) or `<Tag kind="todo" />`.
 
+## Password and team-only files
+
+With the repository secret `BRAND_PASSWORD` set, the deploy:
+
+1. decrypts the files in `protected/` (the FK Display fonts, stored encrypted because the repository is public),
+2. builds them into the Typography page as downloads,
+3. encrypts every page with the password (staticrypt). Visitors see a password screen; "Remember me" lasts 30 days.
+
+Without the secret, the site builds public and the team-only files are left out.
+
+- Change the password: re-encrypt the files in `protected/` with the new one, then update the secret.
+  `openssl enc -aes-256-cbc -pbkdf2 -iter 200000 -salt -in FONT.woff2 -out protected/FONT.woff2.enc -pass env:BRAND_PASSWORD`
+- Images and download files stay reachable by their direct address; only the pages are encrypted.
+  Never put a team-only file in `public/`.
+
 ## Rules
 
 - Follow `../DESIGN.md`. Titles in FK Display, text in Inter, no monospace.

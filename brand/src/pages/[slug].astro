@@ -26,6 +26,7 @@ import Downloads from "../components/Downloads.astro";
 import Mark from "../components/Mark.astro";
 import MarkPanel from "../components/MarkPanel.astro";
 import Figure from "../components/Figure.astro";
+import FontDownload from "../components/FontDownload.astro";
 
 export async function getStaticPaths() {
   const pages = await getCollection("sections");
@@ -36,7 +37,7 @@ const { Content } = await render(page);
 ---
 <Base title={`${page.data.title} · hzero brand guidelines`} description={page.data.intro}>
   <PageHero title={page.data.title} intro={page.data.intro} status={page.data.status} updated={page.data.updated} />
-  <main><Content components={{ Block, Grid, Card, Statement, Quote, Tag, Swatches, Proportion, Ramp, Specimen, TypeScale, Logo, LogoPanel, LogoDonts, Clearspace, Photos, Downloads, Mark, MarkPanel, Figure }} /></main>
+  <main><Content components={{ Block, Grid, Card, Statement, Quote, Tag, Swatches, Proportion, Ramp, Specimen, TypeScale, Logo, LogoPanel, LogoDonts, Clearspace, Photos, Downloads, Mark, MarkPanel, Figure, FontDownload }} /></main>
   <Tiles current={page.id} />
   <Footer />
 </Base>
