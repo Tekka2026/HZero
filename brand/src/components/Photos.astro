@@ -1,0 +1,11 @@
+---
+// A grid of photos from public/photos. Each item: file name and an optional caption.
+import { url } from "../lib/url";
+interface Props { items: { src: string; caption?: string; alt?: string }[]; cols?: 2 | 3 | 4 }
+const { items, cols = 3 } = Astro.props;
+---
+<div class={`photos photos--${cols}`}>
+  {items.map((p) => (
+    <figure class="photo"><img src={url(p.src)} alt={p.alt ?? ""} loading="lazy" decoding="async" />{p.caption && <figcaption>{p.caption}</figcaption>}</figure>
+  ))}
+</div>

@@ -1,0 +1,9 @@
+---
+import { tokens, colour, inkOn } from "../lib/tokens";
+const parts = tokens.color.proportion.map((p) => ({ ...p, c: colour(p.id) }));
+---
+<div class="proportion" role="img" aria-label={parts.map((p) => `${p.c.name} ${p.share}%`).join(", ")}>
+  {parts.map((p) => (
+    <div class="proportion-part" style={`flex:${p.share};--c:${p.c.hex};--on:${inkOn(p.id)}`}><span>{p.share}%</span><span class="proportion-name">{p.c.name}</span></div>
+  ))}
+</div>

@@ -1,0 +1,18 @@
+---
+import { url } from "../lib/url";
+const people = [
+  { role: "Co-founder / CEO", name: "Bruno G. Taketani" },
+  { role: "Co-founder / CTO", name: "Martin Rüfenacht" },
+];
+---
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="small">For any questions about using these guidelines, please contact:</p>
+    <p class="footer-team">hzero</p>
+    <ul class="footer-people">
+      {people.map((p) => <li><span class="footer-role">{p.role}</span><span>{p.name}</span></li>)}
+      <li><span class="footer-role">Email</span><a href="mailto:contact@hzero.tech">contact@hzero.tech</a></li>
+    </ul>
+    <p class="small footer-meta"><a href="#top">Back to top</a> · <a href={url("")}>All sections</a> · Version 0.2 · Tokens in tokens/hzero.json</p>
+  </div>
+</footer>

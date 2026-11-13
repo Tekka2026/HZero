@@ -1,0 +1,18 @@
+---
+// One labelled block on a section page: a hairline, a small label, a short description
+// and an optional download or link on the right. The content follows below.
+import Icon from "./Icon.astro";
+import { url } from "../lib/url";
+interface Props { label: string; text?: string; action?: string; href?: string; id?: string; tone?: "light" | "dark" }
+const { label, text, action, href, id, tone = "light" } = Astro.props;
+const slug = id ?? label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+const link = href && !/^(https?:|mailto:)/.test(href) ? url(href) : href;
+---
+<section class={`block block--${tone}`} id={slug}>
+  <header class="block-head">
+    <h2 class="block-label">{label}</h2>
+    {text && <p class="block-text">{text}</p>}
+    {action && link && <a class="button" href={link} download={/\.(zip|svg|png|pdf|woff2)$/.test(link) ? "" : undefined}>{action}<Icon name={/\.(zip|svg|png|pdf|woff2)$/.test(link) ? "down" : "arrow"} size={16} /></a>}
+  </header>
+  <div class="block-body"><slot /></div>
+</section>

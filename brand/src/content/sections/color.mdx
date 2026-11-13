@@ -1,0 +1,76 @@
+---
+title: Colour
+order: 3
+tile: ink
+icon: drop
+status: final
+updated: November 2026
+intro: "A quiet field with one loud signal. Greys and charcoal do almost all the work; the cyan is what people remember."
+---
+
+<Block label="Colour inspiration" text="Where the palette comes from.">
+  <div class="prose">
+    <p>The cyan is the signal: rare, deliberate and recognisable, even on a copied diagram with no logo on it. "You don't see that colour often anywhere else." Every grey carries a trace of it, so the palette feels like one family, and the page itself is black with a trace of cyan, never pure #000.</p>
+    <p>Click any HEX value to copy it. All values live in one file, tokens/hzero.json, which the website and the chart package follow.</p>
+  </div>
+</Block>
+
+<Block label="Primary palette" text="Charcoal, ink and the hzero cyan. Simple and calm, with the cyan as the one signal on any screen.">
+  <Swatches ids={["charcoal", "ink", "cyan"]} />
+</Block>
+
+<Block label="Extended palette" text="Supports the primary palette when something needs more emphasis, or when the background is light.">
+  <Swatches ids={["green", "deep-cyan"]} />
+</Block>
+
+<Block label="Greys" text="Cyan-tinted greys for panels, secondary text, lines and light backgrounds.">
+  <Swatches size="small" ids={["bg-alt", "panel", "slate", "steel", "mist", "fog"]} />
+</Block>
+
+<Block label="Proportion" text="The balance of colour keeps the identity calm. Use this mix on any page, slide or screen.">
+  <Proportion />
+  <div class="prose"><p>The cyan is about 3% of any page: one highlight per screen or slide. If two things are cyan, one of them shouldn't be. The exception is a large cyan field with charcoal line drawings, used rarely for a cover or a poster.</p></div>
+</Block>
+
+<Block label="Text and contrast" text="Every text colour against every background, measured against WCAG 2.2.">
+  <div class="table-wrap"><table class="contrast">
+    <thead><tr><th>Text colour</th><th>On white</th><th>On charcoal</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip" style="--c:#091314"></span>Charcoal #091314</td><td>18.8 ✓</td><td>n/a</td><td>All text on light</td></tr>
+      <tr><td><span class="chip" style="--c:#EEF2F2"></span>Ink #EEF2F2</td><td>n/a</td><td>16.7 ✓</td><td>All text on dark</td></tr>
+      <tr><td><span class="chip" style="--c:#41494C"></span>Slate #41494C</td><td>9.2 ✓</td><td>2.0 ✕</td><td>Secondary text on light</td></tr>
+      <tr><td><span class="chip" style="--c:#087E8E"></span>Deep cyan #087E8E</td><td>4.8 ✓</td><td>3.9 large</td><td>Links and small highlights on light</td></tr>
+      <tr><td><span class="chip" style="--c:#778386"></span>Steel #778386</td><td>3.9 large</td><td>4.8 ✓</td><td>Captions, second lines of titles</td></tr>
+      <tr><td><span class="chip" style="--c:#AAB5B7"></span>Mist #AAB5B7</td><td>2.1 ✕</td><td>9.0 ✓</td><td>Secondary text on dark</td></tr>
+      <tr><td><span class="chip" style="--c:#2ECCD4"></span>hzero cyan #2ECCD4</td><td>2.0 ✕</td><td>9.6 ✓</td><td>Highlights on dark only</td></tr>
+      <tr><td><span class="chip" style="--c:#65FF66"></span>Signal green #65FF66</td><td>1.3 ✕</td><td>14.4 ✓</td><td>Highlights on dark only</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">✓ passes for body text (4.5:1). "Large" passes only for text from 24 px, or 19 px bold (3:1). ✕ never for text.</p>
+</Block>
+
+<Block label="Chart palette" text="Charts have their own palette. Grey first, colour for what matters. Never mix it with the interface colours.">
+  <p class="small">Categorical: grey with one highlight</p>
+  <Ramp colours={["#087E8E", "#41494C", "#778386", "#AAB5B7", "#E2E7E8"]} labels={["Highlight", "#41494C", "#778386", "#AAB5B7", "#E2E7E8"]} />
+  <p class="small">Sequential: one hue rising in lightness, readable for colour-blind viewers and in greyscale <Tag /></p>
+  <Ramp colours={["#091314", "#16363C", "#1E5862", "#2A7D89", "#45A9B7", "#2ECCD4", "#D3F9FE"]} />
+</Block>
+
+<Block label="Print" text="The cyan cannot be reproduced in standard four-colour print.">
+  <Grid cols={3}>
+    <Card title="Spot colour">Print the cyan as a spot colour, chosen against a printed proof, or put it on charcoal or black stock where its brightness reads. <Tag kind="todo" /></Card>
+    <Card title="On white paper">Use deep cyan or charcoal. Never the bright cyan.</Card>
+    <Card title="Cards and merchandise">Charcoal or black base, white logo, cyan bracket.</Card>
+  </Grid>
+</Block>
+
+<Block label="Do and don't" text="The most common mistakes.">
+  <Grid cols={2}>
+    <Card kind="do" title="Do">
+      <ul><li>One cyan accent per screen, on charcoal.</li><li>Greys first, colour last.</li><li>Deep cyan whenever the background is light.</li><li>Signal green for the highlighted part of a section title.</li></ul>
+    </Card>
+    <Card kind="dont" title="Don't">
+      <ul><li>Thin cyan text on white.</li><li>Cyan and green in the same element.</li><li>Dark teal with orange text and monospace type: it reads as AI-generated.</li><li>Gradients from green to blue, rainbow palettes, beige with blue.</li></ul>
+    </Card>
+  </Grid>
+</Block>

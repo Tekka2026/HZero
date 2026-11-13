@@ -1,0 +1,20 @@
+---
+// The type scale, editable in place so people can test their own words.
+import { tokens } from "../lib/tokens";
+interface Props { editable?: boolean }
+const { editable = false } = Astro.props;
+---
+<div class="scale">
+  {tokens.type.scale.map((s) => (
+    <div class="scale-row">
+      <dl class="scale-meta">
+        <dt>{s.name}</dt>
+        <dd>{tokens.type[s.family as "title" | "text"].family}</dd>
+        <dd>{s.size} px · {s.leading}</dd>
+        <dd>Phone {s.phone}</dd>
+        <dd>Sentence case</dd>
+      </dl>
+      <p class={`scale-sample scale-sample--${s.id}`} contenteditable={editable ? "plaintext-only" : undefined} spellcheck="false">{s.sample}</p>
+    </div>
+  ))}
+</div>

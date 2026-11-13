@@ -1,0 +1,6 @@
+---
+// A large single statement, like a mission or vision line.
+interface Props { eyebrow?: string }
+const { eyebrow } = Astro.props;
+---
+<div class="statement">{eyebrow && <p class="statement-eyebrow">{eyebrow}</p>}<p class="statement-text"><slot /></p></div>

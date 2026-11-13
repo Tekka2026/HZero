@@ -1,0 +1,16 @@
+---
+import Logo from "./Logo.astro";
+---
+<div class="cards cards--2">
+  <figure class="diagram">
+    <div class="diagram-stage clearspace"><div class="clearspace-box"><Logo variant="signal" width="100%" /></div></div>
+    <figcaption><strong>Clear space.</strong> Keep free space on every side equal to x: half the height of the letters in ZERO. No text, edge or image inside it.</figcaption>
+  </figure>
+  <figure class="diagram">
+    <div class="diagram-stage minsize">
+      <div><Logo variant="signal" width="96" /><p>96 px · 25 mm</p></div>
+      <div><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/logos/hzero-mark-cyan.svg`} width="16" height="16" alt="" /><p>Mark 16 px</p></div>
+    </div>
+    <figcaption><strong>Minimum size.</strong> Full logo at least 96 px wide on screen and 25 mm in print. Below that, use the h-mark alone (as in the favicon), at least 16 px.</figcaption>
+  </figure>
+</div>

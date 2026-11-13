@@ -1,0 +1,57 @@
+---
+title: Typography
+order: 4
+tile: green
+icon: type
+status: final
+updated: November 2026
+intro: "Type carries the voice. One display face for titles, one workhorse for everything people read and use."
+---
+
+<Block label="Background" text="Two families, each with one job. No monospace anywhere, not even for numbers or code-like labels.">
+  <div class="prose">
+    <p>FK Display sets every title: confident, slightly technical, calm at large sizes. Inter sets everything people read and use, from body text to chart labels. Together they keep hzero exact without looking academic.</p>
+  </div>
+</Block>
+
+<Block label="Primary typeface" text="FK Display, Regular only. For headlines, section titles and large statements." action="Foundry" href="https://www.floriankarsten.com/typefaces">
+  <Specimen family="title" role="Titles, statements, big numbers" />
+  <div class="prose"><p>Self-hosted for the website from web/assets/fonts. Check the licence before using it in other media; IBM Plex Sans is the fallback where FK Display is not available.</p></div>
+</Block>
+
+<Block label="Supporting typeface" text="Inter, a variable family drawn for screens. For body text, interface, labels and every chart." action="Download Inter" href="https://rsms.me/inter/download/">
+  <Specimen family="text" role="Text, interface, labels, numbers" />
+</Block>
+
+<Block label="Weights" text="Weight sets hierarchy. Use these and nothing else.">
+  <Grid cols={4}>
+    <Card title="FK Display Regular"><p>All titles. Titles are never bold.</p></Card>
+    <Card title="Inter Light"><p>Intro text at 19–23 px only.</p></Card>
+    <Card title="Inter Regular"><p>Body text, labels, chart text.</p></Card>
+    <Card title="Inter SemiBold"><p>Lead-ins and short labels. Never for whole paragraphs.</p></Card>
+  </Grid>
+</Block>
+
+<Block label="Setting type" text="The website scale. Sizes in px for desktop, then phone. Sentence case everywhere.">
+  <TypeScale />
+</Block>
+
+<Block label="Testing type" text="Click any line and type your own words to see them in the brand type.">
+  <TypeScale editable />
+</Block>
+
+<Block label="Don'ts" text="Do not diminish the value of typography. Avoid these treatments.">
+  <Grid cols={3}>
+    <Card kind="dont" title="Other typefaces">FK Display and Inter only. Plex Sans only as a fallback.</Card>
+    <Card kind="dont" title="Monospace">Not for code-like labels, not for numbers, not for "technical" flavour.</Card>
+    <Card kind="dont" title="Bold titles">FK Display is used in Regular only.</Card>
+    <Card kind="dont" title="All caps">Only for very short labels, never for titles or buttons.</Card>
+    <Card kind="dont" title="Levels too close">More than three type sizes on one slide, or sizes too close to tell apart.</Card>
+    <Card kind="dont" title="Low contrast">Text colours that fail the contrast table on the colour page.</Card>
+  </Grid>
+  <Grid cols={2}>
+    <Card kind="do" title="Do">
+      <ul><li>Sentence case for every title and button, no full stop at the end.</li><li>Tighten large titles slightly (−2 to −2.5%); leave text at 0.</li><li>Set the second line of a title in steel, or the highlighted part in signal green.</li><li>Tabular figures wherever numbers line up.</li></ul>
+    </Card>
+  </Grid>
+</Block>

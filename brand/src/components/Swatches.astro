@@ -1,0 +1,21 @@
+---
+// Colour cards drawn from tokens/hzero.json. Pass the token ids to show, in order.
+import { colour, inkOn, rgbOf } from "../lib/tokens";
+interface Props { ids: string[]; size?: "large" | "small" }
+const { ids, size = "large" } = Astro.props;
+const list = ids.map(colour);
+---
+<div class={`swatches swatches--${size}`} style={`--n:${list.length}`}>
+  {list.map((c) => (
+    <figure class="swatch" style={`--c:${c.hex};--on:${inkOn(c.id)}`}>
+      <div class="swatch-chip"><span class="swatch-name">{c.name}</span><button class="swatch-copy" type="button" data-copy={c.hex} aria-label={`Copy ${c.hex}`}>{c.hex}</button></div>
+      <dl class="swatch-spec">
+        {c.role && <><dt>Role</dt><dd>{c.role}</dd></>}
+        <dt>HEX</dt><dd>{c.hex}</dd>
+        <dt>RGB</dt><dd>{c.rgb ?? rgbOf(c.hex)}</dd>
+        {c.pms && <><dt>Print</dt><dd>{c.pms}</dd></>}
+        {c.use && <><dt>Use</dt><dd>{c.use}</dd></>}
+      </dl>
+    </figure>
+  ))}
+</div>

@@ -1,0 +1,59 @@
+---
+title: Graphics
+order: 6
+tile: deep-cyan
+icon: shapes
+status: proposal
+updated: November 2026
+intro: "Diagrams and charts are brand assets. Ours should be worth stealing, and still say hzero without a logo on them."
+---
+
+<Block label="Graphic categories" text="hzero's product mostly runs in the background, so there is little to screenshot. Choose deliberately which level a moment needs." action="Download charts" href="downloads/hzero-charts.zip">
+  <Grid cols={3}>
+    <Card eyebrow="Level 1" title="The idea">A conceptual visual that gives the gist in seconds: many parts becoming one coordinated system. Mostly grey, one cyan element. The level most often missing today; lead with it.</Card>
+    <Card eyebrow="Level 2" title="How it works">The exact technical diagram: workloads, schedulers, QPUs, HPC nodes, operator objectives. For technical audiences and the second half of a deck.</Card>
+    <Card eyebrow="Level 3" title="The product">Real interface: controls and results. Use as proof, after the idea is clear. Never lead with a dashboard.</Card>
+  </Grid>
+  <Quote by="Martin">Our product is not the visual dashboard. Our product is managing a complex system.</Quote>
+</Block>
+
+<Block label="Diagrams" text="The style, at level 1–2. hzero is the one dark element with the cyan name; everything it coordinates stays light and grey.">
+  <div class="system" role="img" aria-label="Workloads, quantum computers and HPC resources, each connected both ways to hzero operational integration, which takes operator objectives.">
+    <div class="system-row"><div class="system-node">Workloads</div><div class="system-node">Quantum computers</div><div class="system-node">HPC resources</div></div>
+    <div class="system-arrows">↕ ↕ ↕</div>
+    <div class="system-core"><strong>hzero</strong><span>operational integration</span></div>
+    <div class="system-arrows">↑</div>
+    <div class="system-node" style="width:min(100%,250px)">Operator objectives</div>
+  </div>
+  <Grid cols={3}>
+    <Card title="hzero is the only accent">Everything else in greys. hzero's layer is charcoal with its name in cyan, or the single deep cyan element on white.</Card>
+    <Card title="Show two-way traffic">hzero asks every part how it is doing and decides from that. Two-way arrows, not a one-way pipe.</Card>
+    <Card title="Equal partners">Workloads, quantum and HPC sit at the same level. Never draw one as subordinate to the others.</Card>
+    <Card title="Lines, not pictures">1.5 px lines in mist or slate, flat fills, Inter labels. No 3D, no isometric stacks, no glowing qubits.</Card>
+    <Card title="Less than you know">Leave out what the audience doesn't need for this slide; put it in the level-2 diagram instead.</Card>
+    <Card title="Recognisable when copied">Colour and form alone should say hzero in someone else's deck. "Diagrams people steal."</Card>
+  </Grid>
+</Block>
+
+<Block label="Charts" text="Credibility is part of the brand. Every chart is made in Jupyter with the hzero_charts package and never styled by hand.">
+  <Grid cols={2}>
+    <figure class="chart-figure"><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/charts/spending-and-systems.svg`} alt="Spending and systems chart, light version" loading="lazy" /><figcaption>Light: for documents and the website.</figcaption></figure>
+    <figure class="chart-figure chart-figure--dark"><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/charts/spending-and-systems-dark.svg`} alt="Spending and systems chart, dark version" loading="lazy" /><figcaption>Dark: for slides on charcoal.</figcaption></figure>
+    <figure class="chart-figure chart-figure--dark"><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/charts/success-probability.svg`} alt="Success probability chart" loading="lazy" /><figcaption>Success probability: 1 px series line on the charcoal gradient.</figcaption></figure>
+    <figure class="chart-figure"><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/charts/systems-by-segment.svg`} alt="Systems by segment chart" loading="lazy" /><figcaption>Systems by segment.</figcaption></figure>
+  </Grid>
+  <div class="rows">
+    <div class="row"><p class="row-name">Titles say the finding</p><div class="row-text"><p>"Fidelity holds above 99.5% in auto mode", not "Fidelity over time".</p></div></div>
+    <div class="row"><p class="row-name">Label directly</p><div class="row-text"><p>Label values on the chart where possible; avoid legends.</p></div></div>
+    <div class="row"><p class="row-name">Never colour alone</p><div class="row-text"><p>Pair colour with position, labels or pattern, so every chart works for colour-blind readers and in greyscale.</p></div></div>
+    <div class="row"><p class="row-name">The specification</p><div class="row-text"><p>Geometry, sizes, colours and exports are specified in DESIGN.md, part 2, and built into notebooks/hzero_charts.</p></div></div>
+  </div>
+</Block>
+
+<Block label="The sphere" text="The website's signature visual: many lines converging on one centre, lit in signal green when a stroke reaches it.">
+  <div class="prose"><p>Lines and receiving squares in cyan, the centre shape in mist, lit in signal green (#65FF66). It is the level-1 idea in motion: many parts, one coordinated system. Use it on the website; a still version for slides is <Tag kind="todo" />.</p></div>
+</Block>
+
+<Block label="Iconography" text="A small set of line icons for the interface and the website.">
+  <div class="prose"><p>Icons follow the diagram lines: 24 px grid, 1.5 px strokes, round caps, no fills, in the colour of the text around them. The icons on this site's section tiles are the start of the set. A full set is <Tag kind="todo" />.</p></div>
+</Block>

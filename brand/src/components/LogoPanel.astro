@@ -1,0 +1,11 @@
+---
+// The logo on a background, as it should appear in use.
+import Logo from "./Logo.astro";
+interface Props { variant: "signal" | "primary" | "white" | "charcoal"; bg: string; caption?: string; photo?: string; tall?: boolean }
+const { variant, bg, caption, photo, tall = false } = Astro.props;
+import { url } from "../lib/url";
+---
+<figure class={`logo-panel${tall ? " logo-panel--tall" : ""}`}>
+  <div class="logo-panel-stage" style={`background:${bg}${photo ? `;background-image:url(${url(photo)})` : ""}`}><Logo variant={variant} width="56%" /></div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

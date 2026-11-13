@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import Logo from "../components/Logo.astro";
+import Tiles from "../components/Tiles.astro";
+import Footer from "../components/Footer.astro";
+import { url } from "../lib/url";
+---
+<Base title="hzero brand guidelines">
+  <header class="cover" id="top">
+    <img class="cover-photo" src={url("photos/photo-02.webp")} alt="" />
+    <span class="cover-label">Brand guidelines</span>
+    <span class="cover-version">Version 0.2 · November 2026</span>
+    <h1 class="visually-hidden">hzero brand guidelines</h1>
+    <Logo variant="signal" />
+  </header>
+  <section class="intro">
+    <p>Welcome to the hzero brand guidelines. They describe how hzero looks, sounds and behaves. Guidelines are a guide: use your best judgement, and start here.</p>
+  </section>
+  <Tiles />
+  <Footer />
+</Base>

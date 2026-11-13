@@ -1,0 +1,10 @@
+---
+// A text card: a title and a few lines. kind marks a do or a don't.
+interface Props { title?: string; kind?: "do" | "dont" | "plain" | "dark"; eyebrow?: string }
+const { title, kind = "plain", eyebrow } = Astro.props;
+---
+<article class={`card card--${kind}`}>
+  {eyebrow && <p class="card-eyebrow">{eyebrow}</p>}
+  {title && <h3 class="card-title">{kind === "do" ? "✓ " : kind === "dont" ? "✕ " : ""}{title}</h3>}
+  <div class="card-text"><slot /></div>
+</article>

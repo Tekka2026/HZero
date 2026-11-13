@@ -1,0 +1,18 @@
+---
+// A typeface specimen: name, designer and the full character set.
+import { tokens } from "../lib/tokens";
+interface Props { family: "title" | "text"; role: string }
+const { family, role } = Astro.props;
+const t = tokens.type[family];
+---
+<div class="specimen">
+  <div class="specimen-meta">
+    <p class="specimen-role">{role}</p>
+    <p class="small">Designed by<br /><a href={t.url} rel="noopener">{t.designer}</a></p>
+    <p class="small">Weights<br />{String(t.weight)}</p>
+  </div>
+  <div class={`specimen-glyphs specimen-glyphs--${family}`}>
+    <p class="specimen-name">{t.family}</p>
+    <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />abcdefghijklmnopqrstuvwxyz<br />0123456789<br />!@#$%&*()?+→·–</p>
+  </div>
+</div>

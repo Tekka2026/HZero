@@ -1,0 +1,12 @@
+---
+// A list of files with a download button each.
+import Icon from "./Icon.astro";
+import { url } from "../lib/url";
+interface Props { files: { name: string; href: string; note?: string }[] }
+const { files } = Astro.props;
+---
+<ul class="files">
+  {files.map((f) => (
+    <li class="file"><span class="file-name">{f.name}</span>{f.note && <span class="file-note">{f.note}</span>}<a class="button button--ghost" href={/^https?:/.test(f.href) ? f.href : url(f.href)} download>Download<Icon name="down" size={16} /></a></li>
+  ))}
+</ul>

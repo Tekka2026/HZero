@@ -1,0 +1,31 @@
+---
+import "@fontsource-variable/inter";
+import "../styles/brand.css";
+import { url } from "../lib/url";
+interface Props { title: string; description?: string }
+const { title, description = "How hzero looks, sounds and behaves." } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href={url("favicon.svg")} type="image/svg+xml" />
+  </head>
+  <body>
+    <slot />
+    <script>
+      // Click a hex value to copy it.
+      document.addEventListener("click", (e) => {
+        const b = (e.target as HTMLElement).closest<HTMLElement>("[data-copy]");
+        if (!b) return;
+        navigator.clipboard?.writeText(b.dataset.copy ?? "").then(() => {
+          const t = b.textContent; b.textContent = "Copied"; setTimeout(() => (b.textContent = t), 1200);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+---
+// What not to do with the logo, drawn with the real logo.
+import Logo from "./Logo.astro";
+const items = [
+  ["stretch", "Don't stretch or squash"],
+  ["outline", "Don't outline"],
+  ["colour", "Don't use colours outside the palette"],
+  ["shadow", "Don't add shadows, glows or effects"],
+  ["rotate", "Don't rotate or un-slant"],
+  ["busy", "Don't place on busy photos or on cyan"],
+];
+---
+<div class="cards cards--3">
+  {items.map(([k, t]) => (
+    <figure class="dont">
+      <div class={`dont-stage dont-stage--${k}`}><Logo variant={k === "colour" ? "primary" : "signal"} width="62%" /></div>
+      <figcaption>✕ {t}</figcaption>
+    </figure>
+  ))}
+</div>

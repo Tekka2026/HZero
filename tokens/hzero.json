@@ -1,0 +1,52 @@
+{
+  "$description": "hzero brand tokens: the one source for colours and type. The brand site reads this file directly; the website (web/assets/site.css) and the chart package (notebooks/hzero_charts) should follow it. Change a value here first.",
+  "color": {
+    "primary": [
+      { "id": "charcoal", "name": "Charcoal", "role": "Background", "hex": "#091314", "rgb": "9 19 20", "use": "The page. Black with a trace of cyan; never pure #000." },
+      { "id": "ink", "name": "Ink", "role": "Text on dark", "hex": "#EEF2F2", "rgb": "238 242 242", "use": "All text on charcoal. White (#FFFFFF) on paper and slides." },
+      { "id": "cyan", "name": "hzero cyan", "role": "Signal", "hex": "#2ECCD4", "rgb": "46 204 212", "pms": "Spot colour, to choose from a printed proof", "use": "One signal per screen: the logo bracket, the hero highlight, the Contact button." }
+    ],
+    "secondary": [
+      { "id": "green", "name": "Signal green", "role": "Second signal", "hex": "#65FF66", "rgb": "101 255 102", "use": "The highlighted part of section titles and the lit state in the sphere. Never next to cyan in one element." },
+      { "id": "deep-cyan", "name": "Deep cyan", "role": "Cyan on light", "hex": "#087E8E", "rgb": "8 126 142", "use": "Links, small highlights and chart accents on white. 4.8:1 on white." }
+    ],
+    "greys": [
+      { "id": "bg-alt", "name": "Charcoal alt", "hex": "#0D1A1C", "use": "Alternate sections on the website." },
+      { "id": "panel", "name": "Panel", "hex": "#132224", "use": "Cards and panels on charcoal." },
+      { "id": "slate", "name": "Slate", "hex": "#41494C", "use": "Secondary text on light (9.2:1)." },
+      { "id": "steel", "name": "Steel", "hex": "#778386", "use": "Second lines of titles, captions. Large text only." },
+      { "id": "mist", "name": "Mist", "hex": "#AAB5B7", "use": "Logo bracket on light, diagram lines, secondary text on dark." },
+      { "id": "fog", "name": "Fog", "hex": "#F3F5F5", "use": "Alternate sections and panels on light. Hairlines #E2E7E8." }
+    ],
+    "chart": {
+      "categorical": ["#087E8E", "#41494C", "#778386", "#AAB5B7", "#E2E7E8"],
+      "sequential": ["#091314", "#16363C", "#1E5862", "#2A7D89", "#45A9B7", "#2ECCD4", "#D3F9FE"]
+    },
+    "proportion": [
+      { "id": "charcoal", "share": 60 },
+      { "id": "panel", "share": 14 },
+      { "id": "ink", "share": 12 },
+      { "id": "mist", "share": 8 },
+      { "id": "green", "share": 3 },
+      { "id": "cyan", "share": 3 }
+    ]
+  },
+  "type": {
+    "title": { "family": "FK Display", "weight": 400, "designer": "Florian Karsten Typefaces", "url": "https://www.floriankarsten.com/typefaces", "fallback": "IBM Plex Sans" },
+    "text": { "family": "Inter", "weight": "400, 600", "designer": "Rasmus Andersson", "url": "https://rsms.me/inter/" },
+    "scale": [
+      { "id": "hero", "name": "Hero title", "family": "title", "size": "58–96", "phone": "34–38", "leading": "102%", "tracking": "-2.5%", "sample": "Disruptive results. Zero disruption." },
+      { "id": "section", "name": "Section title", "family": "title", "size": "54–60", "phone": "32–36", "leading": "110%", "tracking": "-2%", "sample": "One operational layer across the system" },
+      { "id": "intro", "name": "Intro text", "family": "text", "size": "19–23 Light", "phone": "17–19", "leading": "125%", "tracking": "0", "sample": "hzero coordinates quantum and classical resources so the hybrid system operates as one." },
+      { "id": "body", "name": "Body", "family": "text", "size": "18", "phone": "16–18", "leading": "133%", "tracking": "0", "sample": "Operators set what the system should optimize for. hzero handles the rest, inside the schedulers and runtimes the centre already uses." },
+      { "id": "label", "name": "Label", "family": "text", "size": "12–15", "phone": "same", "leading": "120%", "tracking": "0", "sample": "Workload · QPU fidelity 99.5% · Throughput" }
+    ]
+  },
+  "layout": {
+    "web": { "columns": 12, "margin": 54, "gutter": 24, "phone": { "columns": 6, "margin": 21, "gutter": 15 } },
+    "slides": { "width": 1920, "height": 1080, "margin": 96 },
+    "radius": [0, 8, 12, 24, 999],
+    "spacing": [4, 8, 12, 16, 24, 32, 48, 64, 96, 128],
+    "motion": { "easing": "cubic-bezier(0.16, 1, 0.3, 1)", "ui": "150–300 ms", "reveal": "1.2–1.6 s" }
+  }
+}

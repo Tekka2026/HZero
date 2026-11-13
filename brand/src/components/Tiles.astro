@@ -1,0 +1,18 @@
+---
+// The section grid: one coloured tile per page, in the order set in each page's front matter.
+import { getCollection } from "astro:content";
+import Icon from "./Icon.astro";
+import { colour, inkOn } from "../lib/tokens";
+import { url } from "../lib/url";
+interface Props { current?: string }
+const { current } = Astro.props;
+const pages = (await getCollection("sections")).sort((a, b) => a.data.order - b.data.order);
+---
+<nav class="tiles" aria-label="Brand guideline sections">
+  {pages.map((p) => (
+    <a class="tile" href={url(p.id + "/")} aria-current={p.id === current ? "page" : undefined} style={`--c:${colour(p.data.tile).hex};--on:${inkOn(p.data.tile)}`}>
+      <Icon name={p.data.icon} />
+      <span class="tile-title">{p.data.title}</span>
+    </a>
+  ))}
+</nav>

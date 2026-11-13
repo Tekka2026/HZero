@@ -1,0 +1,19 @@
+---
+// Line icons for the section tiles: 24 px grid, 1.5 px strokes, no fills.
+interface Props { name: string; size?: number }
+const { name, size = 22 } = Astro.props;
+const d: Record<string, string> = {
+  heart: "M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z",
+  mark: "M8 4h11l-3 16H5L8 4Z",
+  drop: "M12 3.5s6 6.4 6 10.5a6 6 0 0 1-12 0c0-4.1 6-10.5 6-10.5Z",
+  type: "M4 18 8.5 6h1L14 18M5.6 14h6.8M15.5 18v-6.5M15.5 13.2a2.6 2.6 0 1 1 0 3.6M20.5 11.5V18",
+  image: "M4 5h16v14H4zM4 15l4.5-4.5L13 15l2.5-2.5L20 17M15.5 9.5h.01",
+  shapes: "M4 20 9.5 10l5.5 10H4ZM14 4h6v6h-6zM17 20a3 3 0 1 0 0-.01",
+  grid: "M4 4h16v16H4zM4 9.5h16M9.5 9.5V20",
+  device: "M7 3h10v18H7zM10.5 18h3",
+  file: "M6 3h8l4 4v14H6zM14 3v4h4",
+  arrow: "M5 12h14M13 6l6 6-6 6",
+  down: "M12 4v12M6 11l6 6 6-6M5 20h14",
+};
+---
+<svg class="icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={d[name] ?? d.file} /></svg>

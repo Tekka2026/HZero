@@ -1,0 +1,39 @@
+---
+// One page per MDX file in src/content/sections. The MDX can use every component below
+// without importing it.
+import { getCollection, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import Tiles from "../components/Tiles.astro";
+import Footer from "../components/Footer.astro";
+import Block from "../components/Block.astro";
+import Grid from "../components/Grid.astro";
+import Card from "../components/Card.astro";
+import Statement from "../components/Statement.astro";
+import Quote from "../components/Quote.astro";
+import Tag from "../components/Tag.astro";
+import Swatches from "../components/Swatches.astro";
+import Proportion from "../components/Proportion.astro";
+import Ramp from "../components/Ramp.astro";
+import Specimen from "../components/Specimen.astro";
+import TypeScale from "../components/TypeScale.astro";
+import Logo from "../components/Logo.astro";
+import LogoPanel from "../components/LogoPanel.astro";
+import LogoDonts from "../components/LogoDonts.astro";
+import Clearspace from "../components/Clearspace.astro";
+import Photos from "../components/Photos.astro";
+import Downloads from "../components/Downloads.astro";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("sections");
+  return pages.map((page) => ({ params: { slug: page.id }, props: { page } }));
+}
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+<Base title={`${page.data.title} · hzero brand guidelines`} description={page.data.intro}>
+  <PageHero title={page.data.title} intro={page.data.intro} status={page.data.status} updated={page.data.updated} />
+  <main><Content components={{ Block, Grid, Card, Statement, Quote, Tag, Swatches, Proportion, Ramp, Specimen, TypeScale, Logo, LogoPanel, LogoDonts, Clearspace, Photos, Downloads }} /></main>
+  <Tiles current={page.id} />
+  <Footer />
+</Base>

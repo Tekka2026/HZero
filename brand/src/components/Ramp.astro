@@ -1,0 +1,6 @@
+---
+// A row of plain colour steps, for the chart palettes.
+interface Props { colours: string[]; labels?: string[] }
+const { colours, labels } = Astro.props;
+---
+<div class="ramp">{colours.map((c, i) => <div class="ramp-step" style={`--c:${c}`}><span>{labels?.[i] ?? c}</span></div>)}</div>

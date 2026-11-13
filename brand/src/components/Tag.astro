@@ -1,0 +1,8 @@
+---
+// Marks content that is not final yet. "proposal": drafted from the founders' words, to confirm.
+// "todo": a gap to fill.
+interface Props { kind?: "proposal" | "todo" | "final" }
+const { kind = "proposal" } = Astro.props;
+const text = { proposal: "Proposal", todo: "To do", final: "Final" }[kind];
+---
+<span class={`tag tag--${kind}`}>{text}</span>

@@ -1,0 +1,17 @@
+---
+// The dark page header: small logo, "Brand guidelines", the huge page title, then the intro statement.
+import Logo from "./Logo.astro";
+import Tag from "./Tag.astro";
+import { url } from "../lib/url";
+interface Props { title: string; intro: string; status?: "draft" | "proposal" | "final"; updated?: string }
+const { title, intro, status, updated } = Astro.props;
+---
+<header class="hero" id="top">
+  <div class="topbar">
+    <a class="topbar-logo" href={url("")} aria-label="hzero brand guidelines home"><Logo variant="signal" width="92" /></a>
+    <a class="topbar-label" href={url("")}>Brand guidelines</a>
+    {status && status !== "final" && <span class="topbar-status"><Tag kind={status === "draft" ? "todo" : "proposal"} />{updated && <span class="small"> Updated {updated}</span>}</span>}
+  </div>
+  <h1 class="hero-title">{title}</h1>
+</header>
+<section class="intro"><p>{intro}</p></section>

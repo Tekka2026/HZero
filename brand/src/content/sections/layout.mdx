@@ -1,0 +1,68 @@
+---
+title: Layout
+order: 7
+tile: mist
+icon: grid
+status: final
+updated: November 2026
+intro: "Now that all the parts are here, this is how they come together. One message per unit, and more space than feels necessary."
+---
+
+<Block label="Grids" text="The grid is the starting point for everything, from a website section to a single slide.">
+  <div class="rows">
+    <div class="row"><p class="row-name">Website</p><div class="row-text"><p>12 columns, 54 px margins and 24 px gutters on desktop; 30/15 on tablet; 6 columns with 21 px margins on phones. Content uses all 12 columns, aligned with the logo and the Contact button, like the footer.</p></div></div>
+    <div class="row"><p class="row-name">Slides</p><div class="row-text"><p>1920 × 1080. Title top left, 96 px from the edges. One visual or one number per slide. Footer: logo, section name and page number in steel.</p></div></div>
+    <div class="row"><p class="row-name">Documents</p><div class="row-text"><p>A4 portrait, 12 columns, margins of one twelfth of the short side. <Tag kind="todo" /></p></div></div>
+  </div>
+</Block>
+
+<Block label="Margins, columns, gutters" text="The website grid, drawn to scale at 1440 px.">
+  <div class="system" style="padding:0;overflow:hidden" role="img" aria-label="Twelve columns with margins and gutters">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:1.667%;padding:0 3.75%;height:180px;width:100%;background:#091314">
+      <div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div><div style="background:rgba(46,204,212,.18)"></div>
+    </div>
+  </div>
+</Block>
+
+<Block label="Vertical spacing" text="Multiples of 8, from a base of 16, down to 4 and 2 where needed.">
+  <Grid cols={5}>
+    <Card title="4 · 8">Inside components: icon to label, tight groups.</Card>
+    <Card title="16 · 24">Between related items, card padding.</Card>
+    <Card title="32 · 48">Between groups within a section.</Card>
+    <Card title="64 · 96">Between sections on slides.</Card>
+    <Card title="104–160">Between sections on the website.</Card>
+  </Grid>
+</Block>
+
+<Block label="Applying the logo" text="Size and placement once a grid is set.">
+  <div class="rows">
+    <div class="row"><p class="row-name">Scale</p><div class="row-text"><p>On the website the logo is one column wide. On slides, about 1.5× the margin wide. Below 96 px, use the h-mark.</p></div></div>
+    <div class="row"><p class="row-name">Placement</p><div class="row-text"><p>Top left on pages and slides, or centred on a closing slide. When in doubt, left align.</p></div></div>
+  </div>
+</Block>
+
+<Block label="Applying type" text="Hierarchy and placement of titles and text.">
+  <div class="rows">
+    <div class="row"><p class="row-name">Scale</p><div class="row-text"><p>Titles are always clearly larger than the logo. At most three type sizes on one slide.</p></div></div>
+    <div class="row"><p class="row-name">Placement</p><div class="row-text"><p>Left aligned, starting top left. Centre only a single closing statement.</p></div></div>
+    <div class="row"><p class="row-name">One message per unit</p><div class="row-text"><p>One idea per slide, website section or chart. If it needs a second message, it needs a second slide.</p></div></div>
+  </div>
+</Block>
+
+<Block label="Corner radius & border weight" text="Quiet edges. No drop shadows.">
+  <Grid cols={4}>
+    <Card title="8 px">Small elements, chips, diagram boxes.</Card>
+    <Card title="12 px">Cards and images.</Card>
+    <Card title="Pill">Buttons and the menu.</Card>
+    <Card title="1 px lines">Hairlines in #E2E7E8 on light, white at 10% on dark. 1.5 px in diagrams.</Card>
+  </Grid>
+</Block>
+
+<Block label="Motion" text="Motion shows control: things arrive, settle and stay.">
+  <div class="rows">
+    <div class="row"><p class="row-name">Easing</p><div class="row-text"><p>Expo-out, cubic-bezier(0.16, 1, 0.3, 1). Fast start, long gentle landing. No bounce.</p></div></div>
+    <div class="row"><p class="row-name">Duration</p><div class="row-text"><p>Interface 150–300 ms. Content reveals around 1.2–1.6 s. Diagrams build part by part.</p></div></div>
+    <div class="row"><p class="row-name">Titles</p><div class="row-text"><p>Words rise one by one from a mask with a slight turn, starting at 35% opacity.</p></div></div>
+    <div class="row"><p class="row-name">Restraint</p><div class="row-text"><p>One moving thing at a time. No scroll-jacking. Everything works with reduced motion.</p></div></div>
+  </div>
+</Block>
