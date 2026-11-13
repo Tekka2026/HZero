@@ -1,17 +1,19 @@
 ---
-// The type scale, editable in place so people can test their own words.
+// A type scale from tokens/hzero.json, editable in place so people can test their own words.
+// set="web" is the website scale; set="slides" is the 1920 × 1080 slide scale, shown at half size.
 import { tokens } from "../lib/tokens";
-interface Props { editable?: boolean }
-const { editable = false } = Astro.props;
+interface Props { editable?: boolean; set?: "web" | "slides" }
+const { editable = false, set = "web" } = Astro.props;
+const rows = set === "slides" ? tokens.type.slides : tokens.type.scale;
 ---
-<div class="scale">
-  {tokens.type.scale.map((s) => (
+<div class={`scale scale--${set}`}>
+  {rows.map((s: any) => (
     <div class="scale-row">
       <dl class="scale-meta">
         <dt>{s.name}</dt>
-        <dd>{tokens.type[s.family as "title" | "text"].family}</dd>
+        <dd>{tokens.type[s.family as "title" | "text"].family} Regular</dd>
         <dd>{s.size} px · {s.leading}</dd>
-        <dd>Phone {s.phone}</dd>
+        {s.phone && <dd>Phone {s.phone}</dd>}
         <dd>Sentence case</dd>
       </dl>
       <p class={`scale-sample scale-sample--${s.id}`} contenteditable={editable ? "plaintext-only" : undefined} spellcheck="false">{s.sample}</p>

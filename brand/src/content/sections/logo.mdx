@@ -3,33 +3,32 @@ title: Logo
 order: 2
 tile: charcoal
 icon: mark
-status: proposal
+status: final
 updated: November 2026
-intro: "Our logo is the most recognisable symbol of the brand. One frame that holds different systems."
+intro: "Our logo is the most recognisable symbol of the brand. One solid block, one cut-out h, one colour."
 ---
 
 <Block label="Background" text="What the logo is made of, and why." action="Download all logos" href="downloads/hzero-logos.zip">
   <div class="prose">
-    <p>The logo has two parts: the h-mark, an open slanted bracket around the H, and the italic ZERO wordmark. Together they say what hzero does: one frame that holds different systems. The bracket is always lighter than the letters.</p>
-    <p>The founders "adopted it, not married to it". A refinement is being explored; until it is approved, these rules apply to the current logo. The lowercase name in text is a fixed decision.</p>
+    <p>The logo has two parts: the h-mark, a solid slanted block with a lowercase h cut out of it, and the lowercase zero wordmark. Both share the same slant and the same chamfered corners, so they read as one shape.</p>
+    <p>The name is lowercase everywhere, also in the logo. The logo is always one colour; the h shows the background through the block.</p>
   </div>
 </Block>
 
-<Block label="Logo" text="The primary identifier. Use the supplied files only; never redraw or retype it." action="Download logo" href="downloads/logos/hzero-logo-signal.svg">
-  <LogoPanel variant="signal" bg="#091314" />
+<Block label="Logo" text="The primary identifier. Cyan on charcoal. Use the supplied files only; never redraw or retype it." action="Download logo" href="downloads/logos/hzero-logo-cyan.svg">
+  <LogoPanel variant="cyan" bg="#091314" />
 </Block>
 
-<Block label="Logo colours" text="The logo comes in three colourways. No other combinations.">
+<Block label="Logo colours" text="Three colourways, always a single colour. No other combinations.">
   <Grid cols={3}>
-    <LogoPanel variant="signal" bg="#091314" tall caption="Signal. White letters, cyan bracket, on charcoal only. The one place the logo carries colour." />
-    <LogoPanel variant="primary" bg="#FFFFFF" tall caption="Primary. Charcoal letters, mist bracket, on white or fog." />
-    <LogoPanel variant="charcoal" bg="#F3F5F5" tall caption="One colour. All charcoal or all white, for stamps, engraving, embroidery and single-colour print." />
+    <LogoPanel variant="cyan" bg="#091314" tall caption="Cyan on charcoal. The primary version." />
+    <LogoPanel variant="charcoal" bg="#2ECCD4" tall caption="Charcoal on cyan. For covers and large colour fields." />
+    <LogoPanel variant="cyan" bg="#F7F7F7" tall caption="Cyan on light (#F7F7F7). For documents and light slides, at large sizes only." />
   </Grid>
   <Downloads files={[
-    { name: "hzero-logo-signal.svg", href: "downloads/logos/hzero-logo-signal.svg", note: "On charcoal" },
-    { name: "hzero-logo-primary.svg", href: "downloads/logos/hzero-logo-primary.svg", note: "On white or fog" },
-    { name: "hzero-logo-white.svg", href: "downloads/logos/hzero-logo-white.svg", note: "One colour, on dark" },
-    { name: "hzero-logo-charcoal.svg", href: "downloads/logos/hzero-logo-charcoal.svg", note: "One colour, on light" },
+    { name: "hzero-logo-cyan.svg", href: "downloads/logos/hzero-logo-cyan.svg", note: "On charcoal or light" },
+    { name: "hzero-logo-charcoal.svg", href: "downloads/logos/hzero-logo-charcoal.svg", note: "On cyan or light" },
+    { name: "hzero-logo-light.svg", href: "downloads/logos/hzero-logo-light.svg", note: "On dark photos" },
   ]} />
 </Block>
 
@@ -37,17 +36,17 @@ intro: "Our logo is the most recognisable symbol of the brand. One frame that ho
   <LogoDonts />
 </Block>
 
-<Block label="On colour" text="On brand colours, keep ample contrast. The logo never sits on cyan.">
+<Block label="On colour" text="On brand colours, keep ample contrast: cyan on charcoal, charcoal on cyan or signal green.">
   <Grid cols={2}>
-    <LogoPanel variant="signal" bg="#132224" caption="On panel (#132224): signal version." />
-    <LogoPanel variant="charcoal" bg="#65FF66" caption="On signal green, used rarely for a cover: one-colour charcoal." />
+    <LogoPanel variant="cyan" bg="#132224" caption="On panel (#132224): cyan." />
+    <LogoPanel variant="charcoal" bg="#65FF66" caption="On signal green, used rarely for a cover: charcoal." />
   </Grid>
 </Block>
 
 <Block label="On photography" text="Place the logo on a calm, dark part of a photo, never on busy detail.">
   <Grid cols={2}>
-    <LogoPanel variant="signal" bg="#091314" photo="photos/photo-62.webp" caption="Signal version on a dark, quiet texture." />
-    <LogoPanel variant="white" bg="#091314" photo="photos/photo-57.webp" caption="One-colour white where the cyan would compete with the photo." />
+    <LogoPanel variant="cyan" bg="#091314" photo="photos/photo-02.webp" caption="Cyan on a dark, quiet part of the photo." />
+    <LogoPanel variant="light" bg="#091314" photo="photos/photo-57.webp" caption="Light (#F7F7F7) where the cyan would compete with the photo." />
   </Grid>
 </Block>
 
@@ -55,24 +54,32 @@ intro: "Our logo is the most recognisable symbol of the brand. One frame that ho
   <Clearspace />
 </Block>
 
-<Block label="Partnerships" text="Co-branding with customers, partners and investors.">
-  <div class="rows">
-    <div class="row"><p class="row-name">Lockup <Tag kind="todo" /></p><div class="row-text"><p>Rules for partner lockups are still to define: spacing (one x), the height of the partner logo (equal to ZERO) and a 1 px dividing line in mist. Until then, place partner logos in their own row, never touching the hzero logo.</p></div></div>
-    <div class="row"><p class="row-name">Investors</p><div class="row-text"><p>Investor logos appear together in one row, in one colour (white on charcoal), at equal optical size, with "Backed by" in Inter as the label. As on the website.</p></div></div>
-  </div>
-</Block>
-
-<Block label="App icon" text="The h-mark on its own: for favicons, avatars and app icons, where the full logo will not be legible." action="Download app icon" href="downloads/logos/hzero-app-icon.svg">
+<Block label="The h-mark" text="The mark on its own: for favicons, avatars, app icons, flags and merchandise, where the full logo will not be legible." action="Download marks" href="downloads/hzero-logos.zip">
   <Grid cols={3}>
-    <LogoPanel variant="signal" bg="#091314" tall caption="Use the full logo wherever it is legible." />
-    <figure class="logo-panel"><div class="logo-panel-stage" style="aspect-ratio:4/3;background:#091314"><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/logos/hzero-mark-cyan.svg`} width="96" height="96" alt="hzero h-mark in cyan" /></div><figcaption>The h-mark in cyan on charcoal: favicon and app icon.</figcaption></figure>
-    <figure class="logo-panel"><div class="logo-panel-stage" style="aspect-ratio:4/3;background:#FFFFFF"><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/logos/hzero-mark-charcoal.svg`} width="96" height="96" alt="hzero h-mark in charcoal" /></div><figcaption>The h-mark in charcoal on light, for one-colour use.</figcaption></figure>
+    <MarkPanel kind="solid" variant="cyan" bg="#091314" caption="Solid, cyan on charcoal. The default mark." />
+    <MarkPanel kind="solid" variant="charcoal" bg="#2ECCD4" caption="Solid, charcoal on cyan." />
+    <MarkPanel kind="outline" variant="charcoal" bg="#2ECCD4" caption="Outline. The block drawn as a frame, for large applications such as flags and signage." />
   </Grid>
 </Block>
 
-<Block label="Avatars" text="Social profiles use the app icon: cyan h-mark on charcoal. Seasonal variants are not part of the brand.">
+<Block label="Partnerships" text="Co-branding with customers, partners and investors.">
+  <div class="rows">
+    <div class="row"><p class="row-name">Lockup <Tag kind="todo" /></p><div class="row-text"><p>Rules for partner lockups are still to define. Until then, place partner logos in their own row, never touching the hzero logo, with at least the width of the h-mark between them.</p></div></div>
+    <div class="row"><p class="row-name">Investors</p><div class="row-text"><p>Investor logos appear together in one row, in one colour, at equal optical size, with "Backed by" in Inter as the label. As on the website.</p></div></div>
+  </div>
+</Block>
+
+<Block label="App icon" text="The solid mark, cyan on charcoal, centred with room around it." action="Download app icon" href="downloads/logos/hzero-app-icon.svg">
+  <Grid cols={3}>
+    <LogoPanel variant="cyan" bg="#091314" tall caption="Use the full logo wherever it is legible." />
+    <MarkPanel kind="solid" variant="cyan" bg="#091314" size="34%" caption="App icon and favicon." />
+    <MarkPanel kind="solid" variant="charcoal" bg="#F7F7F7" size="34%" caption="One colour on light." />
+  </Grid>
+</Block>
+
+<Block label="Avatars" text="Social profiles use the solid mark, cyan on charcoal. Seasonal variants are not part of the brand.">
   <Grid cols={6}>
-    <figure class="logo-panel"><div class="logo-panel-stage" style="aspect-ratio:1;border-radius:50%;background:#091314"><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/logos/hzero-mark-cyan.svg`} width="44%" alt="Round avatar" /></div><figcaption>Round</figcaption></figure>
-    <figure class="logo-panel"><div class="logo-panel-stage" style="aspect-ratio:1;border-radius:22%;background:#091314"><img src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/downloads/logos/hzero-mark-cyan.svg`} width="44%" alt="Rounded square avatar" /></div><figcaption>Rounded square</figcaption></figure>
+    <MarkPanel kind="solid" variant="cyan" bg="#091314" size="46%" round caption="Round" />
+    <MarkPanel kind="outline" variant="cyan" bg="#091314" size="46%" round caption="Outline, for events" />
   </Grid>
 </Block>

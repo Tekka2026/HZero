@@ -1,0 +1,15 @@
+---
+// The h-mark on its own. "solid": the filled block with the h cut out. "outline": the block as a frame.
+import geo from "../lib/logo-geometry.json";
+interface Props { kind?: "solid" | "outline"; variant?: "cyan" | "charcoal" | "light"; width?: number | string; label?: string }
+const { kind = "solid", variant = "cyan", width = "100%", label = "hzero h-mark" } = Astro.props;
+const fill = { cyan: "#2ECCD4", charcoal: "#091314", light: "#F7F7F7" }[variant];
+const g = kind === "solid" ? geo.mark : geo.outline;
+---
+<svg class="mark" viewBox={g.viewBox} width={width} role="img" aria-label={label} fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g fill={fill}>
+    {kind === "solid"
+      ? <path fill-rule="evenodd" d={`${geo.mark.box} ${geo.mark.h}`} />
+      : <><path fill-rule="evenodd" d={geo.outline.ring} /><path d={geo.outline.h} /></>}
+  </g>
+</svg>

@@ -10,26 +10,20 @@ intro: "Diagrams and charts are brand assets. Ours should be worth stealing, and
 
 <Block label="Graphic categories" text="hzero's product mostly runs in the background, so there is little to screenshot. Choose deliberately which level a moment needs." action="Download charts" href="downloads/hzero-charts.zip">
   <Grid cols={3}>
-    <Card eyebrow="Level 1" title="The idea">A conceptual visual that gives the gist in seconds: many parts becoming one coordinated system. Mostly grey, one cyan element. The level most often missing today; lead with it.</Card>
+    <Card eyebrow="Level 1" title="The idea">A conceptual visual that gives the gist in seconds: many parts on one platform, working as one system. Charcoal and cyan lines, green for traffic. The level most often missing today; lead with it.</Card>
     <Card eyebrow="Level 2" title="How it works">The exact technical diagram: workloads, schedulers, QPUs, HPC nodes, operator objectives. For technical audiences and the second half of a deck.</Card>
     <Card eyebrow="Level 3" title="The product">Real interface: controls and results. Use as proof, after the idea is clear. Never lead with a dashboard.</Card>
   </Grid>
   <Quote by="Martin">Our product is not the visual dashboard. Our product is managing a complex system.</Quote>
 </Block>
 
-<Block label="Diagrams" text="The style, at level 1–2. hzero is the one dark element with the cyan name; everything it coordinates stays light and grey.">
-  <div class="system" role="img" aria-label="Workloads, quantum computers and HPC resources, each connected both ways to hzero operational integration, which takes operator objectives.">
-    <div class="system-row"><div class="system-node">Workloads</div><div class="system-node">Quantum computers</div><div class="system-node">HPC resources</div></div>
-    <div class="system-arrows">↕ ↕ ↕</div>
-    <div class="system-core"><strong>hzero</strong><span>operational integration</span></div>
-    <div class="system-arrows">↑</div>
-    <div class="system-node" style="width:min(100%,250px)">Operator objectives</div>
-  </div>
+<Block label="Diagrams" text="The system drawn as one platform: HPC, workloads and quantum computers sit on hzero as equal parts. Exported from the brand deck." action="Download SVG" href="graphics/system-diagram.svg">
+  <Figure src="graphics/system-diagram.svg" alt="Isometric diagram: three tiles labelled HPC, workload and QC stand on one platform, linked to it by green stepped connectors." dark />
   <Grid cols={3}>
-    <Card title="hzero is the only accent">Everything else in greys. hzero's layer is charcoal with its name in cyan, or the single deep cyan element on white.</Card>
-    <Card title="Show two-way traffic">hzero asks every part how it is doing and decides from that. Two-way arrows, not a one-way pipe.</Card>
-    <Card title="Equal partners">Workloads, quantum and HPC sit at the same level. Never draw one as subordinate to the others.</Card>
-    <Card title="Lines, not pictures">1.5 px lines in mist or slate, flat fills, Inter labels. No 3D, no isometric stacks, no glowing qubits.</Card>
+    <Card title="One platform">hzero is the base everything stands on. HPC, workloads and quantum computers are tiles on top of it, at the same height: equal partners, never one subordinate to another.</Card>
+    <Card title="Isometric, in lines">Charcoal background, 2 px cyan lines, dashed where an edge is hidden. Planes filled with shade (#050A0A) at 50%. No 3D rendering, no shadows, no stock icons.</Card>
+    <Card title="Green shows traffic">Stepped signal green connectors between the tiles and the platform show two-way traffic: hzero asks every part how it is doing. Green is used for nothing else in a diagram.</Card>
+    <Card title="Labels">Short lowercase or acronym labels in FK Display, in light, laid on the tile's plane: HPC, workload, QC.</Card>
     <Card title="Less than you know">Leave out what the audience doesn't need for this slide; put it in the level-2 diagram instead.</Card>
     <Card title="Recognisable when copied">Colour and form alone should say hzero in someone else's deck. "Diagrams people steal."</Card>
   </Grid>

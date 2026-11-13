@@ -1,0 +1,10 @@
+---
+// An image from public/, with a caption.
+import { url } from "../lib/url";
+interface Props { src: string; alt: string; caption?: string; dark?: boolean }
+const { src, alt, caption, dark = false } = Astro.props;
+---
+<figure class={`chart-figure${dark ? " chart-figure--dark" : ""}`} style="padding:0;overflow:hidden">
+  <img src={url(src)} alt={alt} loading="lazy" decoding="async" style="border-radius:var(--radius)" />
+  {caption && <figcaption style="padding:0 18px 16px">{caption}</figcaption>}
+</figure>

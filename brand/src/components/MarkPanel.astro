@@ -1,0 +1,9 @@
+---
+import Mark from "./Mark.astro";
+interface Props { kind?: "solid" | "outline"; variant?: "cyan" | "charcoal" | "light"; bg: string; caption?: string; size?: string; round?: boolean }
+const { kind = "solid", variant = "cyan", bg, caption, size = "26%", round = false } = Astro.props;
+---
+<figure class="logo-panel">
+  <div class="logo-panel-stage" style={`background:${bg};aspect-ratio:${round ? "1" : "4 / 3"};${round ? "border-radius:50%" : ""}`}><Mark kind={kind} variant={variant} width={size} /></div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

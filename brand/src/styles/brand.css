@@ -12,7 +12,7 @@
   --charcoal: #091314;
   --charcoal-2: #0d1a1c;
   --panel: #132224;
-  --ink: #eef2f2;
+  --ink: #f7f7f7;
   --cyan: #2eccd4;
   --deep-cyan: #087e8e;
   --green: #65ff66;
@@ -285,8 +285,8 @@ table.contrast { width: 100%; border-collapse: collapse; font-size: 14px; backgr
 .dont-stage--stretch .logo { transform: scaleX(1.35) scaleY(0.75); }
 .dont-stage--outline .logo path { fill: none; stroke: #fff; stroke-width: 5; }
 .dont-stage--colour { background: #f0e4d0; }
-.dont-stage--colour .logo path:nth-child(1), .dont-stage--colour .logo path:nth-child(3) { fill: #1f4fd8; }
-.dont-stage--colour .logo path:nth-child(2) { fill: #f08a24; }
+.dont-stage--colour .logo path { fill: #1f4fd8; }
+.dont-stage--colour .logo .logo-mark { fill: #f08a24; }
 .dont-stage--shadow .logo { filter: drop-shadow(0 0 14px #2eccd4) drop-shadow(6px 8px 0 #000); }
 .dont-stage--rotate .logo { transform: rotate(-14deg); }
 .dont-stage--busy { background: repeating-linear-gradient(45deg, #2eccd4 0 12px, #65ff66 12px 24px); }
@@ -392,3 +392,13 @@ table.contrast { width: 100%; border-collapse: collapse; font-size: 14px; backgr
 .footer-role { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); }
 .footer-meta { color: var(--mist); margin-top: 12px; }
 .footer a { color: inherit; }
+
+/* Slide scale, shown at half size on a charcoal slide */
+.scale--slides { background: var(--charcoal); color: var(--ink); border-radius: var(--radius); padding: 32px 28px; }
+.scale--slides .scale-row { border-top-color: rgba(247, 247, 247, 0.1); }
+.scale--slides .scale-meta { color: var(--mist); }
+.scale--slides .scale-meta dt { color: var(--ink); }
+.scale-sample--slide-title { font-family: var(--title); font-size: clamp(28px, 3.1vw, 45px); line-height: 1.1; }
+.scale-sample--slide-heading { font-family: var(--title); font-size: clamp(24px, 2.4vw, 35px); line-height: 1.15; }
+.scale-sample--slide-body { font-size: clamp(16px, 1.4vw, 20px); line-height: 1.375; max-width: 38em; }
+.scale-sample--slide-label { font-size: 12px; line-height: 1.2; color: var(--mist); }
